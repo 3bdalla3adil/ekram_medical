@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ── Patient Form View Extension ────────────────────────────── -->
+        <record id="view_partner_form_medical" model="ir.ui.view">
+            <field name="name">res.partner.form.medical</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- Smart Buttons -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" icon="fa-calendar" invisible="is_patient == False" name="action_view_appointments" type="object">
+                        <field name="appointment_count" string="Appointments" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-flask" invisible="is_patient == False" name="action_view_lab_requests" type="object">
+                        <field name="lab_request_count" string="Lab Requests" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" icon="fa-file-text-o" invisible="is_patient == False" name="action_view_invoices" type="object">
+                        <field name="invoice_count" string="Invoices" widget="statinfo"/>
+                    </button>
+                </xpath>
+                <!-- Patient Flag -->
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="is_patient" widget="boolean_toggle"/>
+                </xpath>
+                <!-- Medical Tab -->
+                <xpath expr="//page[@name='sales_purchases']" position="before">
+                    <page invisible="is_patient == False" name="medical_info" string="Medical Information">
+                        <group>
+                            <group string="Patient Identity">
+                                <field name="medical_number" readonly="1"/>
+                                <field name="gender"/>
+                                <field name="date_of_birth" invisible="1"/>
+                                <!-- <field name="age" readonly="1"/> -->
+                                <field name="age"/>
+                                <field name="blood_group"/>
+                            </group>
+                            <group string="Emergency Contact" invisible="1">
+                                <field name="emergency_contact_name"/>
+                                <field name="emergency_contact_phone"/>
+                                <field name="emergency_contact_relation"/>
+                            </group>
+                        </group>
+                        <group string="Medical History" invisible="1">
+                            <field name="known_allergies" placeholder="Known allergies..."/>
+                            <field name="chronic_conditions" placeholder="Chronic conditions..."/>
+                            <field name="medical_notes" placeholder="General medical notes..."/>
+                        </group>
+                    </page>
+                </xpath></field>
+        </record>
+        <!-- ── Patient List View ───────────────────────────────────────── -->
+        <record id="view_partner_list_patients" model="ir.ui.view">
+            <field name="name">res.partner.list.patients</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <list decoration-muted="active == False" string="Patients">
+                    <field name="medical_number"/>
+                    <field name="name"/>
+                    <field name="gender"/>
+                    <field name="age"/>
+                    <field name="blood_group"/>
+                    <field name="phone"/>
+                    <!-- <field name="mobile"/> -->
+                    <field name="appointment_count" string="Appointments"/>
+                </list></field>
+        </record>
+        <!-- ── Patient Search View ─────────────────────────────────────── -->
+        <record id="view_partner_search_patients" model="ir.ui.view">
+            <field name="name">res.partner.search.patients</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search string="Search Patients">
+                    <field name="name" string="Patient Name"/>
+                    <field name="medical_number" string="Medical Number"/>
+                    <field name="phone"/>
+                    <!-- <field name="mobile"/> -->
+                    <separator/>
+                    <filter domain="[('is_patient', '=', True)]" name="filter_patients" string="Patients"/>
+                    <filter domain="[('gender', '=', 'male')]" name="filter_male" string="Male"/>
+                    <filter domain="[('gender', '=', 'female')]" name="filter_female" string="Female"/>
+                    <group>
+                        <filter context="{'group_by': 'gender'}" name="group_gender" string="Gender"/>
+                        <filter context="{'group_by': 'blood_group'}" name="group_blood" string="Blood Group"/>
+                    </group>
+                </search></field>
+        </record>
+        <!-- ── Patient Action ──────────────────────────────────────────── -->
+        <record id="action_medical_patients" model="ir.actions.act_window">
+            <field name="name">Patients</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('is_patient', '=', True)]</field>
+            <field name="context">{'default_is_patient': True, 'search_default_filter_patients': 1}</field>
+            <field eval="[(5, 0, 0),                 (0, 0, {'view_mode': 'list', 'view_id': ref('view_partner_list_patients')}),                 (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_partner_form')}),             ]" name="view_ids"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_medical_consultation_form" model="ir.ui.view">
+            <field name="name">medical.consultation.form</field>
+            <field name="model">medical.consultation</field>
+            <field name="arch" type="xml">
+                <form string="Consultation">
+                    <header>
+                        <button class="btn-primary" invisible="state != 'draft'" name="action_start" string="Start" type="object"/>
+                        <button class="btn-success" invisible="state != 'in_progress'" name="action_done" string="Complete" type="object"/>
+                        <button class="btn-info" invisible="state not in ['in_progress', 'done']" name="action_create_lab_request" string="Request Lab Tests" type="object"/>
+                        <button invisible="state != 'done'" name="action_create_invoice" string="Create Invoice" type="object"/>
+                        <button invisible="state in ['done', 'cancelled']" name="action_cancel" string="Cancel" type="object"/>
+                        <field name="state" statusbar_visible="draft,in_progress,done" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-flask" name="action_create_lab_request" type="object">
+                                <field name="lab_request_count" string="Lab Requests" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Patient">
+                                <field name="patient_id" options="{'no_create': True}"/>
+                                <field name="doctor_id"/>
+                                <field name="appointment_id"/>
+                            </group>
+                            <group string="Schedule">
+                                <field name="consultation_date"/>
+                                <field name="follow_up_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="clinical" string="Clinical Notes">
+                                <group>
+                                    <field name="chief_complaint" placeholder="Chief complaint..."/>
+                                    <field name="diagnosis" placeholder="Diagnosis..."/>
+                                    <field name="clinical_notes" placeholder="Clinical notes..."/>
+                                </group>
+                            </page>
+                            <page name="prescription" string="Prescription">
+                                <field name="prescription" placeholder="Enter prescription details..."/>
+                            </page>
+                            <page name="followup" string="Follow-up">
+                                <group>
+                                    <field name="follow_up_date"/>
+                                    <field name="follow_up_notes" placeholder="Follow-up instructions..."/>
+                                </group>
+                            </page>
+                            <page name="lab_requests" string="Lab Requests">
+                                <field name="lab_request_ids" readonly="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="request_date"/>
+                                        <field name="state" widget="badge"/>
+                                        <field name="result_count" string="Results"/>
+                                    </list></field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form></field>
+        </record>
+        <record id="view_medical_consultation_list" model="ir.ui.view">
+            <field name="name">medical.consultation.list</field>
+            <field name="model">medical.consultation</field>
+            <field name="arch" type="xml">
+                <list decoration-muted="state == 'cancelled'" decoration-success="state == 'done'" decoration-warning="state == 'in_progress'" string="Consultations">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="consultation_date"/>
+                    <field name="diagnosis"/>
+                    <field decoration-muted="state == 'cancelled'" decoration-success="state == 'done'" decoration-warning="state == 'in_progress'" name="state" widget="badge"/>
+                </list></field>
+        </record>
+        <record id="view_medical_consultation_search" model="ir.ui.view">
+            <field name="name">medical.consultation.search</field>
+            <field name="model">medical.consultation</field>
+            <field name="arch" type="xml">
+                <search string="Search Consultations">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <separator/>
+                    <filter domain="[('consultation_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),                                      ('consultation_date', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]" name="filter_today" string="Today"/>
+                    <filter domain="[('state', '=', 'in_progress')]" name="filter_in_progress" string="In Progress"/>
+                    <filter domain="[('state', '=', 'done')]" name="filter_done" string="Done"/>
+                    <group>
+                        <filter context="{'group_by': 'doctor_id'}" name="group_doctor" string="Doctor"/>
+                        <filter context="{'group_by': 'state'}" name="group_state" string="Status"/>
+                    </group>
+                </search></field>
+        </record>
+        <record id="action_medical_consultations" model="ir.actions.act_window">
+            <field name="name">Consultations</field>
+            <field name="res_model">medical.consultation</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+    <!-- Define the Dashboard Client Action linked to the OWL Tag -->
+    <record id="action_medical_dashboard" model="ir.actions.client">
+        <field name="name">Medical Dashboard</field>
+        <field name="tag">medical_dashboard_client_action</field>
+    </record>
+
+    <!-- Consultations Entry Link (Bound to your exact action ID) -->
+    <menuitem id="menu_medical_consultation" name="Consultations" parent="menu_ekram_medical_root" action="action_medical_consultations" sequence="3"/>
+
+    </data>
+</odoo>

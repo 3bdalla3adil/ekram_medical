@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="ekram_medical.DoctorDashboard">
+    <div class="ekram_dashboard doctor_dashboard">
+        <t t-if="state.loading">
+            <div class="ekram_loading">
+                <div class="spinner-border text-success" role="status"/>
+                <p class="mt-2 text-muted">Loading dashboard...</p>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="ekram_dash_header doctor_header">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h3 class="mb-0"><i class="fa fa-user-md mr-2 text-success"/>Doctor Dashboard</h3>
+                        <small class="text-muted">Welcome, <strong><t t-esc="state.doctor_name"/></strong></small>
+                    </div>
+                    <button class="btn btn-sm btn-outline-secondary" t-on-click="loadData">
+                        <i class="fa fa-refresh"/> Refresh
+                    </button>
+                </div>
+            </div>
+            <!-- KPIs -->
+            <div class="ekram_kpi_row">
+                <div class="ekram_kpi_card success" t-on-click="openAllConsultations">
+                    <div class="kpi_icon"><i class="fa fa-stethoscope"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.today_consultations || 0"/></div>
+                        <div class="kpi_label">Today's Consultations</div>
+                    </div>
+                    <div class="kpi_total">Done: <t t-esc="state.kpis.completed_today || 0"/></div>
+                </div>
+                <div class="ekram_kpi_card warning" t-on-click="openAllConsultations">
+                    <div class="kpi_icon"><i class="fa fa-clock-o"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.pending_consultations || 0"/></div>
+                        <div class="kpi_label">Pending Consultations</div>
+                    </div>
+                    <div class="kpi_total">&#160;</div>
+                </div>
+                <div class="ekram_kpi_card info" t-on-click="openAllLabRequests">
+                    <div class="kpi_icon"><i class="fa fa-flask"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.pending_labs || 0"/></div>
+                        <div class="kpi_label">Pending Lab Results</div>
+                    </div>
+                    <div class="kpi_total">&#160;</div>
+                </div>
+                <div class="ekram_kpi_card primary">
+                    <div class="kpi_icon"><i class="fa fa-check-circle"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.completed_today || 0"/></div>
+                        <div class="kpi_label">Completed Today</div>
+                    </div>
+                    <div class="kpi_total">&#160;</div>
+                </div>
+            </div>
+            <!-- Two columns -->
+            <div class="ekram_two_col">
+                <!-- Today's Patients -->
+                <div class="ekram_section_card">
+                    <div class="section_header">
+                        <h5><i class="fa fa-users mr-2"/>Today's Patients</h5>
+                    </div>
+                    <t t-if="state.today_patients.length === 0">
+                        <div class="ekram_empty_state">
+                            <i class="fa fa-user-o fa-2x text-muted"/>
+                            <p class="text-muted mt-1">No patients scheduled today.</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="patient_queue">
+                            <t t-foreach="state.today_patients" t-as="p">
+                                <div class="patient_queue_item">
+                                    <div class="patient_queue_avatar"><t t-esc="p.patient[0]"/></div>
+                                    <div class="patient_queue_info">
+                                        <div class="patient_queue_name"><t t-esc="p.patient"/></div>
+                                        <div class="patient_queue_meta">
+                                            <span class="text-muted small"><i class="fa fa-clock-o"/> <t t-esc="p.time"/></span>
+                                            <span class="text-muted small ml-2"><t t-esc="p.medical_number"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="patient_queue_actions">
+                                        <span t-attf-class="#{getStateBadgeClass(p.state)} mr-1">
+                                            <t t-esc="p.state_label"/>
+                                        </span>
+                                        <t t-if="p.has_consultation">
+                                            <button class="btn btn-xs btn-success"
+                                                    t-on-click="() => openConsultation(p.consultation_id)">
+                                                <i class="fa fa-stethoscope"/> Open
+                                            </button>
+                                        </t>
+                                        <t t-else="">
+                                            <button class="btn btn-xs btn-primary"
+                                                    t-on-click="() => openAppointment(p.appointment_id)">
+                                                <i class="fa fa-eye"/> View
+                                            </button>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+                <!-- Pending Consultations -->
+                <div class="ekram_section_card">
+                    <div class="section_header">
+                        <h5><i class="fa fa-stethoscope mr-2"/>Pending Consultations</h5>
+                        <button class="btn btn-sm btn-success" t-on-click="openAllConsultations">View All</button>
+                    </div>
+                    <t t-if="state.pending_consultations.length === 0">
+                        <div class="ekram_empty_state">
+                            <i class="fa fa-check-circle fa-2x text-success"/>
+                            <p class="text-muted mt-1">All consultations are up to date!</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="consultation_list">
+                            <t t-foreach="state.pending_consultations" t-as="c">
+                                <div class="consultation_item" t-on-click="() => openConsultation(c.id)">
+                                    <div class="consultation_item_left">
+                                        <div class="consultation_patient"><t t-esc="c.patient"/></div>
+                                        <div class="consultation_meta text-muted small">
+                                            <i class="fa fa-calendar"/> <t t-esc="c.date"/>
+                                            <span class="ml-2"><t t-esc="c.name"/></span>
+                                        </div>
+                                    </div>
+                                    <div class="consultation_item_right">
+                                        <span t-attf-class="#{getStateBadgeClass(c.state)}">
+                                            <t t-esc="c.state_label"/>
+                                        </span>
+                                        <i class="fa fa-chevron-right ml-2 text-muted"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </div>
+</t>
+</templates>

@@ -1,0 +1,54 @@
+/* ── Ekram Medical Center - Custom Styles ─────────────────────────────── */
+
+/* Flag badges in lab results */
+.o_field_widget .badge.badge-flag-normal  { background-color: #28a745; color: #fff; }
+.o_field_widget .badge.badge-flag-high    { background-color: #ffc107; color: #212529; }
+.o_field_widget .badge.badge-flag-low     { background-color: #17a2b8; color: #fff; }
+.o_field_widget .badge.badge-flag-critical{ background-color: #dc3545; color: #fff; }
+
+/* Lab result lines - color coding */
+.o_list_view .o_data_row.flag-critical td { background-color: #fff5f5 !important; }
+.o_list_view .o_data_row.flag-high td     { background-color: #fffbf0 !important; }
+.o_list_view .o_data_row.flag-low td      { background-color: #f0f8ff !important; }
+
+/* Dashboard stat cards */
+.ekram_stat_card {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.ekram_stat_card .stat_number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+.ekram_stat_card .stat_label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+.ekram_stat_card.primary   { border-left: 4px solid #007bff; }
+.ekram_stat_card.success   { border-left: 4px solid #28a745; }
+.ekram_stat_card.warning   { border-left: 4px solid #ffc107; }
+.ekram_stat_card.danger    { border-left: 4px solid #dc3545; }
+.ekram_stat_card.info      { border-left: 4px solid #17a2b8; }
+
+/* Medical number badge */
+.medical_number_badge {
+    background-color: #e8f4fd;
+    color: #0066cc;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Lab report print styles */
+@media print {
+    .ekram_lab_report .report-header { border-bottom: 2px solid #007bff; }
+    .ekram_lab_report table          { font-size: 11px; }
+    .ekram_lab_report .flag-critical { background-color: #ffe0e0 !important; }
+    .ekram_lab_report .flag-high     { background-color: #fff8e0 !important; }
+    .ekram_lab_report .flag-low      { background-color: #e0f0ff !important; }
+}

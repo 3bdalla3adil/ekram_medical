@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ── Demo Employees (Doctors) ───────────────────────────────── -->
+        <record id="demo_doctor_ahmed" model="hr.employee">
+            <field name="name">Dr. Ahmed Al-Rashidi</field>
+            <field name="job_title">Doctor - Internal Medicine</field>
+        </record>
+
+        <record id="demo_doctor_fatima" model="hr.employee">
+            <field name="name">Dr. Fatima Al-Zahra</field>
+            <field name="job_title">Doctor - Pediatrics</field>
+        </record>
+
+        <record id="demo_technician_omar" model="hr.employee">
+            <field name="name">Omar Al-Farsi</field>
+            <field name="job_title">Lab Technician</field>
+        </record>
+
+        <!-- ── Demo Patients ──────────────────────────────────────────── -->
+        <record id="demo_patient_001" model="res.partner">
+            <field name="name">Mohammed Al-Balushi</field>
+            <field name="is_patient">True</field>
+            <field name="gender">male</field>
+            <field name="date_of_birth">1985-03-15</field>
+            <field name="blood_group">o+</field>
+            <field name="phone">+968 9100 0001</field>
+            <field name="emergency_contact_name">Sara Al-Balushi</field>
+            <field name="emergency_contact_phone">+968 9100 0002</field>
+            <field name="emergency_contact_relation">Wife</field>
+        </record>
+
+        <record id="demo_patient_002" model="res.partner">
+            <field name="name">Aisha Al-Harthi</field>
+            <field name="is_patient">True</field>
+            <field name="gender">female</field>
+            <field name="date_of_birth">1992-07-22</field>
+            <field name="blood_group">a+</field>
+            <field name="phone">+968 9100 0003</field>
+            <field name="emergency_contact_name">Khalid Al-Harthi</field>
+            <field name="emergency_contact_phone">+968 9100 0004</field>
+            <field name="emergency_contact_relation">Brother</field>
+        </record>
+
+        <record id="demo_patient_003" model="res.partner">
+            <field name="name">Yusuf Al-Maqbali</field>
+            <field name="is_patient">True</field>
+            <field name="gender">male</field>
+            <field name="date_of_birth">1978-11-05</field>
+            <field name="blood_group">b+</field>
+            <field name="phone">+968 9100 0005</field>
+            <field name="chronic_conditions">Type 2 Diabetes, Hypertension</field>
+        </record>
+
+        <!-- ── Lab Investigation Products ────────────────────────────── -->
+        <record id="demo_product_cbc" model="product.template">
+            <field name="name">Complete Blood Count (CBC)</field>
+            <field name="type">service</field>
+            <field name="list_price">5.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
+        <record id="demo_product_rft" model="product.template">
+            <field name="name">Renal Function Tests (RFT)</field>
+            <field name="type">service</field>
+            <field name="list_price">8.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
+        <record id="demo_product_lft" model="product.template">
+            <field name="name">Liver Function Tests (LFT)</field>
+            <field name="type">service</field>
+            <field name="list_price">10.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
+        <record id="demo_product_urine" model="product.template">
+            <field name="name">Urine Analysis (UA)</field>
+            <field name="type">service</field>
+            <field name="list_price">3.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
+        <record id="demo_product_thyroid" model="product.template">
+            <field name="name">Thyroid Function Tests (TFT)</field>
+            <field name="type">service</field>
+            <field name="list_price">12.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
+        <!-- ── Lab Templates ──────────────────────────────────────────── -->
+
+        <!-- CBC Template -->
+        <record id="demo_template_cbc" model="medical.lab.template">
+            <field name="name">Complete Blood Count (CBC)</field>
+            <field name="code">CBC</field>
+            <field name="product_id" ref="demo_product_cbc"/>
+            <field name="department">hematology</field>
+            <field name="sample_type">blood</field>
+            <field name="turnaround_hours">2</field>
+        </record>
+
+        <record id="demo_template_cbc_line_wbc" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_cbc"/>
+            <field name="sequence">10</field>
+            <field name="test_name">WBC (White Blood Cells)</field>
+            <field name="unit">10³/µL</field>
+            <field name="normal_range_text">4.5 - 11.0</field>
+            <field name="normal_min">4.5</field>
+            <field name="normal_max">11.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_cbc_line_rbc" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_cbc"/>
+            <field name="sequence">20</field>
+            <field name="test_name">RBC (Red Blood Cells)</field>
+            <field name="unit">10⁶/µL</field>
+            <field name="normal_range_text">4.5 - 5.9 (M), 4.0 - 5.2 (F)</field>
+            <field name="normal_min">4.0</field>
+            <field name="normal_max">5.9</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_cbc_line_hgb" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_cbc"/>
+            <field name="sequence">30</field>
+            <field name="test_name">Hemoglobin (HGB)</field>
+            <field name="unit">g/dL</field>
+            <field name="normal_range_text">13.5 - 17.5 (M), 12.0 - 15.5 (F)</field>
+            <field name="normal_min">12.0</field>
+            <field name="normal_max">17.5</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_cbc_line_hct" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_cbc"/>
+            <field name="sequence">40</field>
+            <field name="test_name">Hematocrit (HCT)</field>
+            <field name="unit">%</field>
+            <field name="normal_range_text">41 - 53 (M), 36 - 46 (F)</field>
+            <field name="normal_min">36.0</field>
+            <field name="normal_max">53.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_cbc_line_plt" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_cbc"/>
+            <field name="sequence">50</field>
+            <field name="test_name">Platelets (PLT)</field>
+            <field name="unit">10³/µL</field>
+            <field name="normal_range_text">150 - 400</field>
+            <field name="normal_min">150.0</field>
+            <field name="normal_max">400.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <!-- RFT Template -->
+        <record id="demo_template_rft" model="medical.lab.template">
+            <field name="name">Renal Function Tests (RFT)</field>
+            <field name="code">RFT</field>
+            <field name="product_id" ref="demo_product_rft"/>
+            <field name="department">biochemistry</field>
+            <field name="sample_type">blood</field>
+            <field name="turnaround_hours">4</field>
+        </record>
+
+        <record id="demo_template_rft_line_urea" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_rft"/>
+            <field name="sequence">10</field>
+            <field name="test_name">Urea</field>
+            <field name="unit">mmol/L</field>
+            <field name="normal_range_text">2.5 - 7.8</field>
+            <field name="normal_min">2.5</field>
+            <field name="normal_max">7.8</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_rft_line_creatinine" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_rft"/>
+            <field name="sequence">20</field>
+            <field name="test_name">Creatinine</field>
+            <field name="unit">µmol/L</field>
+            <field name="normal_range_text">62 - 115 (M), 53 - 97 (F)</field>
+            <field name="normal_min">53.0</field>
+            <field name="normal_max">115.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_rft_line_uric_acid" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_rft"/>
+            <field name="sequence">30</field>
+            <field name="test_name">Uric Acid</field>
+            <field name="unit">µmol/L</field>
+            <field name="normal_range_text">202 - 416 (M), 143 - 339 (F)</field>
+            <field name="normal_min">143.0</field>
+            <field name="normal_max">416.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_rft_line_sodium" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_rft"/>
+            <field name="sequence">40</field>
+            <field name="test_name">Sodium (Na)</field>
+            <field name="unit">mmol/L</field>
+            <field name="normal_range_text">136 - 145</field>
+            <field name="normal_min">136.0</field>
+            <field name="normal_max">145.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_rft_line_potassium" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_rft"/>
+            <field name="sequence">50</field>
+            <field name="test_name">Potassium (K)</field>
+            <field name="unit">mmol/L</field>
+            <field name="normal_range_text">3.5 - 5.1</field>
+            <field name="normal_min">3.5</field>
+            <field name="normal_max">5.1</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <!-- Urine Analysis Template -->
+        <record id="demo_template_urine" model="medical.lab.template">
+            <field name="name">Urine Analysis (UA)</field>
+            <field name="code">UA</field>
+            <field name="product_id" ref="demo_product_urine"/>
+            <field name="department">urine</field>
+            <field name="sample_type">urine</field>
+            <field name="turnaround_hours">1</field>
+        </record>
+
+        <record id="demo_template_urine_line_color" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_urine"/>
+            <field name="sequence">10</field>
+            <field name="test_name">Color</field>
+            <field name="normal_range_text">Yellow/Pale Yellow</field>
+            <field name="result_type">text</field>
+        </record>
+
+        <record id="demo_template_urine_line_ph" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_urine"/>
+            <field name="sequence">20</field>
+            <field name="test_name">pH</field>
+            <field name="normal_range_text">4.5 - 8.0</field>
+            <field name="normal_min">4.5</field>
+            <field name="normal_max">8.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_urine_line_protein" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_urine"/>
+            <field name="sequence">30</field>
+            <field name="test_name">Protein</field>
+            <field name="normal_range_text">Negative</field>
+            <field name="result_type">positive_negative</field>
+        </record>
+
+        <record id="demo_template_urine_line_glucose" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_urine"/>
+            <field name="sequence">40</field>
+            <field name="test_name">Glucose</field>
+            <field name="normal_range_text">Negative</field>
+            <field name="result_type">positive_negative</field>
+        </record>
+
+        <!-- ── Sample Appointments ────────────────────────────────────── -->
+        <record id="demo_appointment_001" model="medical.appointment">
+            <field name="patient_id" ref="demo_patient_001"/>
+            <field name="doctor_id" ref="demo_doctor_ahmed"/>
+            <field name="appointment_date" eval="(DateTime.now()).strftime('%Y-%m-%d 09:00:00')"/>
+            <field name="appointment_type">consultation</field>
+            <field name="state">confirmed</field>
+            <field name="chief_complaint">Fatigue and general weakness for 2 weeks</field>
+        </record>
+
+        <record id="demo_appointment_002" model="medical.appointment">
+            <field name="patient_id" ref="demo_patient_002"/>
+            <field name="doctor_id" ref="demo_doctor_fatima"/>
+            <field name="appointment_date" eval="(DateTime.now()).strftime('%Y-%m-%d 10:30:00')"/>
+            <field name="appointment_type">follow_up</field>
+            <field name="state">draft</field>
+            <field name="chief_complaint">Follow-up for thyroid medication</field>
+        </record>
+
+    </data>
+</odoo>

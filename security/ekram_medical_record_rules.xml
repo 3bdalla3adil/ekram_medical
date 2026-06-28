@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="rule_appointment_doctor_own" model="ir.rule">
+            <field name="name">Appointments: Doctor sees own</field>
+            <field name="model_id" ref="model_medical_appointment"/>
+            <field name="groups" eval="[(4, ref('ekram_medical.group_medical_doctor'))]"/>
+            <field name="domain_force">[('doctor_id.user_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_appointment_reception_all" model="ir.rule">
+            <field name="name">Appointments: Reception sees all</field>
+            <field name="model_id" ref="model_medical_appointment"/>
+            <field name="groups" eval="[(4, ref('ekram_medical.group_medical_reception'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="rule_consultation_doctor_own" model="ir.rule">
+            <field name="name">Consultations: Doctor sees own</field>
+            <field name="model_id" ref="model_medical_consultation"/>
+            <field name="groups" eval="[(4, ref('ekram_medical.group_medical_doctor'))]"/>
+            <field name="domain_force">[('doctor_id.user_id', '=', user.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_lab_request_technician_all" model="ir.rule">
+            <field name="name">Lab Requests: Technician sees all</field>
+            <field name="model_id" ref="model_medical_lab_request"/>
+            <field name="groups" eval="[(4, ref('ekram_medical.group_medical_lab_technician'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record id="rule_lab_request_doctor_own" model="ir.rule">
+            <field name="name">Lab Requests: Doctor sees own</field>
+            <field name="model_id" ref="model_medical_lab_request"/>
+            <field name="groups" eval="[(4, ref('ekram_medical.group_medical_doctor'))]"/>
+            <field name="domain_force">[('doctor_id.user_id', '=', user.id)]</field>
+        </record>
+    </data>
+</odoo>

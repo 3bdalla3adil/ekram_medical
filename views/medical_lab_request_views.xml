@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_medical_lab_request_form" model="ir.ui.view">
+            <field name="name">medical.lab.request.form</field>
+            <field name="model">medical.lab.request</field>
+            <field name="arch" type="xml">
+                <form string="Lab Request">
+                    <header>
+                        <button class="btn-primary" invisible="state != 'draft'" name="action_process" string="Process" type="object"/>
+                        <button class="btn-success" invisible="state != 'processing'" name="action_complete" string="Complete" type="object"/>
+                        <button class="btn-info" icon="fa-print" invisible="state != 'completed'" name="action_print_report" string="Print Report" type="object"/>
+                        <button invisible="state in ['completed', 'cancelled']" name="action_cancel" string="Cancel" type="object"/>
+                        <button invisible="state != 'cancelled'" name="action_reset_draft" string="Reset" type="object"/>
+                        <field name="state" statusbar_visible="draft,processing,completed" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-flask" name="action_view_results" type="object">
+                                <field name="result_count" string="Results" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Patient">
+                                <field name="patient_id" options="{'no_create': True}"/>
+                                <field name="doctor_id"/>
+                                <field name="consultation_id"/>
+                            </group>
+                            <group string="Request Details">
+                                <field name="request_date"/>
+                                <field name="priority" widget="priority"/>
+                            </group>
+                        </group>
+                        <group string="Requested Investigations">
+                            <field name="template_ids" options="{'color_field': 'department'}" widget="many2many_tags"/>
+                        </group>
+                        <group string="Clinical Notes">
+                            <field name="notes" placeholder="Clinical notes for the lab..."/>
+                        </group>
+                        <notebook invisible="result_ids == []">
+                            <page name="results" string="Results">
+                                <field name="result_ids" readonly="1">
+                                    <list>
+                                        <field name="template_id"/>
+                                        <field name="result_date"/>
+                                        <field name="technician_id"/>
+                                        <field decoration-success="state == 'validated'" decoration-warning="state == 'draft'" name="state" widget="badge"/>
+                                    </list></field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form></field>
+        </record>
+        <record id="view_medical_lab_request_list" model="ir.ui.view">
+            <field name="name">medical.lab.request.list</field>
+            <field name="model">medical.lab.request</field>
+            <field name="arch" type="xml">
+                <list decoration-muted="state == 'cancelled'" decoration-success="state == 'completed'" decoration-warning="state == 'processing'" string="Lab Requests">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="request_date"/>
+                    <field name="priority" widget="priority"/>
+                    <field name="result_count" string="Results"/>
+                    <field decoration-info="state == 'draft'" decoration-muted="state == 'cancelled'" decoration-success="state == 'completed'" decoration-warning="state == 'processing'" name="state" widget="badge"/>
+                </list></field>
+        </record>
+        <record id="view_medical_lab_request_kanban" model="ir.ui.view">
+            <field name="name">medical.lab.request.kanban</field>
+            <field name="model">medical.lab.request</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="request_date"/>
+                    <field name="state"/>
+                    <field name="priority"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <strong>
+                                            <field name="patient_id"/>
+                                        </strong>
+                                        <field name="priority" widget="priority"/>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <div>
+                                            <i class="fa fa-hashtag"/>
+                                            <field name="name"/>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-user-md"/>
+                                            <field name="doctor_id"/>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-clock-o"/>
+                                            <field name="request_date"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban></field>
+        </record>
+        <record id="view_medical_lab_request_search" model="ir.ui.view">
+            <field name="name">medical.lab.request.search</field>
+            <field name="model">medical.lab.request</field>
+            <field name="arch" type="xml">
+                <search string="Search Lab Requests">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <separator/>
+                    <filter domain="[('request_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),                                      ('request_date', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]" name="filter_today" string="Today"/>
+                    <filter domain="[('state', 'in', ['draft', 'processing'])]" name="filter_pending" string="Pending"/>
+                    <filter domain="[('state', '=', 'completed')]" name="filter_completed" string="Completed"/>
+                    <filter domain="[('priority', '!=', '0')]" name="filter_urgent" string="Urgent"/>
+                    <group>
+                        <filter context="{'group_by': 'state'}" name="group_state" string="Status"/>
+                        <filter context="{'group_by': 'doctor_id'}" name="group_doctor" string="Doctor"/>
+                        <filter context="{'group_by': 'request_date:day'}" name="group_date" string="Date"/>
+                    </group>
+                </search></field>
+        </record>
+        <record id="action_medical_lab_requests" model="ir.actions.act_window">
+            <field name="name">Lab Requests</field>
+            <field name="res_model">medical.lab.request</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'search_default_filter_pending': 1}</field>
+        </record>
+    </data>
+</odoo>

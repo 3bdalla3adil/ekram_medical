@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ekram_medical.MedicalDashboardTemplate">
+        <div class="o_dashboards p-4 bg-100" style="overflow-y: auto; height: 100%;">
+            
+            <!-- SECTION 1: HEADER & QUICK ACTIONS QUICK ACCESSIBLE BUTTONS -->
+            <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded shadow-sm">
+                <div>
+                    <h2 class="text-primary mb-0 fw-bold">Medical Operations Hub</h2>
+                    <small class="text-muted">Real-time clinical summary and quick actions</small>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary btn-lg shadow-sm" t-on-click="openNewAppointmentWizard">
+                        <i class="fa fa-calendar-plus-o me-2"/> Book Appointment
+                    </button>
+                    <button class="btn btn-success btn-lg shadow-sm" t-on-click="openNewPatientWizard">
+                        <i class="fa fa-user-plus me-2"/> Create Patient
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 2: METRICS COUNTERS (KPI CARDS) -->
+            <div class="row g-3 mb-4">
+                <!-- Card 1: Total -->
+                <div class="col-md-2" t-on-click="() => this.viewAppointmentsByState()">
+                    <div class="card h-100 p-3 border-0 bg-white shadow-sm rounded text-center cursor-pointer hover-elevate">
+                        <div class="text-secondary mb-1 fw-bold text-uppercase small">Total Booked</div>
+                        <h2 class="display-6 fw-bold text-dark"><t t-esc="state.total"/></h2>
+                    </div>
+                </div>
+                <!-- Card 2: Confirmed -->
+                <div class="col-md-2" t-on-click="() => this.viewAppointmentsByState('confirmed')">
+                    <div class="card h-100 p-3 border-0 bg-white shadow-sm rounded text-center cursor-pointer hover-elevate" style="border-left: 4px solid #00A09D !important;">
+                        <div class="text-info mb-1 fw-bold text-uppercase small">Confirmed</div>
+                        <h2 class="display-6 fw-bold text-info"><t t-esc="state.confirmed"/></h2>
+                    </div>
+                </div>
+                <!-- Card 3: In Progress -->
+                <div class="col-md-2" t-on-click="() => this.viewAppointmentsByState('in_progress')">
+                    <div class="card h-100 p-3 border-0 bg-white shadow-sm rounded text-center cursor-pointer hover-elevate" style="border-left: 4px solid #E4A11B !important;">
+                        <div class="text-warning mb-1 fw-bold text-uppercase small">In Progress</div>
+                        <h2 class="display-6 fw-bold text-warning"><t t-esc="state.inProgress"/></h2>
+                    </div>
+                </div>
+                <!-- Card 4: Done -->
+                <div class="col-md-2" t-on-click="() => this.viewAppointmentsByState('done')">
+                    <div class="card h-100 p-3 border-0 bg-white shadow-sm rounded text-center cursor-pointer hover-elevate" style="border-left: 4px solid #22C55E !important;">
+                        <div class="text-success mb-1 fw-bold text-uppercase small">Done</div>
+                        <h2 class="display-6 fw-bold text-success"><t t-esc="state.done"/></h2>
+                    </div>
+                </div>
+                <!-- Card 5: Cancelled -->
+                <div class="col-md-2" t-on-click="() => this.viewAppointmentsByState('cancelled')">
+                    <div class="card h-100 p-3 border-0 bg-white shadow-sm rounded text-center cursor-pointer hover-elevate" style="border-left: 4px solid #DC2626 !important;">
+                        <div class="text-danger mb-1 fw-bold text-uppercase small">Cancelled</div>
+                        <h2 class="display-6 fw-bold text-danger"><t t-esc="state.cancelled"/></h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: INSTRUCTIONS / DOCUMENTATION -->
+            <div class="bg-white p-4 rounded shadow-sm">
+                <h4 class="mb-3 text-dark fw-bold border-bottom pb-2"><i class="fa fa-info-circle text-primary me-2"/>Clinic Dashboard Guidelines</h4>
+                <p class="text-muted mb-2">Use the top action options to run wizard panels instantly over this operational view.</p>
+                <ul>
+                    <li class="text-muted mb-1">Clicking any top KPI card redirects directly to filtered item listings.</li>
+                    <li class="text-muted">New entries made in modals auto-refresh statistics back-ends during pipeline syncing loops.</li>
+                </ul>
+            </div>
+
+        </div>
+    </t>
+</templates>

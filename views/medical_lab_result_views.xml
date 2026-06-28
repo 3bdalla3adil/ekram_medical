@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_medical_lab_result_form" model="ir.ui.view">
+            <field name="name">medical.lab.result.form</field>
+            <field name="model">medical.lab.result</field>
+            <field name="arch" type="xml">
+                <form string="Lab Result">
+                    <header>
+                        <button class="btn-success" invisible="state != 'draft'" name="action_validate" string="Validate" type="object"/>
+                        <button class="btn-info" icon="fa-print" invisible="state != 'validated'" name="action_print_report" string="Print Report" type="object"/>
+                        <button invisible="state in ['validated', 'cancelled']" name="action_cancel" string="Cancel" type="object"/>
+                        <button invisible="state != 'cancelled'" name="action_reset_draft" string="Reset" type="object"/>
+                        <field name="state" statusbar_visible="draft,validated" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Patient">
+                                <field name="patient_id" readonly="1"/>
+                                <field name="template_id"/>
+                                <field name="request_id" readonly="1"/>
+                            </group>
+                            <group string="Staff">
+                                <field name="doctor_id" readonly="1"/>
+                                <field name="technician_id"/>
+                                <field name="result_date"/>
+                            </group>
+                        </group>
+                        <group invisible="validated_by == False" string="Validation">
+                            <field name="validated_by" readonly="1"/>
+                            <field name="validated_date" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page name="results" string="Results">
+                                <field name="line_ids"><list decoration-danger="flag == 'critical'" decoration-success="flag == 'normal'" decoration-warning="flag in ('high', 'low')" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="test_name" readonly="1"/>
+                                        <field name="result_value"/>
+                                        <field name="unit" readonly="1"/>
+                                        <field name="normal_range_text" readonly="1" string="Reference Range"/>
+                                        <field decoration-danger="flag == 'critical'" decoration-success="flag == 'normal'" decoration-warning="flag in ('high', 'low')" name="flag" readonly="1" widget="badge"/>
+                                        <field name="remarks"/>
+                                    </list></field>
+                            </page>
+                            <page name="remarks" string="Remarks">
+                                <field name="remarks" placeholder="General remarks..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form></field>
+        </record>
+        <record id="view_medical_lab_result_list" model="ir.ui.view">
+            <field name="name">medical.lab.result.list</field>
+            <field name="model">medical.lab.result</field>
+            <field name="arch" type="xml">
+                <list decoration-muted="state == 'cancelled'" decoration-success="state == 'validated'" string="Lab Results">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="template_id"/>
+                    <field name="technician_id"/>
+                    <field name="result_date"/>
+                    <field decoration-muted="state == 'cancelled'" decoration-success="state == 'validated'" decoration-warning="state == 'draft'" name="state" widget="badge"/>
+                </list></field>
+        </record>
+        <record id="action_medical_lab_results" model="ir.actions.act_window">
+            <field name="name">Lab Results</field>
+            <field name="res_model">medical.lab.result</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_lab_result_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+
+                            <!-- ── Report Header ──────────────────────── -->
+                            <div class="row mb-4">
+                                <div class="col-12 text-center">
+                                    <h2 class="text-primary">Laboratory Report</h2>
+                                    <hr/>
+                                </div>
+                            </div>
+
+                            <!-- ── Patient Info ───────────────────────── -->
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td><strong>Patient Name:</strong></td>
+                                            <td><t t-esc="doc.patient_id.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Medical No:</strong></td>
+                                            <td><t t-esc="doc.patient_id.medical_number or '-'"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Gender:</strong></td>
+                                            <td><t t-esc="dict(doc.patient_id._fields['gender'].selection).get(doc.patient_id.gender, '-')"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Age:</strong></td>
+                                            <td><t t-esc="doc.patient_id.age"/> years</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-sm table-borderless">
+                                        <tr>
+                                            <td><strong>Request No:</strong></td>
+                                            <td><t t-esc="doc.name"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Request Date:</strong></td>
+                                            <td><t t-esc="doc.request_date.strftime('%d/%m/%Y %H:%M') if doc.request_date else '-'"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Requesting Doctor:</strong></td>
+                                            <td><t t-esc="doc.doctor_id.name if doc.doctor_id else '-'"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Print Date:</strong></td>
+                                            <td><t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <hr/>
+
+                            <!-- ── Results per Investigation ──────────── -->
+                            <t t-foreach="doc.result_ids" t-as="result">
+                                <div class="mb-4">
+                                    <h5 class="bg-light p-2 border-left border-primary">
+                                        <t t-esc="result.template_id.name"/>
+                                        <small class="text-muted ml-2">
+                                            Sample: <t t-esc="dict(result.template_id._fields['sample_type'].selection).get(result.template_id.sample_type, '')"/>
+                                        </small>
+                                    </h5>
+                                    <table class="table table-sm table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Test</th>
+                                                <th>Result</th>
+                                                <th>Unit</th>
+                                                <th>Reference Range</th>
+                                                <th>Flag</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="result.line_ids" t-as="line">
+                                                <tr t-attf-class="#{line.flag == 'critical' and 'table-danger' or line.flag in ('high','low') and 'table-warning' or ''}">
+                                                    <td><t t-esc="line.test_name"/></td>
+                                                    <td>
+                                                        <strong><t t-esc="line.result_value or '-'"/></strong>
+                                                    </td>
+                                                    <td><t t-esc="line.unit or ''"/></td>
+                                                    <td><t t-esc="line.normal_range_text or ''"/></td>
+                                                    <td>
+                                                        <t t-if="line.flag == 'high'">
+                                                            <span class="badge badge-warning">H</span>
+                                                        </t>
+                                                        <t t-elif="line.flag == 'low'">
+                                                            <span class="badge badge-warning">L</span>
+                                                        </t>
+                                                        <t t-elif="line.flag == 'critical'">
+                                                            <span class="badge badge-danger">C</span>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span class="badge badge-success">N</span>
+                                                        </t>
+                                                    </td>
+                                                    <td><t t-esc="line.remarks or ''"/></td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                    <t t-if="result.remarks">
+                                        <p class="text-muted small"><strong>Remarks:</strong> <t t-esc="result.remarks"/></p>
+                                    </t>
+                                    <div class="row mt-2">
+                                        <div class="col-6">
+                                            <small class="text-muted">
+                                                Technician: <t t-esc="result.technician_id.name if result.technician_id else '-'"/>
+                                            </small>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <small class="text-muted">
+                                                Validated: <t t-esc="result.validated_date.strftime('%d/%m/%Y %H:%M') if result.validated_date else 'Pending'"/>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <!-- ── Footer ─────────────────────────────── -->
+                            <hr/>
+                            <div class="row mt-4">
+                                <div class="col-4 text-center">
+                                    <div style="border-top: 1px solid #000; margin-top: 40px; padding-top: 5px;">
+                                        <small>Lab Technician Signature</small>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <!-- QR Placeholder -->
+                                    <div class="border p-2 d-inline-block">
+                                        <small class="text-muted">QR Code</small>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div style="border-top: 1px solid #000; margin-top: 40px; padding-top: 5px;">
+                                        <small>Doctor Signature</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-12 text-center">
+                                    <small class="text-muted">
+                                        This report is generated by Ekram Medical Center Management System.
+                                        Results should be interpreted by a qualified physician.
+                                    </small>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

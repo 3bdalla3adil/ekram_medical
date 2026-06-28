@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="ekram_medical.LabDashboard">
+    <div class="ekram_dashboard lab_dashboard">
+        <t t-if="state.loading">
+            <div class="ekram_loading">
+                <div class="spinner-border text-info" role="status"/>
+                <p class="mt-2 text-muted">Loading dashboard...</p>
+            </div>
+        </t>
+        <t t-else="">
+            <div class="ekram_dash_header lab_header">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h3 class="mb-0"><i class="fa fa-flask mr-2 text-info"/>Laboratory Dashboard</h3>
+                        <small class="text-muted">Ekram Medical Center — Lab</small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-primary" t-on-click="openNewRequest">
+                            <i class="fa fa-plus"/> New Request
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" t-on-click="loadData">
+                            <i class="fa fa-refresh"/> Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- KPIs -->
+            <div class="ekram_kpi_row">
+                <div class="ekram_kpi_card warning" t-on-click="openAllRequests">
+                    <div class="kpi_icon"><i class="fa fa-hourglass-half"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.pending_requests || 0"/></div>
+                        <div class="kpi_label">Pending Requests</div>
+                    </div>
+                    <div class="kpi_total">In Progress: <t t-esc="state.kpis.in_progress || 0"/></div>
+                </div>
+                <div class="ekram_kpi_card success" t-on-click="openAllRequests">
+                    <div class="kpi_icon"><i class="fa fa-check-circle"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.completed_today || 0"/></div>
+                        <div class="kpi_label">Completed Today</div>
+                    </div>
+                    <div class="kpi_total">&#160;</div>
+                </div>
+                <div class="ekram_kpi_card info" t-on-click="openAllResults">
+                    <div class="kpi_icon"><i class="fa fa-pencil-square-o"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.pending_results || 0"/></div>
+                        <div class="kpi_label">Results to Enter</div>
+                    </div>
+                    <div class="kpi_total">&#160;</div>
+                </div>
+                <div class="ekram_kpi_card primary">
+                    <div class="kpi_icon"><i class="fa fa-spinner fa-spin"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number"><t t-esc="state.kpis.in_progress || 0"/></div>
+                        <div class="kpi_label">In Progress</div>
+                    </div>
+                    <div class="kpi_total">&#160;</div>
+                </div>
+            </div>
+            <!-- Two columns -->
+            <div class="ekram_two_col">
+                <!-- Pending Requests -->
+                <div class="ekram_section_card">
+                    <div class="section_header">
+                        <h5><i class="fa fa-list mr-2"/>Pending Requests</h5>
+                        <button class="btn btn-sm btn-warning" t-on-click="openAllRequests">View All</button>
+                    </div>
+                    <t t-if="state.pending_requests.length === 0">
+                        <div class="ekram_empty_state">
+                            <i class="fa fa-check-circle fa-2x text-success"/>
+                            <p class="text-muted mt-1">No pending lab requests!</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="lab_request_list">
+                            <t t-foreach="state.pending_requests" t-as="req">
+                                <div class="lab_request_item" t-on-click="() => openLabRequest(req.id)">
+                                    <div class="lab_request_priority">
+                                        <t t-if="req.priority === '2'"><span class="priority_dot critical"/></t>
+                                        <t t-elif="req.priority === '1'"><span class="priority_dot urgent"/></t>
+                                        <t t-else=""><span class="priority_dot normal"/></t>
+                                    </div>
+                                    <div class="lab_request_info">
+                                        <div class="lab_request_patient">
+                                            <strong><t t-esc="req.patient"/></strong>
+                                            <t t-if="req.priority !== '0'">
+                                                <span t-attf-class="badge badge-sm ml-1 #{req.priority === '2' ? 'badge-danger' : 'badge-warning'}">
+                                                    <t t-esc="req.priority === '2' ? 'CRITICAL' : 'URGENT'"/>
+                                                </span>
+                                            </t>
+                                        </div>
+                                        <div class="lab_request_meta text-muted small">
+                                            <span><i class="fa fa-hashtag"/> <t t-esc="req.name"/></span>
+                                            <span class="ml-2"><i class="fa fa-clock-o"/> <t t-esc="req.time"/></span>
+                                        </div>
+                                        <div class="lab_request_tests text-muted small">
+                                            <i class="fa fa-flask"/> <t t-esc="req.investigations"/>
+                                        </div>
+                                    </div>
+                                    <div class="lab_request_actions">
+                                        <span t-attf-class="#{getStateBadgeClass(req.state)}">
+                                            <t t-esc="req.state_label"/>
+                                        </span>
+                                        <i class="fa fa-chevron-right ml-2 text-muted"/>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+                <!-- Results to Enter -->
+                <div class="ekram_section_card">
+                    <div class="section_header">
+                        <h5><i class="fa fa-pencil mr-2"/>Results to Enter</h5>
+                        <button class="btn btn-sm btn-info" t-on-click="openAllResults">View All</button>
+                    </div>
+                    <t t-if="state.pending_results.length === 0">
+                        <div class="ekram_empty_state">
+                            <i class="fa fa-check-circle fa-2x text-success"/>
+                            <p class="text-muted mt-1">All results have been entered!</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="result_entry_list">
+                            <t t-foreach="state.pending_results" t-as="res">
+                                <div class="result_entry_item" t-on-click="() => openLabResult(res.id)">
+                                    <div class="result_entry_icon"><i class="fa fa-flask text-info"/></div>
+                                    <div class="result_entry_info">
+                                        <div class="result_entry_patient"><strong><t t-esc="res.patient"/></strong></div>
+                                        <div class="result_entry_test text-muted small"><t t-esc="res.investigation"/></div>
+                                        <div class="result_entry_meta text-muted small">
+                                            <i class="fa fa-clock-o"/> <t t-esc="res.date"/>
+                                        </div>
+                                    </div>
+                                    <div class="result_entry_action">
+                                        <button class="btn btn-xs btn-info"><i class="fa fa-pencil"/> Enter</button>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </div>
+</t>
+</templates>

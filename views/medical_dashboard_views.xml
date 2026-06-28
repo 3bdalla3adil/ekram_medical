@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ── Reception Dashboard ─────────────────────────────────────── -->
+        <record id="action_reception_dashboard" model="ir.actions.act_window">
+            <field name="name">Reception Dashboard</field>
+            <field name="res_model">medical.appointment</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'search_default_filter_today': 1}</field>
+            <field name="domain">[]</field>
+        </record>
+
+        <!-- ── Doctor Dashboard ────────────────────────────────────────── -->
+        <record id="action_doctor_dashboard" model="ir.actions.act_window">
+            <field name="name">My Consultations</field>
+            <field name="res_model">medical.consultation</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_filter_today': 1}</field>
+        </record>
+
+        <!-- ── Lab Dashboard ───────────────────────────────────────────── -->
+        <record id="action_lab_dashboard" model="ir.actions.act_window">
+            <field name="name">Lab Dashboard</field>
+            <field name="res_model">medical.lab.request</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'search_default_filter_pending': 1}</field>
+        </record>
+
+    </data>
+</odoo>

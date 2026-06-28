@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_medical_patient" model="ir.sequence">
+            <field name="name">Medical Patient Number</field>
+            <field name="code">medical.patient</field>
+            <field name="prefix">PT</field>
+            <field name="padding">6</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_medical_appointment" model="ir.sequence">
+            <field name="name">Medical Appointment</field>
+            <field name="code">medical.appointment</field>
+            <field name="prefix">APT/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_medical_consultation" model="ir.sequence">
+            <field name="name">Medical Consultation</field>
+            <field name="code">medical.consultation</field>
+            <field name="prefix">CON/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_medical_lab_request" model="ir.sequence">
+            <field name="name">Medical Lab Request</field>
+            <field name="code">medical.lab.request</field>
+            <field name="prefix">LAB/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
