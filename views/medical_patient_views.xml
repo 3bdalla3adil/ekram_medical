@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="medical_patient_view" model="ir.ui.view">
+        <field name="name">Patient</field>
+        <field name="model">medical.patient</field>
+        <field name="arch" type="xml">
+            <form string="Patient">
+                <header>
+                    <field invisible="True" name="active"/>
+                    <button invisible="not active" name="blockpatient" string="Block" type="object"/>
+                    <!--                        <button name="blockpatient" type="object" string="Block"-->
+                    <!--                                attrs="{'invisible': [('active', '=', False)]}"/>-->
+                    <button invisible="active" name="unblockpatient" string="Unblock" type="object"/>
+                    <!--                        <button name="unblockpatient" type="object" string="Unblock"-->
+                    <!--                                attrs="{'invisible': [('active', '=', True)]}"/>-->
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <!--                            <button name="get_invoices" type="object" class="oe_stat_button" icon="fa-pencil-square-o"-->
+                        <!--                                    attrs="{'invisible': [('invoice_count', '=', 0)]}">-->
+                        <!--                                <field name="invoice_count" widget="statinfo" string="Invoices"/>-->
+                        <!--                            </button>-->
+                    </div>
+                    <group col="6" colspan="6">
+                        <group col="4" colspan="4" string="Main Info">
+                            <field context="{'default_is_patient': 1, 'search_default_is_patient': 1,'search_default_is_person': 1,'default_is_person': 1}" name="partner_id"/>
+                            <field name="patient_id"/>
+                            <field name="dob"/>
+                            <field invisible="1" name="report_date"/>
+                            <field name="sex" required="1"/>
+                            <field name="age"/>
+                            <field name="arebic" string="Arabic"/>
+                            <field name="qid"/>
+                            <field name="family_link"/>
+                            <field invisible="1" name="id"/>
+                            <field invisible="not family_link" name="link_partner_id"/>
+                            <!--                                <field name="link_partner_id"-->
+                            <!--                                       attrs="{'invisible':[('family_link','!=',True)],'required':[('family_link','=',True)]}"/>-->
+                        </group>
+                        <group col="2" colspan="2" rowspan="1" string="Photos">
+                            <field name="photo" nolabel="1" widget="image"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="General Information">
+                            <group string="Patient General Information">
+                                <group>
+                                    <field name="family_code"/>
+                                    <field name="rh"/>
+                                    <field name="marital_status"/>
+                                    <field name="primary_doctor_id"/>
+                                    <field name="mobile" required="True"/>
+                                    <field name="other_mobile"/>
+                                </group>
+                                <group>
+                                    <field name="blood_type"/>
+                                    <field name="current_insurance"/>
+                                    <field name="occupation_id"/>
+                                    <field name="referring_doctor_id"/>
+                                    <field name="nationality_id"/>
+                                </group>
+                            </group>
+                            <separator colspan="4" string="Patient Extra Information"/>
+                            <newline/>
+                            <field colspan="4" name="general_info" nolabel="1"/>
+                            <newline/>
+                            <field colspan="4" name="note" nolabel="1" placeholder="Notes...."/>
+                            <newline/>
+                            <group col="4" colspan="4">
+                                <field name="deceased"/>
+                                <field invisible="not deceased" name="dod"/>
+                                <!--                                    <field name="dod"-->
+                                <!--                                           attrs="{'invisible':[('deceased','=',False)],'required':[('deceased','=',True)]}"/>-->
+                            </group>
+                        </page>
+                        <page invisible="1" string="Medical Questionnaire">
+                            <group col="6" colspan="6">
+                                <field name="receiving_treatment"/>
+                                <newline/>
+                                <field name="receiving_medicine"/>
+                                <field invisible="receiving_medicine != 'YES'" name="medicine_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="medicine_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('receiving_medicine', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_card"/>
+                                <field invisible="have_card != 'YES'" name="card_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="card_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('have_card', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_allergies"/>
+                                <field invisible="have_allergies != 'YES'" name="allergies_yes" placeholder="Note...."/>
+                                <!--                                    <field name="allergies_yes" placeholder="Note...."-->
+                                <!--                                           nolabel="1" attrs="{'invisible':[('have_allergies', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_feaver"/>
+                                <newline/>
+                                <field name="have_ashtham"/>
+                                <newline/>
+                                <field name="have_attacks"/>
+                                <field invisible="have_attacks != 'YES'" name="attacks_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="attacks_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('have_attacks', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_heart"/>
+                                <field invisible="have_heart != 'YES'" name="heart_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="heart_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('have_heart', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_diabetic"/>
+                                <newline/>
+                                <field name="have_arthritis"/>
+                                <newline/>
+                                <field name="have_bleeding"/>
+                                <field invisible="have_bleeding != 'YES'" name="bleeding_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="bleeding_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('have_bleeding', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_infectious"/>
+                                <field invisible="have_infectious != 'YES'" name="infectious_yes" placeholder="Note...."/>
+                                <!--                                    <field name="infectious_yes" placeholder="Note...."-->
+                                <!--                                           nolabel="1" attrs="{'invisible':[('have_infectious', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_rheumatic"/>
+                                <newline/>
+                                <field name="have_liver"/>
+                                <newline/>
+                                <field name="have_serious"/>
+                                <newline/>
+                                <field name="have_reaction"/>
+                                <field invisible="have_reaction != 'YES'" name="reaction_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="reaction_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('have_reaction', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_surgery"/>
+                                <field invisible="have_surgery != 'YES'" name="surgery_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="surgery_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('have_surgery', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_tabacco"/>
+                                <newline/>
+                                <field name="have_gutkha"/>
+                                <newline/>
+                                <field name="have_medicine"/>
+                                <newline/>
+                                <field name="have_pregnant"/>
+                                <field invisible="have_pregnant != 'YES'" name="pregnant_yes" nolabel="1" placeholder="Note...."/>
+                                <!--                                    <field name="pregnant_yes" placeholder="Note...." nolabel="1"-->
+                                <!--                                           attrs="{'invisible':[('have_pregnant', '!=', 'YES')]}"/>-->
+                                <newline/>
+                                <field name="have_breastfeeding"/>
+                                <newline/>
+                                <field name="updated_date"/>
+                            </group>
+                        </page>
+                        <page invisible="critical_info or medical_history" string="Medical Alert">
+                            <!--                            <page string="Medical Alert"-->
+                            <!--                                  attrs="{'invisible':['|',('critical_info', '!=', False),('medical_history','!=',False)]}">-->
+                            <group colspan="4">
+                                <field name="critical_info_fun"/>
+                                <field name="medical_history_fun"/>
+                            </group>
+                        </page>
+                        <page class="medical_alert_class" invisible="not critical_info and not medical_history" string="Medical  Alert">
+                            <!--                            <page string="Medical  Alert" class="medical_alert_class"-->
+                            <!--                                  attrs="{'invisible':[('critical_info', '=', False),('medical_history','=',False)]}">-->
+                            <group colspan="4">
+                                <field name="critical_info"/>
+                                <field name="medical_history"/>
+                            </group>
+                        </page>
+<!--                        <page string="Prescriptions">-->
+<!--                            <field name="prescriptions" nolabel="1" string="Prescriptions History">-->
+<!--                                <list string="Prescription">-->
+<!--                                    <field name="name"/>-->
+<!--                                    <field name="doctor"/>-->
+<!--                                    <field name="user_id"/>-->
+<!--                                    <field name="prescription_date"/>-->
+<!--                                </list></field>-->
+<!--                        </page>-->
+                        <page string="Appointments">
+                            <field name="apt_id" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="apt_id"/>
+                                    <field name="appointment_sdate"/>
+                                    <field name="clinic"/>
+                                    <field name="doctor"/>
+                                    <field name="waiting_time"/>
+                                    <field name="patient_state"/>
+                                    <field name="state"/>
+                                </list></field>
+                        </page>
+                        <page invisible="1" string="Chart">
+                            <button name="open_chart" string="Open Chart" type="object"/>
+                        </page>
+                        <page string="Treatments">
+                            <field name="treatment_ids"  nolabel="1">
+                                <list>
+                                    <field name="treatment_no" optional="show"/>
+                                    <field name="state" optional="show"/>
+                                    <field name="doctor" optional="show"/>
+<!--                                    <field name="amount" optional="show"/>-->
+                                    <field name="appt_id" optional="show"/>
+                                    <field name="service" optional="show"/>
+                                    <field name="treatment_area" optional="show"/>
+                                    <field name="date" optional="show"/>
+                                    <field name="remarks" optional="show"/>
+                                    <field name="treatment_line_ids" optional="show"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Images">
+                            <button name="get_img" string="View Images" type="object"/>
+                            <field name="attachment_ids"><list>
+                                    <field name="name"/>
+                                    <field name="res_model"/>
+                                    <field name="res_field"/>
+                                    <field name="res_id"/>
+                                    <field name="type"/>
+                                    <field name="create_uid"/>
+                                    <field name="create_date"/>
+                                </list></field>
+                            <!-- <field name = "datas"/> -->
+                        </page>
+<!--                        <page string="Patient Complaints">-->
+<!--                            <field context="{'search_default_patient_id': id,'default_patient_id': id}" name="patient_complaint_ids" nolabel="1" string="Complaints">-->
+<!--                                <list string="records">-->
+<!--                                    <field name="complaint_subject"/>-->
+<!--                                    <field name="complaint_date"/>-->
+<!--                                    <field name="complaint"/>-->
+<!--                                    <field name="action_ta"/>-->
+<!--                                    <field invisible="1" name="patient_id"/>-->
+<!--                                </list>-->
+<!--                                <form string="Records">-->
+<!--                                    <group>-->
+<!--                                        <field name="complaint_subject"/>-->
+<!--                                        <field name="complaint_date"/>-->
+<!--                                        <field name="complaint"/>-->
+<!--                                        <field name="action_ta"/>-->
+<!--                                        <field invisible="1" name="patient_id"/>-->
+<!--                                    </group>-->
+<!--                                </form></field>-->
+<!--                        </page>-->
+                        <page string="Block Reason">
+                            <group>
+                                <field name="block_reason"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form></field>
+    </record>
+
+    <record id="medical_patient_list" model="ir.ui.view">
+        <field name="name">Patient List</field>
+        <field name="model">medical.patient</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list string="Patient Information">
+                <field name="partner_id"/>
+                <!-- <field name="lastname"/> -->
+                <field name="patient_id"/>
+                <field name="sex"/>
+                <field name="dob"/>
+                <field name="deceased"/>
+            </list></field>
+    </record>
+    <record id="medical_patient_action_list" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">medical.patient</field>
+        <!--<field name="view_type">form</field>-->
+        <field name="view_id" ref="medical_patient_list"/>
+    </record>
+
+<!--    <menuitem id="menu_patient_root" action="medical_patient_action_list"/>-->
+</odoo>

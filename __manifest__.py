@@ -39,6 +39,7 @@ Features:
         'security/ekram_medical_record_rules.xml',
         'data/ekram_medical_sequence.xml',
         'data/ekram_medical_product_category.xml',
+        # VIEWS
         'views/res_partner_views.xml',
         'views/medical_appointment_views.xml',
         'views/medical_consultation_views.xml',
@@ -47,6 +48,7 @@ Features:
         'views/medical_lab_result_views.xml',
         'views/medical_dashboard_views.xml',
         'views/medical_dashboard_actions.xml',
+        # 'views/medical_admin_dashboard_action.xml',
         'reports/medical_lab_report.xml',
         'reports/medical_lab_report_template.xml',
         'views/ekram_medical_menus.xml',
@@ -56,16 +58,22 @@ Features:
     ],
     'assets': {
         'web.assets_backend': [
+            # ADMIN DASHBOARD 
+            'ekram_medical/static/src/xml/admin_dashboard.xml',
+            'ekram_medical/static/src/js/admin_dashboard.js',
+            # CSS
             # 'ekram_medical/static/src/css/ekram_medical.css',
-            # 'ekram_medical/static/src/js/medical_dashboard.js',
-            # 'ekram_medical/static/src/xml/medical_dashboard.xml',
             'ekram_medical/static/src/css/ekram_dashboard.css',
+            # XML
+            # 'ekram_medical/static/src/xml/medical_dashboard.xml',
             'ekram_medical/static/src/xml/reception_dashboard.xml',
-            # 'ekram_medical/static/src/xml/doctor_dashboard.xml',
-            # 'ekram_medical/static/src/xml/lab_dashboard.xml',
+            'ekram_medical/static/src/xml/doctor_dashboard.xml',
+            'ekram_medical/static/src/xml/lab_dashboard.xml',
+            # JS 
+            # 'ekram_medical/static/src/js/medical_dashboard.js',
             'ekram_medical/static/src/js/reception_dashboard.js',
-            # 'ekram_medical/static/src/js/doctor_dashboard.js',
-            # 'ekram_medical/static/src/js/lab_dashboard.js',
+            'ekram_medical/static/src/js/doctor_dashboard.js',
+            'ekram_medical/static/src/js/lab_dashboard.js',
         ],
     },
     'installable': True,

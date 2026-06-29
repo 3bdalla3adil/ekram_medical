@@ -1,7 +1,9 @@
 /** @odoo-module **/
-import { Component, useState, onWillStart } from "@odoo/owl";
+// import { Component, useState, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { rpc } from "@web/core/network/rpc";
+import { Component, onMounted, useState, useRef, onWillStart  } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 
 class DoctorDashboard extends Component {

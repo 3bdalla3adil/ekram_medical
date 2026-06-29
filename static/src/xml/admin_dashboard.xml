@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ekram_medical.AdminDashboard">
+    <div class="ekram_dashboard admin_dashboard">
+        <div class="card shadow-sm">
+            <div class="card-body" style="max-height:85vh; overflow-y:auto;">
+        <t t-if="state.loading">
+            <div class="ekram_loading">
+                <div class="spinner-border text-primary" role="status"/>
+                <p class="mt-2 text-muted">Loading admin dashboard...</p>
+            </div>
+        </t>
+
+        <t t-else="">
+
+            <!-- HEADER -->
+            <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                <div>
+                    <h3 class="mb-0 text-primary">
+                        <i class="fa fa-tachometer mr-2"/> Admin Dashboard
+                    </h3>
+                    <small class="text-muted">Ekram Medical Center — Financial &amp; Operations Overview</small><br/>
+                    <span class="badge badge-info mt-2">
+                        Welcome, <t t-esc="env.session_info"/>
+                    </span>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary btn-sm" t-on-click="loadData">
+                        <i class="fa fa-refresh"/> Refresh
+                    </button>
+                    <a href="/web/session/logout" class="btn btn-danger btn-sm">
+                        <i class="fa fa-sign-out"/> Logout
+                    </a>
+                </div>
+            </div>
+
+            
+
+            <!-- FINANCIAL KPIs -->
+            <div class="admin_section_label">Financial Overview — This Month</div>
+            <div class="ekram_kpi_row admin_kpi_row">
+
+                <div class="ekram_kpi_card primary admin_kpi" t-on-click="openAllInvoices">
+                    <div class="kpi_icon"><i class="fa fa-money"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number admin_kpi_number">
+                            <t t-esc="formatCurrency(state.kpis.revenue_this_month)"/>
+                        </div>
+                        <div class="kpi_label">Revenue This Month</div>
+                    </div>
+                    <div class="kpi_total">Today: <t t-esc="formatCurrency(state.kpis.revenue_today)"/></div>
+                </div>
+
+                <div class="ekram_kpi_card success admin_kpi" t-on-click="openAllInvoices">
+                    <div class="kpi_icon"><i class="fa fa-check-circle"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number admin_kpi_number">
+                            <t t-esc="formatCurrency(state.kpis.revenue_paid_month)"/>
+                        </div>
+                        <div class="kpi_label">Collected This Month</div>
+                    </div>
+                    <div class="kpi_total">
+                        Rate: <span t-attf-class="admin_rate_badge #{collectionRate >= 80 ? 'good' : collectionRate >= 50 ? 'warn' : 'bad'}">
+                            <t t-esc="collectionRate"/>%
+                        </span>
+                    </div>
+                </div>
+
+                <div class="ekram_kpi_card danger admin_kpi" t-on-click="openOutstandingAll">
+                    <div class="kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number admin_kpi_number">
+                            <t t-esc="formatCurrency(state.kpis.outstanding_amount)"/>
+                        </div>
+                        <div class="kpi_label">Outstanding Balance</div>
+                    </div>
+                    <div class="kpi_total"><t t-esc="state.kpis.outstanding_count"/> unpaid invoices</div>
+                </div>
+
+                <div class="ekram_kpi_card info admin_kpi">
+                    <div class="kpi_icon"><i class="fa fa-university"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number admin_kpi_number">
+                            <t t-esc="formatCurrency(cashTotal + bankTotal)"/>
+                        </div>
+                        <div class="kpi_label">Cash + Bank (Month)</div>
+                    </div>
+                    <div class="kpi_total">
+                        Cash: <t t-esc="formatCurrency(cashTotal)"/> | Bank: <t t-esc="formatCurrency(bankTotal)"/>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- OPERATIONAL KPIs -->
+            <div class="admin_section_label">Operations — This Month</div>
+            <div class="ekram_kpi_row admin_kpi_row ops_kpi_row">
+
+                <div class="ekram_kpi_card teal admin_kpi" t-on-click="openPatients">
+                    <div class="kpi_icon"><i class="fa fa-users"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number admin_kpi_number"><t t-esc="state.kpis.total_patients || 0"/></div>
+                        <div class="kpi_label">Total Patients</div>
+                    </div>
+                    <div class="kpi_total">New this month: <t t-esc="state.kpis.patients_month || 0"/></div>
+                </div>
+
+                <div class="ekram_kpi_card purple admin_kpi" t-on-click="openAppointments">
+                    <div class="kpi_icon"><i class="fa fa-calendar"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number admin_kpi_number"><t t-esc="state.kpis.appointments_month || 0"/></div>
+                        <div class="kpi_label">Appointments (Month)</div>
+                    </div>
+                    <div class="kpi_total">Today: <t t-esc="state.kpis.appointments_today || 0"/></div>
+                </div>
+
+                <div class="ekram_kpi_card orange admin_kpi" t-on-click="openLabRequests">
+                    <div class="kpi_icon"><i class="fa fa-flask"/></div>
+                    <div class="kpi_body">
+                        <div class="kpi_number admin_kpi_number"><t t-esc="state.kpis.lab_requests_month || 0"/></div>
+                        <div class="kpi_label">Lab Requests (Month)</div>
+                    </div>
+                    <div class="kpi_total">Today: <t t-esc="state.kpis.lab_requests_today || 0"/></div>
+                </div>
+
+                <!-- Collection Rate Gauge -->
+                <div class="ekram_kpi_card white admin_kpi">
+                    <div class="kpi_label mb-2" style="font-weight:700;color:#343a40;">Collection Rate</div>
+                    <div class="admin_gauge_wrap">
+                        <div class="admin_gauge_bar">
+                            <div class="admin_gauge_fill"
+                                 t-attf-style="width:#{collectionRate}%; background:#{collectionRate >= 80 ? '#198754' : collectionRate >= 50 ? '#ffc107' : '#dc3545'}"/>
+                        </div>
+                        <div class="admin_gauge_label"><t t-esc="collectionRate"/>%</div>
+                    </div>
+                    <div class="kpi_total mt-2">
+                        <t t-esc="formatCurrency(state.kpis.revenue_paid_month)"/> /
+                        <t t-esc="formatCurrency(state.kpis.revenue_this_month)"/>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CHARTS ROW -->
+            <div class="admin_charts_row">
+
+                <div class="ekram_section_card admin_chart_card large">
+                    <div class="section_header">
+                        <h5><i class="fa fa-bar-chart mr-2"/>Revenue — Last 6 Months</h5>
+                    </div>
+                    <div class="admin_chart_body">
+                        <canvas t-ref="revenueChart" class="admin_canvas"/>
+                    </div>
+                </div>
+
+                <div class="ekram_section_card admin_chart_card small">
+                    <div class="section_header">
+                        <h5><i class="fa fa-pie-chart mr-2"/>Revenue by Department</h5>
+                    </div>
+                    <div class="admin_chart_body">
+                        <t t-if="state.dept_chart.length === 0">
+                            <div class="ekram_empty_state">
+                                <i class="fa fa-pie-chart fa-2x text-muted"/>
+                                <p class="text-muted mt-1">No department data yet.</p>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <canvas t-ref="deptChart" class="admin_canvas"/>
+                        </t>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CASH / BANK JOURNALS -->
+            <div class="admin_journals_row">
+
+                <div class="ekram_section_card">
+                    <div class="section_header">
+                        <h5><i class="fa fa-money mr-2 text-success"/>Cash Journals</h5>
+                        <span class="admin_journal_total text-success"><t t-esc="formatCurrency(cashTotal)"/></span>
+                    </div>
+                    <t t-if="state.cash_data.length === 0">
+                        <div class="ekram_empty_state py-3">
+                            <p class="text-muted small">No cash journal activity this month.</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <table class="table table-sm ekram_table mb-0">
+                            <thead><tr><th>Journal</th><th class="text-right">In</th><th class="text-right">Out</th><th class="text-right">Net</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.cash_data" t-as="j" t-key="j.id">
+                                    <tr>
+                                        <td><strong><t t-esc="j.name"/></strong></td>
+                                        <td class="text-right text-success"><t t-esc="formatCurrency(j.inbound)"/></td>
+                                        <td class="text-right text-danger"><t t-esc="formatCurrency(j.outbound)"/></td>
+                                        <td class="text-right">
+                                            <strong t-attf-class="#{j.net >= 0 ? 'text-success' : 'text-danger'}">
+                                                <t t-esc="formatCurrency(j.net)"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+
+                <div class="ekram_section_card">
+                    <div class="section_header">
+                        <h5><i class="fa fa-university mr-2 text-primary"/>Bank Journals</h5>
+                        <span class="admin_journal_total text-primary"><t t-esc="formatCurrency(bankTotal)"/></span>
+                    </div>
+                    <t t-if="state.bank_data.length === 0">
+                        <div class="ekram_empty_state py-3">
+                            <p class="text-muted small">No bank journal activity this month.</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <table class="table table-sm ekram_table mb-0">
+                            <thead><tr><th>Journal</th><th class="text-right">In</th><th class="text-right">Out</th><th class="text-right">Net</th></tr></thead>
+                            <tbody>
+                                <t t-foreach="state.bank_data" t-as="j" t-key="j.id">
+                                    <tr>
+                                        <td><strong><t t-esc="j.name"/></strong></td>
+                                        <td class="text-right text-success"><t t-esc="formatCurrency(j.inbound)"/></td>
+                                        <td class="text-right text-danger"><t t-esc="formatCurrency(j.outbound)"/></td>
+                                        <td class="text-right">
+                                            <strong t-attf-class="#{j.net >= 0 ? 'text-success' : 'text-danger'}">
+                                                <t t-esc="formatCurrency(j.net)"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+
+            </div>
+
+            <!-- TABBED INVOICE TABLES -->
+            <div class="ekram_section_card">
+                <div class="section_header">
+                    <div class="admin_tabs">
+                        <button t-attf-class="admin_tab #{state.active_tab === 'invoices' ? 'active' : ''}"
+                                t-on-click="() => setTab('invoices')">
+                            <i class="fa fa-file-text-o mr-1"/>Recent Invoices
+                        </button>
+                        <button t-attf-class="admin_tab #{state.active_tab === 'outstanding' ? 'active' : ''}"
+                                t-on-click="() => setTab('outstanding')">
+                            <i class="fa fa-exclamation-circle mr-1"/>Outstanding
+                            <t t-if="state.kpis.outstanding_count">
+                                <span class="badge badge-danger ml-1"><t t-esc="state.kpis.outstanding_count"/></span>
+                            </t>
+                        </button>
+                    </div>
+                    <button class="btn btn-sm btn-outline-primary" t-on-click="openAllInvoices">View All</button>
+                </div>
+
+                <!-- Recent Invoices -->
+                <t t-if="state.active_tab === 'invoices'">
+                    <t t-if="state.invoice_summary.length === 0">
+                        <div class="ekram_empty_state"><i class="fa fa-file-o fa-2x text-muted"/><p class="text-muted mt-1">No invoices found.</p></div>
+                    </t>
+                    <t t-else="">
+                        <div class="table-responsive">
+                            <table class="table table-hover ekram_table mb-0">
+                                <thead>
+                                    <tr><th>Invoice</th><th>Patient</th><th>Date</th><th class="text-right">Total</th><th class="text-right">Due</th><th>Status</th><th></th></tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.invoice_summary" t-as="inv" t-key="inv.id">
+                                        <tr>
+                                            <td><code><t t-esc="inv.name"/></code></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="patient_avatar patient_avatar_sm mr-2"><t t-esc="inv.partner[0]"/></div>
+                                                    <t t-esc="inv.partner"/>
+                                                </div>
+                                            </td>
+                                            <td><t t-esc="inv.date"/></td>
+                                            <td class="text-right"><strong><t t-esc="formatCurrency(inv.amount_total)"/></strong></td>
+                                            <td class="text-right">
+                                                <t t-if="inv.amount_due > 0">
+                                                    <span class="text-danger"><t t-esc="formatCurrency(inv.amount_due)"/></span>
+                                                </t>
+                                                <t t-else=""><span class="text-success">—</span></t>
+                                            </td>
+                                            <td>
+                                                <span t-attf-class="#{getPaymentBadgeClass(inv.payment_state)}">
+                                                    <t t-esc="inv.payment_label"/>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-xs btn-outline-primary" t-on-click="() => openInvoice(inv.id)">
+                                                    <i class="fa fa-eye"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+
+                <!-- Outstanding -->
+                <t t-if="state.active_tab === 'outstanding'">
+                    <t t-if="state.outstanding_list.length === 0">
+                        <div class="ekram_empty_state">
+                            <i class="fa fa-check-circle fa-3x text-success"/>
+                            <p class="text-success mt-2 font-weight-bold">All invoices are paid!</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="table-responsive">
+                            <table class="table table-hover ekram_table mb-0">
+                                <thead>
+                                    <tr><th>Invoice</th><th>Patient</th><th>Date</th><th class="text-right">Total</th><th class="text-right">Due</th><th>Overdue</th><th></th></tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="state.outstanding_list" t-as="inv" t-key="inv.id">
+                                        <tr t-attf-class="#{inv.days_overdue > 30 ? 'table-danger' : inv.days_overdue > 7 ? 'table-warning' : ''}">
+                                            <td><code><t t-esc="inv.name"/></code></td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="patient_avatar patient_avatar_sm mr-2"><t t-esc="inv.partner[0]"/></div>
+                                                    <t t-esc="inv.partner"/>
+                                                </div>
+                                            </td>
+                                            <td><t t-esc="inv.date"/></td>
+                                            <td class="text-right"><t t-esc="formatCurrency(inv.amount_total)"/></td>
+                                            <td class="text-right"><strong class="text-danger"><t t-esc="formatCurrency(inv.amount_due)"/></strong></td>
+                                            <td>
+                                                <span t-attf-class="#{getOverdueBadgeClass(inv.days_overdue)}">
+                                                    <t t-esc="inv.days_overdue"/> days
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-xs btn-outline-danger" t-on-click="() => openInvoice(inv.id)">
+                                                    <i class="fa fa-eye"/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,3 +1,4 @@
+/** @odoo-module **/
 import { registry } from "@web/core/registry";
 import { Component, useState, onWillStart } from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
@@ -81,4 +82,4 @@ export class MedicalDashboard extends Component {
 }
 
 // Map JavaScript client class to backend tag name
-registry.category("actions").add("ekram_medical.medical_dashboard", MedicalDashboard);
+registry.category("actions").add("medical_dashboard_client_action", MedicalDashboard);

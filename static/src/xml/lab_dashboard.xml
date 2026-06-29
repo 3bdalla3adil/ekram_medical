@@ -76,7 +76,7 @@
                     </t>
                     <t t-else="">
                         <div class="lab_request_list">
-                            <t t-foreach="state.pending_requests" t-as="req">
+                            <t t-foreach="state.pending_requests" t-as="req" t-key="req.id">
                                 <div class="lab_request_item" t-on-click="() => openLabRequest(req.id)">
                                     <div class="lab_request_priority">
                                         <t t-if="req.priority === '2'"><span class="priority_dot critical"/></t>
@@ -125,7 +125,7 @@
                     </t>
                     <t t-else="">
                         <div class="result_entry_list">
-                            <t t-foreach="state.pending_results" t-as="res">
+                            <t t-foreach="state.pending_results" t-as="res" t-key="res.id">
                                 <div class="result_entry_item" t-on-click="() => openLabResult(res.id)">
                                     <div class="result_entry_icon"><i class="fa fa-flask text-info"/></div>
                                     <div class="result_entry_info">

@@ -41,11 +41,7 @@
                             <field name="consultation_id" readonly="1"/>
                         </group>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids"/>
-                        <field name="activity_ids"/>
-                        <field name="message_ids"/>
-                    </div>
+                    <chatter/>
                 </form></field>
         </record>
         <!-- ── List View ───────────────────────────────────────────────── -->
@@ -239,14 +235,20 @@
     <!--  -->
 
     <!-- Dashboard Sub-Menu -->
-    <!-- <menuitem id="menu_medical_dashboard" 
+    <menuitem id="menu_medical_dashboard" 
+              name="M Dashboard" 
+              parent="menu_ekram_medical_root" 
+              action="ekram_medical.action_reception_dashboard_owl" 
+              sequence="2"/>
+    <!-- <menuitem id="menu_medical_reception_dashboard" 
               name="Dashboard" 
               parent="menu_ekram_medical_root" 
-              action="action_medical_dashboard" 
-              sequence="1"/> -->
+              action="ekram_medical.action_medical_dashboard" 
+              sequence="1"/>  -->
+              <!--  -->
 
     <!-- Keep your existing Appointment menu but put it under the same root -->
-    <!-- <record id="action_medical_appointment" model="ir.actions.act_window">
+    <record id="action_medical_appointment" model="ir.actions.act_window">
         <field name="name">Appointments</field>
         <field name="res_model">medical.appointment</field>
         <field name="view_mode">list,form,kanban</field>
@@ -256,6 +258,6 @@
               name="Appointments" 
               parent="menu_ekram_medical_root" 
               action="action_medical_appointment" 
-              sequence="2"/> -->
+              sequence="2"/>
 
 </odoo>

@@ -6,7 +6,7 @@ from datetime import date, datetime
 
 class MedicalDashboardController(http.Controller):
 
-    @http.route('/ekram_medical/reception_data', type='json', auth='user')
+    @http.route('/ekram_medical/reception_data', type='jsonrpc', auth='user')
     def reception_dashboard_data(self):
         today_start = datetime.combine(date.today(), datetime.min.time())
         today_end   = datetime.combine(date.today(), datetime.max.time())
@@ -70,7 +70,7 @@ class MedicalDashboardController(http.Controller):
             'appointments': apt_list,
         }
 
-    @http.route('/ekram_medical/doctor_data', type='json', auth='user')
+    @http.route('/ekram_medical/doctor_data', type='jsonrpc', auth='user')
     def doctor_dashboard_data(self):
         today_start = datetime.combine(date.today(), datetime.min.time())
         today_end   = datetime.combine(date.today(), datetime.max.time())
@@ -155,7 +155,7 @@ class MedicalDashboardController(http.Controller):
             'pending_consultations_list': pending_cons,
         }
 
-    @http.route('/ekram_medical/lab_data', type='json', auth='user')
+    @http.route('/ekram_medical/lab_data', type='jsonrpc', auth='user')
     def lab_dashboard_data(self):
         today_start = datetime.combine(date.today(), datetime.min.time())
         today_end   = datetime.combine(date.today(), datetime.max.time())

@@ -8,6 +8,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     # ── Medical Identity ──────────────────────────────────────────────────────
+    # is_person = fields.Boolean('Person', help="Check if the partner is a person.")
     is_patient = fields.Boolean(string='Is Patient', default=False, index=True)
     medical_number = fields.Char(
         string='Medical Number',

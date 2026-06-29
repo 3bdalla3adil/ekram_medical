@@ -1,138 +1,147 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-<t t-name="ekram_medical.ReceptionDashboard">
-    <div class="ekram_dashboard reception_dashboard">
-        <t t-if="state.loading">
-            <div class="ekram_loading">
-                <div class="spinner-border text-primary" role="status"/>
-                <p class="mt-2 text-muted">Loading dashboard...</p>
-            </div>
-        </t>
-        <t t-else="">
-            <!-- Header -->
-            <div class="ekram_dash_header">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <h3 class="mb-0"><i class="fa fa-hospital-o mr-2 text-primary"/>Reception Dashboard</h3>
-                        <small class="text-muted">Ekram Medical Center</small>
-                    </div>
-                    <button class="btn btn-sm btn-outline-secondary" t-on-click="loadData">
-                        <i class="fa fa-refresh"/> Refresh
-                    </button>
-                </div>
-            </div>
-            <!-- Quick Actions -->
-            <div class="ekram_quick_actions">
-                <h6 class="section-title">Quick Actions</h6>
-                <div class="quick_action_grid">
-                    <button class="quick_action_btn primary" t-on-click="openNewPatient">
-                        <div class="quick_action_icon"><i class="fa fa-user-plus"/></div>
-                        <div class="quick_action_label">New Patient</div>
-                    </button>
-                    <button class="quick_action_btn success" t-on-click="openNewAppointment">
-                        <div class="quick_action_icon"><i class="fa fa-calendar-plus-o"/></div>
-                        <div class="quick_action_label">Book Appointment</div>
-                    </button>
-                    <button class="quick_action_btn warning" t-on-click="openNewInvoice">
-                        <div class="quick_action_icon"><i class="fa fa-file-text-o"/></div>
-                        <div class="quick_action_label">New Invoice</div>
-                    </button>
-                    <button class="quick_action_btn danger" t-on-click="openOutstanding">
-                        <div class="quick_action_icon"><i class="fa fa-exclamation-circle"/></div>
-                        <div class="quick_action_label">Outstanding</div>
-                    </button>
-                </div>
-            </div>
-            <!-- KPI Cards -->
-            <div class="ekram_kpi_row">
-                <div class="ekram_kpi_card primary" t-on-click="openPatientList">
-                    <div class="kpi_icon"><i class="fa fa-users"/></div>
-                    <div class="kpi_body">
-                        <div class="kpi_number"><t t-esc="state.kpis.patients_today || 0"/></div>
-                        <div class="kpi_label">Patients Today</div>
-                    </div>
-                    <div class="kpi_total">Total: <t t-esc="state.kpis.total_patients || 0"/></div>
-                </div>
-                <div class="ekram_kpi_card success" t-on-click="openAppointmentList">
-                    <div class="kpi_icon"><i class="fa fa-calendar-check-o"/></div>
-                    <div class="kpi_body">
-                        <div class="kpi_number"><t t-esc="state.kpis.appointments_today || 0"/></div>
-                        <div class="kpi_label">Appointments Today</div>
-                    </div>
-                    <div class="kpi_total">Pending: <t t-esc="state.kpis.pending_appointments || 0"/></div>
-                </div>
-                <div class="ekram_kpi_card warning" t-on-click="openNewInvoice">
-                    <div class="kpi_icon"><i class="fa fa-file-text"/></div>
-                    <div class="kpi_body">
-                        <div class="kpi_number"><t t-esc="state.kpis.invoices_today || 0"/></div>
-                        <div class="kpi_label">Invoices Today</div>
-                    </div>
-                    <div class="kpi_total">&#160;</div>
-                </div>
-                <div class="ekram_kpi_card danger" t-on-click="openOutstanding">
-                    <div class="kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
-                    <div class="kpi_body">
-                        <div class="kpi_number"><t t-esc="state.kpis.outstanding || 0"/></div>
-                        <div class="kpi_label">Outstanding</div>
-                    </div>
-                    <div class="kpi_total">&#160;</div>
-                </div>
-            </div>
-            <!-- Today's Appointments -->
-            <div class="ekram_section_card">
-                <div class="section_header">
-                    <h5><i class="fa fa-calendar mr-2"/>Today's Appointments</h5>
-                    <button class="btn btn-sm btn-primary" t-on-click="openNewAppointment">
-                        <i class="fa fa-plus"/> New
-                    </button>
-                </div>
-                <t t-if="state.appointments.length === 0">
-                    <div class="ekram_empty_state">
-                        <i class="fa fa-calendar-o fa-3x text-muted"/>
-                        <p class="text-muted mt-2">No appointments scheduled for today.</p>
-                        <button class="btn btn-primary btn-sm" t-on-click="openNewAppointment">Book First Appointment</button>
+    <t t-name="ekram_medical.ReceptionDashboard">
+        <div class="card shadow-sm">
+            <div class="card-body" style="max-height:85vh; overflow-y:auto;">
+                <t t-if="state.loading">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status"/>
+                        <p class="mt-2 text-muted">Loading dashboard...</p>
                     </div>
                 </t>
                 <t t-else="">
-                    <div class="table-responsive">
-                        <table class="table table-hover ekram_table">
-                            <thead>
-                                <tr>
-                                    <th>Time</th><th>Patient</th><th>Doctor</th>
-                                    <th>Type</th><th>Status</th><th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <t t-foreach="state.appointments" t-as="apt">
-                                    <tr>
-                                        <td><strong><t t-esc="apt.time"/></strong></td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="patient_avatar mr-2"><t t-esc="apt.patient[0]"/></div>
-                                                <t t-esc="apt.patient"/>
-                                            </div>
-                                        </td>
-                                        <td><t t-esc="apt.doctor"/></td>
-                                        <td><span class="badge badge-light"><t t-esc="apt.type"/></span></td>
-                                        <td>
-                                            <span t-attf-class="#{getStateBadgeClass(apt.state)}">
-                                                <t t-esc="apt.state_label"/>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-xs btn-outline-primary"
-                                                    t-on-click="() => openAppointment(apt.id)">
-                                                <i class="fa fa-eye"/> Open
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </t>
-                            </tbody>
-                        </table>
+                    <!-- Header -->
+                    <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
+                        <div class="mb-2">
+                            <h3 class="mb-0 text-primary">
+                                <i class="fa fa-hospital-o mr-2"/> Reception Dashboard
+                            </h3>
+                            <small class="text-muted">Ekram Medical Center</small>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-secondary btn-sm" t-on-click="loadData">
+                                <i class="fa fa-refresh"/> Refresh
+                            </button>
+                            <a href="/web/session/logout" class="btn btn-danger btn-sm">
+                                <i class="fa fa-sign-out"/> Logout
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <h6 class="text-uppercase text-muted mb-3">Quick Actions</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <button class="btn btn-primary flex-fill" t-on-click="openNewPatient">
+                            <i class="fa fa-user-plus mr-1"/> New Patient
+                        </button>
+                        <button class="btn btn-success flex-fill" t-on-click="openNewAppointment">
+                            <i class="fa fa-calendar-plus-o mr-1"/> Book Appointment
+                        </button>
+                        <button class="btn btn-warning flex-fill" t-on-click="openNewInvoice">
+                            <i class="fa fa-file-text-o mr-1"/> New Invoice
+                        </button>
+                        <button class="btn btn-danger flex-fill" t-on-click="openOutstanding">
+                            <i class="fa fa-exclamation-circle mr-1"/> Outstanding
+                        </button>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="row mb-4">
+                        <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                            <div class="card text-center border-primary h-100">
+                                <div class="card-body">
+                                    <i class="fa fa-users fa-2x text-primary mb-2"/>
+                                    <h4><t t-esc="state.kpis.patients_today || 0"/></h4>
+                                    <p class="text-muted">Patients Today</p>
+                                    <small>Total: <t t-esc="state.kpis.total_patients || 0"/></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                            <div class="card text-center border-success h-100">
+                                <div class="card-body">
+                                    <i class="fa fa-calendar-check-o fa-2x text-success mb-2"/>
+                                    <h4><t t-esc="state.kpis.appointments_today || 0"/></h4>
+                                    <p class="text-muted">Appointments Today</p>
+                                    <small>Pending: <t t-esc="state.kpis.pending_appointments || 0"/></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                            <div class="card text-center border-warning h-100">
+                                <div class="card-body">
+                                    <i class="fa fa-file-text fa-2x text-warning mb-2"/>
+                                    <h4><t t-esc="state.kpis.invoices_today || 0"/></h4>
+                                    <p class="text-muted">Invoices Today</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-3 mb-3">
+                            <div class="card text-center border-danger h-100">
+                                <div class="card-body">
+                                    <i class="fa fa-exclamation-triangle fa-2x text-danger mb-2"/>
+                                    <h4><t t-esc="state.kpis.outstanding || 0"/></h4>
+                                    <p class="text-muted">Outstanding</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Today's Appointments -->
+                    <div class="card">
+                        <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fa fa-calendar mr-2"/> Today's Appointments</h5>
+                            <button class="btn btn-primary btn-sm mt-2 mt-sm-0" t-on-click="openNewAppointment">
+                                <i class="fa fa-plus"/> New
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <t t-if="state.appointments.length === 0">
+                                <div class="text-center py-5">
+                                    <i class="fa fa-calendar-o fa-3x text-muted"/>
+                                    <p class="text-muted mt-2">No appointments scheduled for today.</p>
+                                    <button class="btn btn-primary btn-sm" t-on-click="openNewAppointment">
+                                        Book First Appointment
+                                    </button>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Time</th><th>Patient</th><th>Doctor</th>
+                                                <th>Type</th><th>Status</th><th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="state.appointments" t-as="apt" t-key="apt.id">
+                                                <tr>
+                                                    <td><strong><t t-esc="apt.time"/></strong></td>
+                                                    <td><t t-esc="apt.patient"/></td>
+                                                    <td><t t-esc="apt.doctor"/></td>
+                                                    <td><span class="badge badge-light"><t t-esc="apt.type"/></span></td>
+                                                    <td>
+                                                        <span t-attf-class="#{getStateBadgeClass(apt.state)}">
+                                                            <t t-esc="apt.state_label"/>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-outline-primary btn-sm"
+                                                                t-on-click="() => openAppointment(apt.id)">
+                                                            <i class="fa fa-eye"/> Open
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                        </div>
                     </div>
                 </t>
             </div>
-        </t>
-    </div>
-</t>
+        </div>    
+    </t>
 </templates>

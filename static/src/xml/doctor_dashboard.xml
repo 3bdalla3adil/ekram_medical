@@ -70,7 +70,7 @@
                     </t>
                     <t t-else="">
                         <div class="patient_queue">
-                            <t t-foreach="state.today_patients" t-as="p">
+                            <t t-foreach="state.today_patients" t-as="p" t-key="p.id">
                                 <div class="patient_queue_item">
                                     <div class="patient_queue_avatar"><t t-esc="p.patient[0]"/></div>
                                     <div class="patient_queue_info">
@@ -116,7 +116,7 @@
                     </t>
                     <t t-else="">
                         <div class="consultation_list">
-                            <t t-foreach="state.pending_consultations" t-as="c">
+                            <t t-foreach="state.pending_consultations" t-as="c" t-key="c.id">
                                 <div class="consultation_item" t-on-click="() => openConsultation(c.id)">
                                     <div class="consultation_item_left">
                                         <div class="consultation_patient"><t t-esc="c.patient"/></div>
