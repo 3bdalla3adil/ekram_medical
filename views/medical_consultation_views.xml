@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <!-- <data> -->
         <record id="view_medical_consultation_form" model="ir.ui.view">
             <field name="name">medical.consultation.form</field>
             <field name="model">medical.consultation</field>
@@ -105,7 +105,7 @@
         </record>
 
     <!-- Consultations Entry Link (Bound to your exact action ID) -->
-    <menuitem id="menu_medical_consultation" name="Consultations" parent="menu_ekram_medical_root" action="action_medical_consultations" sequence="3"/>
+    <!-- <menuitem id="menu_medical_consultation" name="Consultations" parent="ekram_medical.menu_ekram_medical_root" action="action_medical_consultations" active="0" sequence="4"/> -->
 
-    </data>
+    <!-- </data> -->
 </odoo>

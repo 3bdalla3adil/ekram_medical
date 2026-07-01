@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Noupdate="0" allows you to modify prices here and push changes via module upgrade -->
+    <data noupdate="0">
+
+        <!-- ======================================================== -->
+        <!-- 1. CLINIC SERVICES & PROCEDURES PRICING                  -->
+        <!-- ======================================================== -->
+        
+        <record id="product_consultation_fee" model="product.product">
+            <name>General Practitioner Consultation Fee / رسوم كشف الطبيب العام</name>
+            <list_price>10000.00</list_price>
+            <type>service</type>
+            <sale_ok>True</sale_ok>
+            <purchase_ok>False</purchase_ok>
+        </record>
+
+        <record id="product_specialist_fee" model="product.product">
+            <name>Specialist Consultation Fee / رسوم كشف الطبيب الأخصائي</name>
+            <list_price>15000.00</list_price>
+            <type>service</type>
+            <sale_ok>True</sale_ok>
+            <purchase_ok>False</purchase_ok>
+        </record>
+
+        <record id="product_minor_surgery" model="product.product">
+            <name>Minor Operation/Suture Procedure Fee / رسوم العمليات الصغرى والغسيل</name>
+            <list_price>350.00</list_price>
+            <type>service</type>
+            <sale_ok>True</sale_ok>
+            <purchase_ok>False</purchase_ok>
+        </record>
+
+        <record id="product_ecg_procedure" model="product.product">
+            <name>ECG/Electrocardiogram Investigation / تخطيط القلب الكهربائي</name>
+            <list_price>80.00</list_price>
+            <type>service</type>
+            <sale_ok>True</sale_ok>
+            <purchase_ok>False</purchase_ok>
+        </record>
+
+        <record id="product_ultrasound_scan" model="product.product">
+            <name>Abdominal Ultrasound Scan / الأشعة فوق الصوتية للبطن</name>
+            <list_price>200.00</list_price>
+            <type>service</type>
+            <sale_ok>True</sale_ok>
+            <purchase_ok>False</purchase_ok>
+        </record>
+
+
+        <!-- ======================================================== -->
+        <!-- 2. CLINICAL LABORATORY UNITS OF MEASURE (UoM)            -->
+        <!-- ======================================================== -->
+        
+        <record id="uom_g_dl" model="uom.uom">
+            <name>g/dL</name>
+            <category_id ref="uom.product_uom_categ_unit"/>
+            <uom_type>reference</uom_type>
+        </record>
+
+        <record id="uom_cells_ul" model="uom.uom">
+            <name>cells/µL</name>
+            <category_id ref="uom.product_uom_categ_unit"/>
+            <uom_type>reference</uom_type>
+        </record>
+
+        <record id="uom_mg_dl" model="uom.uom">
+            <name>mg/dL</name>
+            <category_id ref="uom.product_uom_categ_unit"/>
+            <uom_type>reference</uom_type>
+        </record>
+
+        <record id="uom_u_l" model="uom.uom">
+            <name>U/L</name>
+            <category_id ref="uom.product_uom_categ_unit"/>
+            <uom_type>reference</uom_type>
+        </record>
+
+        <record id="uom_percentage" model="uom.uom">
+            <name>%</name>
+            <category_id ref="uom.product_uom_categ_unit"/>
+            <uom_type>reference</uom_type>
+        </record>
+
+        <record id="uom_mmol_l" model="uom.uom">
+            <name>mmol/L</name>
+            <category_id ref="uom.product_uom_categ_unit"/>
+            <uom_type>reference</uom_type>
+        </record>
+
+        <record id="uom_ng_ml" model="uom.uom">
+            <name>ng/mL</name>
+            <category_id ref="uom.product_uom_categ_unit"/>
+            <uom_type>reference</uom_type>
+        </record>
+
+
+        <!-- ======================================================== -->
+        <!-- 3. LABORATORY TEST PARAMETERS CATALOG REGISTER           -->
+        <!-- ======================================================== -->
+
+        <!-- PROFILE A: Complete Blood Count (CBC) -->
+        <record id="lab_test_hemoglobin" model="clinic.lab.test.definition">
+            <name>Hemoglobin (Hb) / الهيموجلوبين</name>
+            <uom_id ref="uom_g_dl"/>
+            <normal_range>12.0 - 17.5 g/dL</normal_range>
+        </record>
+
+        <record id="lab_test_wbc" model="clinic.lab.test.definition">
+            <name>White Blood Cells (WBC) / خلايا الدم البيضاء</name>
+            <uom_id ref="uom_cells_ul"/>
+            <normal_range>4,500 - 11,000 cells/µL</normal_range>
+        </record>
+
+        <record id="lab_test_rbc" model="clinic.lab.test.definition">
+            <name>Red Blood Cells Count (RBC) / خلايا الدم الحمراء</name>
+            <uom_id ref="uom_cells_ul"/>
+            <normal_range>4.3 - 5.9 million/µL</normal_range>
+        </record>
+
+        <record id="lab_test_platelets" model="clinic.lab.test.definition">
+            <name>Platelets Count / صفائح الدم</name>
+            <uom_id ref="uom_cells_ul"/>
+            <normal_range>150,000 - 450,000 cells/µL</normal_range>
+        </record>
+
+        <record id="lab_test_hematocrit" model="clinic.lab.test.definition">
+            <name>Hematocrit (PCV) / حجم خلايا الدم المتراصة</name>
+            <uom_id ref="uom_percentage"/>
+            <normal_range>37.0% - 50.0%</normal_range>
+        </record>
+
+        <!-- PROFILE B: Lipid (Cholesterol) Panel -->
+        <record id="lab_test_cholesterol" model="clinic.lab.test.definition">
+            <name>Total Cholesterol / الكوليسترول الكلي</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>Desirable: Less than 200 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_hdl" model="clinic.lab.test.definition">
+            <name>HDL Cholesterol (Good) / الكوليسترول النافع</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>Optimal: Above 40 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_ldl" model="clinic.lab.test.definition">
+            <name>LDL Cholesterol (Bad) / الكوليسترول الضار</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>Optimal: Less than 100 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_triglycerides" model="clinic.lab.test.definition">
+            <name>Triglycerides / الدهون الثلاثية</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>Normal: Less than 150 mg/dL</normal_range>
+        </record>
+
+        <!-- PROFILE C: Renal (Kidney) Function Panel -->
+        <record id="lab_test_creatinine" model="clinic.lab.test.definition">
+            <name>Serum Creatinine / الكرياتينين في الدم</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>0.6 - 1.2 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_blood_urea" model="clinic.lab.test.definition">
+            <name>Blood Urea Nitrogen (BUN) / يوريا الدم</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>7 - 20 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_uric_acid" model="clinic.lab.test.definition">
+            <name>Uric Acid / حمض اليوريك (النقرس)</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>3.5 - 7.2 mg/dL</normal_range>
+        </record>
+
+        <!-- PROFILE D: Liver Function Test (LFT) -->
+        <record id="lab_test_sgpt_alt" model="clinic.lab.test.definition">
+            <name>Alanine Aminotransferase (ALT/SGPT) / إنزيم الكبد الـ ALT</name>
+            <uom_id ref="uom_u_l"/>
+            <normal_range>7 - 56 U/L</normal_range>
+        </record>
+
+        <record id="lab_test_sgot_ast" model="clinic.lab.test.definition">
+            <name>Aspartate Aminotransferase (AST/SGOT) / إنزيم الكبد الـ AST</name>
+            <uom_id ref="uom_u_l"/>
+            <normal_range>10 - 40 U/L</normal_range>
+        </record>
+
+        <record id="lab_test_bilirubin" model="clinic.lab.test.definition">
+            <name>Total Bilirubin / الصفراء الكلية</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>0.2 - 1.2 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_alk_phos" model="clinic.lab.test.definition">
+            <name>Alkaline Phosphatase (ALP) / الفوسفاتاز القلوي</name>
+            <uom_id ref="uom_u_l"/>
+            <normal_range>44 - 147 U/L</normal_range>
+        </record>
+
+        <!-- PROFILE E: Diabetes & Endocrinology -->
+        <record id="lab_test_fbs" model="clinic.lab.test.definition">
+            <name>Fasting Blood Sugar (FBS) / سكر الدم الصائم</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>70 - 100 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_ppbs" model="clinic.lab.test.definition">
+            <name>Post Prandial Blood Sugar (PPBS) / السكر بعد الأكل بساعتين</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>Less than 140 mg/dL</normal_range>
+        </record>
+
+        <record id="lab_test_hba1c" model="clinic.lab.test.definition">
+            <name>HbA1c (Glycated Hemoglobin) / السكر التراكمي</name>
+            <uom_id ref="uom_percentage"/>
+            <normal_range>Normal: Less than 5.7%</normal_range>
+        </record>
+
+        <record id="lab_test_tsh" model="clinic.lab.test.definition">
+            <name>Thyroid Stimulating Hormone (TSH) / هرمون الغدة الدرقية</name>
+            <uom_id ref="uom_u_l"/>
+            <normal_range>0.4 - 4.0 mIU/L</normal_range>
+        </record>
+
+        <record id="lab_test_vitamin_d" model="clinic.lab.test.definition">
+            <name>Vitamin D (25-Hydroxy) / فيتامين د</name>
+            <uom_id ref="uom_ng_ml"/>
+            <normal_range>Deficiency: Below 20 | Sufficiency: 30-100 ng/mL</normal_range>
+        </record>
+
+        <!-- PROFILE F: Electrolytes Balance -->
+        <record id="lab_test_sodium" model="clinic.lab.test.definition">
+            <name>Serum Sodium (Na+) / الصوديوم في الدم</name>
+            <uom_id ref="uom_mmol_l"/>
+            <normal_range>135 - 145 mmol/L</normal_range>
+        </record>
+        <record>
+            <name>Serum Potassium (K+) / البوتاسيوم في الدم</name>
+            <uom_id ref="uom_mmol_l"/>
+            <normal_range>3.5 - 5.2 mmol/L</normal_range>
+        </record>
+        <record>
+            <name>Total Calcium / الكالسيوم الكلي</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>8.8 - 10.2 mg/dL</normal_range>
+        </record>
+        <record>
+            <name>C-Reactive Protein (CRP) / البروتين التفاعلي C</name>
+            <uom_id ref="uom_mg_dl"/>
+            <normal_range>Normal: Less than 0.3 mg/dL</normal_range>
+        </record>
+        <record>
+            <name>Erythrocyte Sedimentation Rate (ESR) / سرعة ترسيب الدم</name>
+            <uom_id ref="uom_percentage"/>
+            <normal_range>Male: 0-15 | Female: 0-20 mm/hr</normal_range>
+        </record>

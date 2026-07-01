@@ -54,18 +54,14 @@
                             </page>
                         </notebook>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids"/>
-                        <field name="activity_ids"/>
-                        <field name="message_ids"/>
-                    </div>
+                    <chatter/>
                 </form></field>
         </record>
         <record id="view_medical_lab_request_list" model="ir.ui.view">
             <field name="name">medical.lab.request.list</field>
             <field name="model">medical.lab.request</field>
             <field name="arch" type="xml">
-                <list decoration-muted="state == 'cancelled'" decoration-success="state == 'completed'" decoration-warning="state == 'processing'" string="Lab Requests">
+                <list decoration-muted="state == 'cancelled'" decoration-info="state == 'draft'" decoration-success="state == 'completed'" decoration-warning="state == 'processing'" string="Lab Requests">
                     <field name="name"/>
                     <field name="patient_id"/>
                     <field name="doctor_id"/>
@@ -84,34 +80,20 @@
                     <field name="patient_id"/>
                     <field name="doctor_id"/>
                     <field name="request_date"/>
-                    <field name="state"/>
-                    <field name="priority"/>
+                    <field name="priority" widget="priority"/>
+                    <field name="result_count" string="Results"/>
                     <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click">
-                                <div class="oe_kanban_content">
-                                    <div class="o_kanban_record_top">
-                                        <strong>
-                                            <field name="patient_id"/>
-                                        </strong>
-                                        <field name="priority" widget="priority"/>
-                                    </div>
-                                    <div class="o_kanban_record_body">
-                                        <div>
-                                            <i class="fa fa-hashtag"/>
-                                            <field name="name"/>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-user-md"/>
-                                            <field name="doctor_id"/>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-clock-o"/>
-                                            <field name="request_date"/>
-                                        </div>
-                                    </div>
+                        <t t-name="card">
+                            <field name="name" class="fw-bold fs-5"/>
+                            <field name="patient_id"/>
+                            <field name="state" />
+                            <footer class="pt-1 mt-0">
+                                <div class="d-flex mt-auto">
+                                    <field name="request_date" class="me-2"/>
+                                    <field name="activity_ids" widget="kanban_activity"/>
                                 </div>
-                            </div>
+                                <field name="doctor_id" widget="many2one_avatar_user" class="ms-auto"/>
+                            </footer>
                         </t>
                     </templates>
                 </kanban></field>

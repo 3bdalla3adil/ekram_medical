@@ -10,7 +10,6 @@ class ReceptionDashboard extends Component {
     static template = "ekram_medical.ReceptionDashboard";
 
     setup() {
-        // this.rpc    = useService("rpc");
         this.orm    = useService("orm");
         this.action = useService("action");
         this.state  = useState({ loading: true, kpis: {}, appointments: [] });
@@ -29,19 +28,6 @@ class ReceptionDashboard extends Component {
             this.state.loading = false;
         }
     }
-
-    // async loadData() {
-    //     this.state.loading = true;
-    //     try {
-    //         const data = await this.rpc("/ekram_medical/reception_data", {});
-    //         this.state.kpis         = data.kpis        || {};
-    //         this.state.appointments = data.appointments || [];
-    //     } catch (e) {
-    //         console.error("Reception dashboard error:", e);
-    //     } finally {
-    //         this.state.loading = false;
-    //     }
-    // }
 
     openNewPatient() {
         this.action.doAction({
@@ -80,6 +66,7 @@ class ReceptionDashboard extends Component {
     }
     openPatientList()      { this.action.doAction("ekram_medical.action_medical_patients"); }
     openAppointmentList()  { this.action.doAction("ekram_medical.action_medical_appointments"); }
+    openAppointmentList()  { this.action.doAction("ekram_medical.action_medical_appointments"); }
     openOutstanding() {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("Outstanding Invoices"),
@@ -87,20 +74,35 @@ class ReceptionDashboard extends Component {
             domain: [["move_type","=","out_invoice"],["payment_state","in",["not_paid","partial"]],["state","=","posted"]],
         });
     }
-    // openAppointment(id) {
-    //     this.action.doAction({
-    //         type: "ir.actions.act_window", res_model: "medical.appointment",
-    //         res_id: id, view_mode: "form", views: [[false, "form"]],
-    //     });
-    // }
     openAppointment(id) {
+        const recordId = id;
         this.action.doAction({
             type: "ir.actions.act_window",
+            name: name ? `${name.toUpperCase()} Appointments` : "All Appointments",
             res_model: "medical.appointment",
-            res_id: id,
-            view_mode: "form",
-            views: [[false, "form"]],
+            domain: [["id","=",recordId],],
+            // res_id: recordId,
+            views: [[false, "list"], [false, "form"], [false, "kanban"]],
+            target: "current",
         });
+    }
+    openLabRequest(id) {
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.request", res_id:id, view_mode:"form", views:[[false,"form"]] });
+    }
+    
+    openLabResult(id) {
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.result", res_id:id, view_mode:"form", views:[[false,"form"]] });
+    }
+    
+    openAllRequests() { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
+    
+    openAllResults()  { this.action.doAction("ekram_medical.action_medical_lab_results"); }
+    
+    openNewRequest() {
+        this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]], target:"new" });
+    }
+    getStateBadgeClass(state) {
+        return "badge " + ({ draft:"badge-info", processing:"badge-warning", completed:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
     }
     getStateBadgeClass(state) {
         return "badge " + ({ draft:"badge-secondary", confirmed:"badge-info", in_progress:"badge-warning", done:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");

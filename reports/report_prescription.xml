@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_prescription_template">
+        <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+        <t t-call="web.external_layout">
+        <div class="page ekram_report">
+
+            <!-- ── Header ──────────────────────────────────────────────────── -->
+            <div class="ekram_report_header">
+                <table width="100%"><tr>
+                    <td width="60%">
+                        <div class="clinic_name">Ekram Medical Center</div>
+                        <div class="clinic_tagline">Comprehensive Healthcare Services</div>
+                        <div style="font-size:8pt;color:#6c757d;margin-top:4px;">
+                            <t t-esc="doc.company_id.street or ''"/>
+                            <t t-if="doc.company_id.phone"> | Tel: <t t-esc="doc.company_id.phone"/></t>
+                        </div>
+                    </td>
+                    <td width="40%" style="text-align:right;vertical-align:top;">
+                        <div class="report_title">PRESCRIPTION</div>
+                        <div class="report_subtitle">
+                            Ref: <t t-esc="doc.name"/><br/>
+                            Date: <t t-esc="doc.consultation_date.strftime('%d %B %Y') if doc.consultation_date else ''"/>
+                        </div>
+                    </td>
+                </tr></table>
+            </div>
+
+            <!-- ── Patient + Doctor Info ───────────────────────────────────── -->
+            <table width="100%" style="margin-bottom:14px;">
+                <tr>
+                    <!-- Patient -->
+                    <td width="48%" style="background:#f8f9fa;border-radius:8px;padding:12px 14px;vertical-align:top;">
+                        <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">Patient</div>
+                        <div style="font-size:13pt;font-weight:800;color:#1a1a2e;">
+                            <t t-esc="doc.patient_id.name"/>
+                        </div>
+                        <div style="font-size:9pt;color:#6c757d;margin-top:3px;">
+                            <t t-if="doc.patient_id.medical_number">
+                                MRN: <strong><t t-esc="doc.patient_id.medical_number"/></strong> |
+                            </t>
+                            <t t-if="doc.patient_id.age">Age: <t t-esc="doc.patient_id.age"/> yrs | </t>
+                            <t t-esc="dict({'male':'Male','female':'Female','other':'Other'}).get(doc.patient_id.gender or '', '')"/>
+                        </div>
+                        <t t-if="doc.patient_id.known_allergies">
+                            <div style="margin-top:6px;background:#fadbd8;border-radius:4px;padding:4px 8px;font-size:8pt;color:#c0392b;font-weight:700;">
+                                ⚠ Allergies: <t t-esc="doc.patient_id.known_allergies"/>
+                            </div>
+                        </t>
+                    </td>
+                    <td width="4%"/>
+                    <!-- Doctor -->
+                    <td width="48%" style="background:#e8f0fe;border-radius:8px;padding:12px 14px;vertical-align:top;">
+                        <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">Prescribing Doctor</div>
+                        <div style="font-size:13pt;font-weight:800;color:#1a73e8;">
+                            <t t-esc="doc.doctor_id.name if doc.doctor_id else 'N/A'"/>
+                        </div>
+                        <div style="font-size:9pt;color:#6c757d;margin-top:3px;">
+                            <t t-esc="doc.doctor_id.job_title if doc.doctor_id else ''"/>
+                        </div>
+                        <div style="font-size:9pt;color:#6c757d;margin-top:3px;">
+                            Date: <t t-esc="doc.consultation_date.strftime('%d/%m/%Y') if doc.consultation_date else 'N/A'"/>
+                            <t t-if="doc.follow_up_date">
+                                | Follow-up: <t t-esc="doc.follow_up_date.strftime('%d/%m/%Y')"/>
+                            </t>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- ── Diagnosis ───────────────────────────────────────────────── -->
+            <t t-if="doc.diagnosis">
+                <div class="ekram_section_title">Diagnosis</div>
+                <div class="ekram_info_box" style="border-left:3px solid #1a73e8;">
+                    <div class="info_value"><t t-esc="doc.diagnosis"/></div>
+                </div>
+            </t>
+
+            <!-- ── Prescription ────────────────────────────────────────────── -->
+            <div class="ekram_section_title">
+                <table width="100%"><tr>
+                    <td><span class="rx_symbol">Rx</span></td>
+                    <td style="vertical-align:middle;padding-left:8px;">Prescription</td>
+                </tr></table>
+            </div>
+
+            <t t-if="doc.prescription">
+                <div class="prescription_box">
+                    <t t-esc="doc.prescription"/>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="prescription_box" style="color:#adb5bd;font-style:italic;">
+                    No prescription recorded.
+                </div>
+            </t>
+
+            <div class="prescription_warning">
+                ⚠ This prescription is valid for 30 days from the date of issue. Dispense as written.
+            </div>
+
+            <!-- ── Clinical Notes ──────────────────────────────────────────── -->
+            <t t-if="doc.clinical_notes">
+                <div class="ekram_section_title">Clinical Notes</div>
+                <div class="ekram_info_box">
+                    <div class="info_value"><t t-esc="doc.clinical_notes"/></div>
+                </div>
+            </t>
+
+            <!-- ── Follow-up ───────────────────────────────────────────────── -->
+            <t t-if="doc.follow_up_date or doc.follow_up_notes">
+                <div class="ekram_section_title">Follow-up Instructions</div>
+                <div class="ekram_info_box" style="border-left:3px solid #27ae60;">
+                    <t t-if="doc.follow_up_date">
+                        <div class="info_label">Follow-up Date</div>
+                        <div class="info_value" style="color:#1e8449;">
+                            <t t-esc="doc.follow_up_date.strftime('%d %B %Y')"/>
+                        </div>
+                    </t>
+                    <t t-if="doc.follow_up_notes">
+                        <div class="info_label" style="margin-top:6px;">Instructions</div>
+                        <div class="info_value"><t t-esc="doc.follow_up_notes"/></div>
+                    </t>
+                </div>
+            </t>
+
+            <!-- ── Signature Block ─────────────────────────────────────────── -->
+            <div class="ekram_signature_row">
+                <div class="ekram_signature_block">
+                    <div class="sig_line"/>
+                    <div class="sig_label">Patient / Guardian Signature</div>
+                </div>
+                <div class="ekram_signature_block" style="text-align:center;">
+                    <div style="font-size:8pt;color:#6c757d;margin-top:36px;">
+                        <strong><t t-esc="doc.company_id.name"/></strong><br/>
+                        <t t-esc="doc.company_id.phone or ''"/>
+                    </div>
+                </div>
+                <div class="ekram_signature_block">
+                    <div class="sig_line"/>
+                    <div class="sig_label">
+                        Dr. <t t-esc="doc.doctor_id.name if doc.doctor_id else '_______________'"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Footer ──────────────────────────────────────────────────── -->
+            <div class="ekram_report_footer">
+                This prescription is issued by Ekram Medical Center and is confidential. |
+                Ref: <t t-esc="doc.name"/> |
+                Printed: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+            </div>
+
+        </div>
+        </t>
+        </t>
+        </t>
+        </template>
+    </data>
+</odoo>

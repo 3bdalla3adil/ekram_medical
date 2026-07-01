@@ -10,7 +10,7 @@ class DoctorDashboard extends Component {
     static template = "ekram_medical.DoctorDashboard";
 
     setup() {
-        this.rpc    = useService("rpc");
+        // this.rpc    = useService("rpc");
         this.action = useService("action");
         this.state  = useState({ loading: true, doctor_name: "", kpis: {}, today_patients: [], pending_consultations: [] });
         onWillStart(async () => { await this.loadData(); });

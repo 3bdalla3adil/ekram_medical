@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_patient_card_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page ekram_report">
+
+                            <!-- ── Header ──────────────────────────────────────────────────── -->
+                            <div class="ekram_report_header">
+                                <table width="100%"><tr>
+                                    <td width="60%">
+                                        <div class="clinic_name">Ekram Medical Center</div>
+                                        <div class="clinic_tagline">Comprehensive Healthcare Services</div>
+                                        <div style="font-size:8pt;color:#6c757d;margin-top:4px;">
+                                            <t t-esc="doc.company_id.street or ''"/>
+                                            <t t-if="doc.company_id.city"> — <t t-esc="doc.company_id.city"/></t>
+                                            <t t-if="doc.company_id.phone"> | Tel: <t t-esc="doc.company_id.phone"/></t>
+                                        </div>
+                                    </td>
+                                    <td width="40%" style="text-align:right;vertical-align:top;">
+                                        <div class="report_title">PATIENT CARD</div>
+                                        <div class="report_subtitle">
+                                            Printed: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %B %Y')"/>
+                                        </div>
+                                    </td>
+                                </tr></table>
+                            </div>
+
+                            <!-- ── Patient Identity Band ───────────────────────────────────── -->
+                            <div class="patient_card_id_band">
+                                <table width="100%"><tr>
+                                    <td>
+                                        <div class="patient_name"><t t-esc="doc.name"/></div>
+                                        <div class="patient_number">
+                                            Medical No: <t t-esc="doc.medical_number or 'N/A'"/>
+                                        </div>
+                                    </td>
+                                    <td style="text-align:right;vertical-align:middle;">
+                                        <div style="font-size:9pt;opacity:0.85;">
+                                            <t t-esc="dict({'male':'Male','female':'Female','other':'Other'}).get(doc.gender or '', 'N/A')"/>
+                                            <t t-if="doc.age"> | Age: <t t-esc="doc.age"/> yrs</t>
+                                            <t t-if="doc.blood_group"> | Blood: <t t-esc="doc.blood_group.upper()"/></t>
+                                        </div>
+                                    </td>
+                                </tr></table>
+                            </div>
+
+                            <!-- ── Personal Information ────────────────────────────────────── -->
+                            <div class="ekram_section_title">Personal Information</div>
+                            <table width="100%" style="font-size:10pt;margin-bottom:12px;">
+                                <tr>
+                                    <td width="25%" style="padding:4px 0;color:#6c757d;font-weight:700;">Full Name</td>
+                                    <td width="25%" style="padding:4px 8px;"><t t-esc="doc.name"/></td>
+                                    <td width="25%" style="padding:4px 0;color:#6c757d;font-weight:700;">Date of Birth</td>
+                                    <td width="25%" style="padding:4px 8px;">
+                                        <t t-esc="doc.date_of_birth.strftime('%d %B %Y') if doc.date_of_birth else 'N/A'"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:4px 0;color:#6c757d;font-weight:700;">Gender</td>
+                                    <td style="padding:4px 8px;">
+                                        <t t-esc="dict({'male':'Male','female':'Female','other':'Other'}).get(doc.gender or '', 'N/A')"/>
+                                    </td>
+                                    <td style="padding:4px 0;color:#6c757d;font-weight:700;">Blood Group</td>
+                                    <td style="padding:4px 8px;">
+                                        <t t-esc="(doc.blood_group or 'N/A').upper()"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:4px 0;color:#6c757d;font-weight:700;">Phone</td>
+                                    <td style="padding:4px 8px;"><t t-esc="doc.phone or doc.mobile or 'N/A'"/></td>
+                                    <td style="padding:4px 0;color:#6c757d;font-weight:700;">Email</td>
+                                    <td style="padding:4px 8px;"><t t-esc="doc.email or 'N/A'"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:4px 0;color:#6c757d;font-weight:700;">Address</td>
+                                    <td colspan="3" style="padding:4px 8px;">
+                                        <t t-esc="doc.street or ''"/>
+                                        <t t-if="doc.city">, <t t-esc="doc.city"/></t>
+                                        <t t-if="not doc.street and not doc.city">N/A</t>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- ── Emergency Contact ───────────────────────────────────────── -->
+                            <t t-if="doc.emergency_contact_name">
+                                <div class="ekram_section_title">Emergency Contact</div>
+                                <table width="100%" style="font-size:10pt;margin-bottom:12px;">
+                                    <tr>
+                                        <td width="25%" style="padding:4px 0;color:#6c757d;font-weight:700;">Name</td>
+                                        <td width="25%" style="padding:4px 8px;"><t t-esc="doc.emergency_contact_name"/></td>
+                                        <td width="25%" style="padding:4px 0;color:#6c757d;font-weight:700;">Phone</td>
+                                        <td width="25%" style="padding:4px 8px;"><t t-esc="doc.emergency_contact_phone or 'N/A'"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:4px 0;color:#6c757d;font-weight:700;">Relation</td>
+                                        <td colspan="3" style="padding:4px 8px;"><t t-esc="doc.emergency_contact_relation or 'N/A'"/></td>
+                                    </tr>
+                                </table>
+                            </t>
+
+                            <!-- ── Medical History ─────────────────────────────────────────── -->
+                            <t t-if="doc.known_allergies or doc.chronic_conditions or doc.medical_notes">
+                                <div class="ekram_section_title">Medical History</div>
+                                <t t-if="doc.known_allergies">
+                                    <div class="ekram_info_box" style="border-left:3px solid #e74c3c;">
+                                        <div class="info_label">⚠ Known Allergies</div>
+                                        <div class="info_value" style="color:#c0392b;"><t t-esc="doc.known_allergies"/></div>
+                                    </div>
+                                </t>
+                                <t t-if="doc.chronic_conditions">
+                                    <div class="ekram_info_box" style="border-left:3px solid #f39c12;">
+                                        <div class="info_label">Chronic Conditions</div>
+                                        <div class="info_value"><t t-esc="doc.chronic_conditions"/></div>
+                                    </div>
+                                </t>
+                                <t t-if="doc.medical_notes">
+                                    <div class="ekram_info_box">
+                                        <div class="info_label">Medical Notes</div>
+                                        <div class="info_value"><t t-esc="doc.medical_notes"/></div>
+                                    </div>
+                                </t>
+                            </t>
+
+                            <!-- ── Visit Statistics ────────────────────────────────────────── -->
+                            <div class="ekram_section_title">Visit Summary</div>
+                            <table width="100%" style="font-size:10pt;margin-bottom:16px;">
+                                <tr>
+                                    <td style="padding:6px 10px;background:#e8f0fe;border-radius:6px;text-align:center;width:33%;">
+                                        <div style="font-size:18pt;font-weight:800;color:#1a73e8;">
+                                            <t t-esc="doc.appointment_count"/>
+                                        </div>
+                                        <div style="font-size:8pt;color:#6c757d;font-weight:700;text-transform:uppercase;">Appointments</div>
+                                    </td>
+                                    <td width="2%"/>
+                                    <td style="padding:6px 10px;background:#d4efdf;border-radius:6px;text-align:center;width:33%;">
+                                        <div style="font-size:18pt;font-weight:800;color:#1e8449;">
+                                            <t t-esc="doc.lab_request_count"/>
+                                        </div>
+                                        <div style="font-size:8pt;color:#6c757d;font-weight:700;text-transform:uppercase;">Lab Requests</div>
+                                    </td>
+                                    <td width="2%"/>
+                                    <td style="padding:6px 10px;background:#fef9e7;border-radius:6px;text-align:center;width:33%;">
+                                        <div style="font-size:18pt;font-weight:800;color:#d68910;">
+                                            <t t-esc="doc.invoice_count"/>
+                                        </div>
+                                        <div style="font-size:8pt;color:#6c757d;font-weight:700;text-transform:uppercase;">Invoices</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- ── Footer ──────────────────────────────────────────────────── -->
+                            <div class="ekram_report_footer">
+                                This patient card is confidential and for authorized medical personnel only. |
+                                Ekram Medical Center | Printed: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -51,7 +51,7 @@
                     </div>
                     <div class="kpi_total">&#160;</div>
                 </div>
-                <div class="ekram_kpi_card primary">
+                <div class="ekram_kpi_card primary" t-on-click="openAllResults">
                     <div class="kpi_icon"><i class="fa fa-spinner fa-spin"/></div>
                     <div class="kpi_body">
                         <div class="kpi_number"><t t-esc="state.kpis.in_progress || 0"/></div>

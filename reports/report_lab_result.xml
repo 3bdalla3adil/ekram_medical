@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="report_lab_result_template">
+<t t-call="web.html_container">
+<t t-foreach="docs" t-as="doc">
+<t t-call="web.external_layout">
+<div class="page ekram_report">
+
+    <!-- ── Header ──────────────────────────────────────────────────── -->
+    <div class="ekram_report_header">
+        <table width="100%"><tr>
+            <td width="60%">
+                <div class="clinic_name">Ekram Medical Center</div>
+                <div class="clinic_tagline">Laboratory &amp; Diagnostic Services</div>
+                <div style="font-size:8pt;color:#6c757d;margin-top:4px;">
+                    <t t-esc="doc.company_id.street or ''"/>
+                    <t t-if="doc.company_id.phone"> | Tel: <t t-esc="doc.company_id.phone"/></t>
+                </div>
+            </td>
+            <td width="40%" style="text-align:right;vertical-align:top;">
+                <div class="report_title">LABORATORY REPORT</div>
+                <div class="report_subtitle">
+                    Ref: <t t-esc="doc.name"/><br/>
+                    Date: <t t-esc="doc.request_date.strftime('%d %B %Y') if doc.request_date else ''"/>
+                </div>
+            </td>
+        </tr></table>
+    </div>
+
+    <!-- ── Patient + Request Info ──────────────────────────────────── -->
+    <table width="100%" style="margin-bottom:14px;">
+        <tr>
+            <td width="48%" style="background:#f8f9fa;border-radius:8px;padding:12px 14px;vertical-align:top;">
+                <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">Patient</div>
+                <div style="font-size:13pt;font-weight:800;color:#1a1a2e;">
+                    <t t-esc="doc.patient_id.name"/>
+                </div>
+                <div style="font-size:9pt;color:#6c757d;margin-top:3px;">
+                    <t t-if="doc.patient_id.medical_number">
+                        MRN: <strong><t t-esc="doc.patient_id.medical_number"/></strong>
+                    </t>
+                    <t t-if="doc.patient_id.age"> | Age: <t t-esc="doc.patient_id.age"/> yrs</t>
+                    <t t-if="doc.patient_id.gender">
+                        | <t t-esc="dict({'male':'Male','female':'Female','other':'Other'}).get(doc.patient_id.gender, '')"/>
+                    </t>
+                </div>
+                <t t-if="doc.patient_id.blood_group">
+                    <div style="font-size:9pt;color:#6c757d;margin-top:2px;">
+                        Blood Group: <strong><t t-esc="doc.patient_id.blood_group.upper()"/></strong>
+                    </div>
+                </t>
+            </td>
+            <td width="4%"/>
+            <td width="48%" style="background:#e8f0fe;border-radius:8px;padding:12px 14px;vertical-align:top;">
+                <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">Request Details</div>
+                <table style="font-size:9pt;width:100%;">
+                    <tr>
+                        <td style="color:#6c757d;padding:2px 0;width:45%;">Request No</td>
+                        <td style="font-weight:700;"><t t-esc="doc.name"/></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#6c757d;padding:2px 0;">Request Date</td>
+                        <td><t t-esc="doc.request_date.strftime('%d/%m/%Y %H:%M') if doc.request_date else 'N/A'"/></td>
+                    </tr>
+                    <tr>
+                        <td style="color:#6c757d;padding:2px 0;">Requesting Doctor</td>
+                        <td style="font-weight:700;color:#1a73e8;">
+                            <t t-esc="doc.doctor_id.name if doc.doctor_id else 'N/A'"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color:#6c757d;padding:2px 0;">Print Date</td>
+                        <td><t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ── Results per Investigation ───────────────────────────────── -->
+    <t t-foreach="doc.result_ids" t-as="result">
+        <div style="margin-bottom:18px;">
+
+            <!-- Investigation Title Bar -->
+            <div style="background:#1a73e8;color:#fff;border-radius:6px 6px 0 0;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <span style="font-size:11pt;font-weight:800;">
+                        <t t-esc="result.template_id.name"/>
+                    </span>
+                    <t t-if="result.template_id.code">
+                        <span style="font-size:9pt;opacity:0.8;margin-left:8px;">
+                            (<t t-esc="result.template_id.code"/>)
+                        </span>
+                    </t>
+                </div>
+                <div style="font-size:9pt;opacity:0.85;">
+                    Sample: <t t-esc="dict(result.template_id._fields['sample_type'].selection).get(result.template_id.sample_type, '')"/>
+                    | Tech: <t t-esc="result.technician_id.name if result.technician_id else 'N/A'"/>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <table class="ekram_report_table" style="border-radius:0 0 6px 6px;overflow:hidden;">
+                <thead>
+                    <tr>
+                        <th style="width:30%;background:#1557b0;">Test Parameter</th>
+                        <th style="width:15%;background:#1557b0;text-align:center;">Result</th>
+                        <th style="width:12%;background:#1557b0;text-align:center;">Unit</th>
+                        <th style="width:25%;background:#1557b0;">Reference Range</th>
+                        <th style="width:10%;background:#1557b0;text-align:center;">Flag</th>
+                        <th style="width:8%;background:#1557b0;">Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="result.line_ids" t-as="line">
+                        <tr t-attf-class="#{line.flag == 'critical' and 'flag-critical' or line.flag == 'high' and 'flag-high' or line.flag == 'low' and 'flag-low' or ''}">
+                            <td style="font-weight:600;"><t t-esc="line.test_name"/></td>
+                            <td style="text-align:center;font-weight:800;font-size:11pt;">
+                                <t t-esc="line.result_value or '—'"/>
+                            </td>
+                            <td style="text-align:center;color:#6c757d;">
+                                <t t-esc="line.unit or ''"/>
+                            </td>
+                            <td style="color:#495057;">
+                                <t t-esc="line.normal_range_text or ''"/>
+                            </td>
+                            <td style="text-align:center;">
+                                <t t-if="line.flag">
+                                    <span t-attf-class="flag-badge #{line.flag}">
+                                        <t t-esc="line.flag.upper()"/>
+                                    </span>
+                                </t>
+                            </td>
+                            <td style="font-size:9pt;color:#6c757d;">
+                                <t t-esc="line.remarks or ''"/>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+
+            <!-- Validation Info -->
+            <div style="background:#f8f9fa;border:1px solid #e9ecef;border-top:none;border-radius:0 0 6px 6px;padding:6px 12px;font-size:8pt;color:#6c757d;display:flex;justify-content:space-between;">
+                <span>
+                    Status:
+                    <strong t-attf-style="color:#{result.state == 'validated' and '#1e8449' or '#d68910'}">
+                        <t t-esc="result.state.upper()"/>
+                    </strong>
+                </span>
+                <span>
+                    <t t-if="result.validated_by">
+                        Validated by: <strong><t t-esc="result.validated_by.name"/></strong>
+                        on <t t-esc="result.validated_date.strftime('%d/%m/%Y %H:%M') if result.validated_date else ''"/>
+                    </t>
+                </span>
+            </div>
+
+            <!-- Remarks -->
+            <t t-if="result.remarks">
+                <div style="margin-top:6px;background:#fff8e1;border-left:3px solid #f39c12;padding:6px 10px;font-size:9pt;border-radius:0 4px 4px 0;">
+                    <strong>Remarks:</strong> <t t-esc="result.remarks"/>
+                </div>
+            </t>
+
+        </div>
+    </t>
+
+    <!-- ── Flag Legend ──────────────────────────────────────────────── -->
+    <div style="margin-top:10px;padding:8px 12px;background:#f8f9fa;border-radius:6px;font-size:8pt;">
+        <strong style="color:#495057;">Flag Legend: </strong>
+        <span class="flag-badge normal" style="margin:0 4px;">NORMAL</span> Within reference range &nbsp;|&nbsp;
+        <span class="flag-badge high"   style="margin:0 4px;">HIGH</span> Above reference range &nbsp;|&nbsp;
+        <span class="flag-badge low"    style="margin:0 4px;">LOW</span> Below reference range &nbsp;|&nbsp;
+        <span class="flag-badge critical" style="margin:0 4px;">CRITICAL</span> Critically outside range
+    </div>
+
+    <!-- ── Signature Block ─────────────────────────────────────────── -->
+    <div class="ekram_signature_row">
+        <div class="ekram_signature_block">
+            <div class="sig_line"/>
+            <div class="sig_label">Lab Technician</div>
+        </div>
+        <div class="ekram_signature_block" style="text-align:center;">
+            <div style="font-size:8pt;color:#adb5bd;margin-top:36px;">[ QR Code ]</div>
+        </div>
+        <div class="ekram_signature_block">
+            <div class="sig_line"/>
+            <div class="sig_label">
+                Dr. <t t-esc="doc.doctor_id.name if doc.doctor_id else '_______________'"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Footer ──────────────────────────────────────────────────── -->
+    <div class="ekram_report_footer">
+        This report is generated by Ekram Medical Center Laboratory. Results should be interpreted by a qualified physician. |
+        Ref: <t t-esc="doc.name"/> |
+        Printed: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+    </div>
+
+</div>
+</t>
+</t>
+</t>
+</template>
+</data>
+</odoo>

@@ -8,15 +8,19 @@
                 <div>
                     <h2 class="text-primary mb-0 fw-bold">Medical Operations Hub</h2>
                     <small class="text-muted">Real-time clinical summary and quick actions</small>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary btn-lg shadow-sm" t-on-click="openNewAppointmentWizard">
+                            <i class="fa fa-calendar-plus-o me-2"/> Book Appointment
+                        </button>
+                        <button class="btn btn-success btn-lg shadow-sm" t-on-click="openNewPatientWizard">
+                            <i class="fa fa-user-plus me-2"/> Create Patient
+                        </button></div> 
                 </div>
-                <div class="d-flex gap-2">
-                    <button class="btn btn-primary btn-lg shadow-sm" t-on-click="openNewAppointmentWizard">
-                        <i class="fa fa-calendar-plus-o me-2"/> Book Appointment
-                    </button>
-                    <button class="btn btn-success btn-lg shadow-sm" t-on-click="openNewPatientWizard">
-                        <i class="fa fa-user-plus me-2"/> Create Patient
-                    </button>
-                </div>
+                
+                    <a href="/web/session/logout" class="btn btn-danger btn-sm">
+                        <i class="fa fa-sign-out"/> Logout
+                    </a>
+                
             </div>
 
             <!-- SECTION 2: METRICS COUNTERS (KPI CARDS) -->

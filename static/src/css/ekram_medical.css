@@ -12,6 +12,13 @@
 .o_list_view .o_data_row.flag-low td      { background-color: #f0f8ff !important; }
 
 /* Dashboard stat cards */
+.ekram_empty_stat_card {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 .ekram_stat_card {
     border-radius: 8px;
     padding: 20px;
@@ -44,6 +51,15 @@
     font-weight: 600;
 }
 
+.kpi_number {
+    background-color: #e8f4fd;
+    color: #0066cc;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
 /* Lab report print styles */
 @media print {
     .ekram_lab_report .report-header { border-bottom: 2px solid #007bff; }
@@ -51,4 +67,18 @@
     .ekram_lab_report .flag-critical { background-color: #ffe0e0 !important; }
     .ekram_lab_report .flag-high     { background-color: #fff8e0 !important; }
     .ekram_lab_report .flag-low      { background-color: #e0f0ff !important; }
+}
+
+.ekram_table {
+    padding:1rem 0;
+    margin-left:6%;
+    width:40%;
+}
+
+.ekram_kpi_row{
+    
+}
+
+.ekram_section_card{
+
 }

@@ -1,3 +1,202 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   EKRAM MEDICAL CENTER — DESIGN SYSTEM
+   Single source of truth for all UI tokens, components, and utilities.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+    --em-primary:       #1a73e8;
+    --em-primary-dark:  #1557b0;
+    --em-primary-light: #e8f0fe;
+    --em-success:       #1e8449;
+    --em-success-light: #d4efdf;
+    --em-warning:       #d68910;
+    --em-warning-light: #fef9e7;
+    --em-danger:        #c0392b;
+    --em-danger-light:  #fadbd8;
+    --em-info:          #117a8b;
+    --em-info-light:    #d1ecf1;
+    --em-purple:        #6f42c1;
+    --em-purple-light:  #f3eeff;
+    --em-teal:          #148f77;
+    --em-teal-light:    #d0ece7;
+    --em-orange:        #ca6f1e;
+    --em-orange-light:  #fdebd0;
+    --em-gray-50:  #f8f9fa;
+    --em-gray-100: #f1f3f4;
+    --em-gray-200: #e8eaed;
+    --em-gray-300: #dadce0;
+    --em-gray-400: #bdc1c6;
+    --em-gray-500: #9aa0a6;
+    --em-gray-600: #80868b;
+    --em-gray-700: #5f6368;
+    --em-gray-800: #3c4043;
+    --em-gray-900: #202124;
+    --em-font:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    --em-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --em-text-xs:   0.7rem;
+    --em-text-sm:   0.8125rem;
+    --em-text-base: 0.875rem;
+    --em-text-md:   1rem;
+    --em-text-lg:   1.125rem;
+    --em-text-xl:   1.25rem;
+    --em-text-2xl:  1.5rem;
+    --em-space-1: 4px;  --em-space-2: 8px;  --em-space-3: 12px;
+    --em-space-4: 16px; --em-space-5: 20px; --em-space-6: 24px; --em-space-8: 32px;
+    --em-radius-sm: 4px; --em-radius: 8px; --em-radius-md: 10px;
+    --em-radius-lg: 12px; --em-radius-xl: 16px; --em-radius-full: 9999px;
+    --em-shadow-xs: 0 1px 2px rgba(0,0,0,0.06);
+    --em-shadow-sm: 0 1px 4px rgba(0,0,0,0.08);
+    --em-shadow:    0 2px 8px rgba(0,0,0,0.10);
+    --em-shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+    --em-shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+    --em-transition: all 0.18s ease;
+}
+
+/* Status Badges */
+.em-badge { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:var(--em-radius-full); font-size:var(--em-text-xs); font-weight:700; letter-spacing:0.03em; text-transform:uppercase; white-space:nowrap; }
+.em-badge-primary  { background:var(--em-primary-light);  color:var(--em-primary-dark); }
+.em-badge-success  { background:var(--em-success-light);  color:var(--em-success); }
+.em-badge-warning  { background:var(--em-warning-light);  color:var(--em-warning); }
+.em-badge-danger   { background:var(--em-danger-light);   color:var(--em-danger); }
+.em-badge-info     { background:var(--em-info-light);     color:var(--em-info); }
+.em-badge-purple   { background:var(--em-purple-light);   color:var(--em-purple); }
+.em-badge-gray     { background:var(--em-gray-100);       color:var(--em-gray-700); }
+.em-flag-normal    { background:var(--em-success-light);  color:var(--em-success); }
+.em-flag-high      { background:var(--em-warning-light);  color:var(--em-warning); }
+.em-flag-low       { background:var(--em-info-light);     color:var(--em-info); }
+.em-flag-critical  { background:var(--em-danger-light);   color:var(--em-danger); animation:em-pulse 1.2s infinite; }
+@keyframes em-pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+
+/* KPI Card */
+.em-kpi { background:#fff; border-radius:var(--em-radius-lg); padding:var(--em-space-5); box-shadow:var(--em-shadow-sm); cursor:pointer; transition:var(--em-transition); position:relative; overflow:hidden; border-top:3px solid transparent; }
+.em-kpi:hover { transform:translateY(-2px); box-shadow:var(--em-shadow-md); }
+.em-kpi--primary{border-top-color:var(--em-primary)} .em-kpi--success{border-top-color:var(--em-success)}
+.em-kpi--warning{border-top-color:var(--em-warning)} .em-kpi--danger{border-top-color:var(--em-danger)}
+.em-kpi--info{border-top-color:var(--em-info)}       .em-kpi--purple{border-top-color:var(--em-purple)}
+.em-kpi--teal{border-top-color:var(--em-teal)}       .em-kpi--orange{border-top-color:var(--em-orange)}
+.em-kpi__icon { font-size:1.6rem; margin-bottom:var(--em-space-3); opacity:0.75; }
+.em-kpi--primary .em-kpi__icon{color:var(--em-primary)} .em-kpi--success .em-kpi__icon{color:var(--em-success)}
+.em-kpi--warning .em-kpi__icon{color:var(--em-warning)} .em-kpi--danger  .em-kpi__icon{color:var(--em-danger)}
+.em-kpi--info    .em-kpi__icon{color:var(--em-info)}    .em-kpi--purple  .em-kpi__icon{color:var(--em-purple)}
+.em-kpi--teal    .em-kpi__icon{color:var(--em-teal)}    .em-kpi--orange  .em-kpi__icon{color:var(--em-orange)}
+.em-kpi__value { font-size:2rem; font-weight:800; line-height:1; color:var(--em-gray-900); letter-spacing:-0.02em; }
+.em-kpi__label { font-size:var(--em-text-sm); color:var(--em-gray-600); margin-top:var(--em-space-1); font-weight:500; }
+.em-kpi__sub   { font-size:var(--em-text-xs); color:var(--em-gray-400); margin-top:var(--em-space-2); }
+
+/* Quick Action Button */
+.em-quick-btn { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--em-space-5) var(--em-space-4); border:none; border-radius:var(--em-radius-md); cursor:pointer; transition:var(--em-transition); font-weight:700; font-size:var(--em-text-sm); color:#fff; gap:var(--em-space-2); text-align:center; box-shadow:var(--em-shadow-xs); }
+.em-quick-btn:hover { transform:translateY(-2px); box-shadow:var(--em-shadow-md); }
+.em-quick-btn:active { transform:translateY(0); }
+.em-quick-btn__icon { font-size:1.5rem; line-height:1; }
+.em-quick-btn--primary { background:linear-gradient(135deg,var(--em-primary),var(--em-primary-dark)); }
+.em-quick-btn--success { background:linear-gradient(135deg,#27ae60,#1e8449); }
+.em-quick-btn--warning { background:linear-gradient(135deg,#f39c12,var(--em-warning)); }
+.em-quick-btn--danger  { background:linear-gradient(135deg,#e74c3c,var(--em-danger)); }
+.em-quick-btn--info    { background:linear-gradient(135deg,#17a2b8,var(--em-info)); }
+.em-quick-btn--purple  { background:linear-gradient(135deg,#8e44ad,var(--em-purple)); }
+
+/* Card */
+.em-card { background:#fff; border-radius:var(--em-radius-lg); box-shadow:var(--em-shadow-sm); overflow:hidden; transition:var(--em-transition); margin-bottom:var(--em-space-5); }
+.em-card-header { display:flex; align-items:center; justify-content:space-between; padding:var(--em-space-4) var(--em-space-5); border-bottom:1px solid var(--em-gray-200); background:var(--em-gray-50); }
+.em-card-header h5,.em-card-header h6 { margin:0; font-weight:700; color:var(--em-gray-800); font-size:var(--em-text-base); }
+.em-card-body { padding:var(--em-space-5); }
+
+/* Table */
+.em-table { width:100%; border-collapse:collapse; font-size:var(--em-text-sm); }
+.em-table thead th { background:var(--em-gray-50); padding:10px 14px; font-size:var(--em-text-xs); font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:var(--em-gray-600); border-bottom:2px solid var(--em-gray-200); white-space:nowrap; }
+.em-table tbody td { padding:12px 14px; border-bottom:1px solid var(--em-gray-100); vertical-align:middle; color:var(--em-gray-800); }
+.em-table tbody tr:last-child td { border-bottom:none; }
+.em-table tbody tr:hover { background:var(--em-gray-50); }
+
+/* Avatar */
+.em-avatar { display:inline-flex; align-items:center; justify-content:center; border-radius:50%; font-weight:800; color:#fff; flex-shrink:0; background:linear-gradient(135deg,var(--em-primary),var(--em-purple)); }
+.em-avatar--sm{width:28px;height:28px;font-size:0.7rem} .em-avatar--md{width:36px;height:36px;font-size:0.85rem}
+.em-avatar--lg{width:48px;height:48px;font-size:1rem}   .em-avatar--xl{width:64px;height:64px;font-size:1.2rem}
+.em-avatar--doctor{background:linear-gradient(135deg,#27ae60,#1e8449)}
+.em-avatar--lab{background:linear-gradient(135deg,#17a2b8,var(--em-info))}
+.em-avatar--admin{background:linear-gradient(135deg,var(--em-purple),#8e44ad)}
+
+/* Dashboard Layout */
+.em-dashboard { padding:var(--em-space-5); background:var(--em-gray-100); min-height:100vh; font-family:var(--em-font); }
+.em-dashboard__header { background:#fff; border-radius:var(--em-radius-lg); padding:var(--em-space-5) var(--em-space-6); margin-bottom:var(--em-space-5); box-shadow:var(--em-shadow-sm); border-left:4px solid var(--em-primary); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--em-space-3); }
+.em-dashboard__header--doctor{border-left-color:var(--em-success)}
+.em-dashboard__header--lab{border-left-color:var(--em-info)}
+.em-dashboard__header--admin{border-left-color:var(--em-purple)}
+.em-dashboard__title { font-size:var(--em-text-xl); font-weight:800; color:var(--em-gray-900); margin:0; }
+.em-dashboard__subtitle { font-size:var(--em-text-sm); color:var(--em-gray-500); margin-top:2px; }
+.em-kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--em-space-4); margin-bottom:var(--em-space-5); }
+.em-quick-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--em-space-3); margin-bottom:var(--em-space-5); }
+.em-two-col { display:grid; grid-template-columns:1fr 1fr; gap:var(--em-space-5); margin-bottom:var(--em-space-5); }
+.em-section-label { font-size:var(--em-text-xs); font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:var(--em-gray-500); margin:0 0 var(--em-space-3) 2px; }
+@media(max-width:1100px){.em-kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.em-quick-grid{grid-template-columns:repeat(2,1fr)}.em-two-col{grid-template-columns:1fr}}
+@media(max-width:600px){.em-kpi-grid{grid-template-columns:1fr}}
+
+/* Queue / List Items */
+.em-queue-item { display:flex; align-items:center; gap:var(--em-space-3); padding:var(--em-space-3) var(--em-space-5); border-bottom:1px solid var(--em-gray-100); transition:var(--em-transition); }
+.em-queue-item:last-child{border-bottom:none} .em-queue-item:hover{background:var(--em-gray-50)}
+.em-queue-item__info{flex:1;min-width:0}
+.em-queue-item__name{font-weight:700;font-size:var(--em-text-base);color:var(--em-gray-900)}
+.em-queue-item__meta{font-size:var(--em-text-xs);color:var(--em-gray-500);margin-top:2px}
+.em-queue-item__actions{display:flex;align-items:center;gap:var(--em-space-2);flex-shrink:0}
+.em-list-item { display:flex; align-items:center; justify-content:space-between; padding:var(--em-space-4) var(--em-space-5); border-bottom:1px solid var(--em-gray-100); cursor:pointer; transition:var(--em-transition); }
+.em-list-item:last-child{border-bottom:none} .em-list-item:hover{background:var(--em-gray-50)}
+.em-list-item__left{flex:1;min-width:0} .em-list-item__right{display:flex;align-items:center;gap:var(--em-space-2);flex-shrink:0}
+.em-list-item__title{font-weight:700;font-size:var(--em-text-base);color:var(--em-gray-900)}
+.em-list-item__sub{font-size:var(--em-text-xs);color:var(--em-gray-500);margin-top:2px}
+
+/* Priority Dot */
+.em-priority{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.em-priority--normal{background:var(--em-success)}
+.em-priority--urgent{background:var(--em-warning)}
+.em-priority--critical{background:var(--em-danger);animation:em-pulse 1s infinite}
+
+/* Empty State */
+.em-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:var(--em-space-8) var(--em-space-5); color:var(--em-gray-400); text-align:center; }
+.em-empty__icon{font-size:2.5rem;margin-bottom:var(--em-space-3)}
+.em-empty__text{font-size:var(--em-text-sm);color:var(--em-gray-500)}
+
+/* Loading */
+.em-loading { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:280px; gap:var(--em-space-3); color:var(--em-gray-500); }
+
+/* Buttons */
+.em-btn { display:inline-flex; align-items:center; gap:var(--em-space-2); padding:6px 14px; border:none; border-radius:var(--em-radius); font-size:var(--em-text-sm); font-weight:700; cursor:pointer; transition:var(--em-transition); white-space:nowrap; }
+.em-btn--xs{padding:3px 8px;font-size:var(--em-text-xs)} .em-btn--sm{padding:5px 12px;font-size:var(--em-text-xs)}
+.em-btn--primary{background:var(--em-primary);color:#fff} .em-btn--primary:hover{background:var(--em-primary-dark)}
+.em-btn--success{background:var(--em-success);color:#fff} .em-btn--danger{background:var(--em-danger);color:#fff}
+.em-btn--info{background:var(--em-info);color:#fff}       .em-btn--warning{background:var(--em-warning);color:#fff}
+.em-btn--outline-primary{background:transparent;color:var(--em-primary);border:1.5px solid var(--em-primary)}
+.em-btn--outline-primary:hover{background:var(--em-primary-light)}
+.em-btn--outline-secondary{background:transparent;color:var(--em-gray-600);border:1.5px solid var(--em-gray-300)}
+.em-btn--outline-secondary:hover{background:var(--em-gray-100)}
+.em-btn--ghost{background:transparent;color:var(--em-gray-600)} .em-btn--ghost:hover{background:var(--em-gray-100)}
+
+/* Tabs */
+.em-tabs{display:flex;gap:var(--em-space-1)}
+.em-tab{padding:6px 16px;border:none;background:transparent;border-radius:var(--em-radius);font-size:var(--em-text-sm);font-weight:700;color:var(--em-gray-600);cursor:pointer;transition:var(--em-transition)}
+.em-tab:hover{background:var(--em-gray-100);color:var(--em-gray-900)}
+.em-tab.active{background:var(--em-primary-light);color:var(--em-primary)}
+
+/* Gauge */
+.em-gauge{margin-top:var(--em-space-2)}
+.em-gauge__bar{height:8px;background:var(--em-gray-200);border-radius:var(--em-radius-full);overflow:hidden}
+.em-gauge__fill{height:100%;border-radius:var(--em-radius-full);transition:width 0.6s ease}
+.em-gauge__label{font-size:1.3rem;font-weight:800;color:var(--em-gray-900);margin-top:var(--em-space-2)}
+
+/* Medical number */
+.em-medical-number { display:inline-flex; align-items:center; gap:4px; background:var(--em-primary-light); color:var(--em-primary-dark); padding:2px 10px; border-radius:var(--em-radius-full); font-size:var(--em-text-xs); font-weight:800; letter-spacing:0.05em; font-family:var(--em-font-mono); }
+
+/* Utilities */
+.em-text-right{text-align:right!important} .em-text-center{text-align:center!important}
+.em-text-muted{color:var(--em-gray-500)!important} .em-text-success{color:var(--em-success)!important}
+.em-text-danger{color:var(--em-danger)!important}   .em-text-warning{color:var(--em-warning)!important}
+.em-fw-bold{font-weight:700!important} .em-fw-black{font-weight:800!important}
+.em-d-flex{display:flex!important} .em-align-center{align-items:center!important}
+.em-gap-2{gap:var(--em-space-2)!important} .em-gap-3{gap:var(--em-space-3)!important}
+.em-mb-0{margin-bottom:0!important} .em-mb-3{margin-bottom:var(--em-space-3)!important}
+.em-mb-4{margin-bottom:var(--em-space-4)!important} .em-mb-5{margin-bottom:var(--em-space-5)!important}
+.em-mt-2{margin-top:var(--em-space-2)!important} .em-mt-3{margin-top:var(--em-space-3)!important}
+
 /* ── Ekram Medical Center - Custom Styles ─────────────────────────────── */
 
 /* Flag badges in lab results */
@@ -135,3 +334,75 @@
 /* Responsive */
 @media (max-width: 992px) { .admin_kpi_row { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 576px)  { .admin_kpi_row { grid-template-columns: 1fr; } }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EKRAM MEDICAL CENTER — PRINT / REPORT STYLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.ekram_report { font-family:"Segoe UI",Arial,sans-serif; font-size:11pt; color:#1a1a2e; line-height:1.5; }
+
+/* Header Band */
+.ekram_report_header { border-bottom:3px solid #1a73e8; padding-bottom:12px; margin-bottom:16px; }
+.ekram_report_header .clinic_name { font-size:18pt; font-weight:800; color:#1a73e8; letter-spacing:-0.02em; }
+.ekram_report_header .clinic_tagline { font-size:9pt; color:#6c757d; margin-top:2px; }
+.ekram_report_header .report_title { font-size:14pt; font-weight:800; color:#1a1a2e; text-align:right; }
+.ekram_report_header .report_subtitle { font-size:9pt; color:#6c757d; text-align:right; }
+
+/* Info Box */
+.ekram_info_box { background:#f8f9fa; border:1px solid #e9ecef; border-radius:6px; padding:10px 14px; margin-bottom:14px; }
+.ekram_info_box .info_label { font-size:8pt; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#6c757d; margin-bottom:2px; }
+.ekram_info_box .info_value { font-size:11pt; font-weight:600; color:#1a1a2e; }
+
+/* Section Title */
+.ekram_section_title { font-size:10pt; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:#1a73e8; border-bottom:1.5px solid #e8f0fe; padding-bottom:4px; margin:14px 0 8px 0; }
+
+/* Report Table */
+.ekram_report_table { width:100%; border-collapse:collapse; font-size:10pt; margin-bottom:12px; }
+.ekram_report_table thead th { background:#1a73e8; color:#fff; padding:7px 10px; font-size:9pt; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; border:none; }
+.ekram_report_table tbody td { padding:7px 10px; border-bottom:1px solid #e9ecef; vertical-align:middle; }
+.ekram_report_table tbody tr:nth-child(even) td { background:#f8f9fa; }
+.ekram_report_table tbody tr:last-child td { border-bottom:2px solid #dee2e6; }
+.ekram_report_table .flag-high     td { background:#fff8e1!important; }
+.ekram_report_table .flag-low      td { background:#e3f2fd!important; }
+.ekram_report_table .flag-critical td { background:#ffebee!important; font-weight:700; }
+
+.flag-badge { display:inline-block; padding:1px 7px; border-radius:10px; font-size:8pt; font-weight:800; text-transform:uppercase; }
+.flag-badge.normal   { background:#d4efdf; color:#1e8449; }
+.flag-badge.high     { background:#fef9e7; color:#d68910; }
+.flag-badge.low      { background:#d6eaf8; color:#1a5276; }
+.flag-badge.critical { background:#fadbd8; color:#c0392b; }
+
+/* Patient Card */
+.patient_card_id_band { background:linear-gradient(135deg,#1a73e8,#1557b0); color:#fff; border-radius:8px; padding:14px 18px; margin-bottom:14px; }
+.patient_card_id_band .patient_name { font-size:16pt; font-weight:800; letter-spacing:-0.01em; }
+.patient_card_id_band .patient_number { font-size:11pt; font-family:monospace; opacity:0.85; margin-top:2px; }
+
+/* Prescription */
+.rx_symbol { font-size:28pt; font-weight:900; color:#1a73e8; line-height:1; font-style:italic; }
+.prescription_box { border:1.5px solid #dee2e6; border-radius:6px; padding:14px 16px; min-height:120px; background:#fff; font-size:11pt; line-height:1.8; white-space:pre-wrap; }
+.prescription_warning { background:#fff8e1; border-left:3px solid #f39c12; padding:6px 10px; font-size:9pt; color:#7d6608; margin-top:10px; border-radius:0 4px 4px 0; }
+
+/* Signature */
+.ekram_signature_row { display:flex; justify-content:space-between; margin-top:32px; padding-top:12px; border-top:1px solid #dee2e6; }
+.ekram_signature_block { text-align:center; width:30%; }
+.ekram_signature_block .sig_line { border-top:1.5px solid #495057; margin-bottom:4px; margin-top:36px; }
+.ekram_signature_block .sig_label { font-size:8pt; color:#6c757d; font-weight:600; }
+
+/* Footer */
+.ekram_report_footer { border-top:1px solid #dee2e6; padding-top:8px; margin-top:20px; font-size:8pt; color:#adb5bd; text-align:center; }
+
+/* Print */
+@media print {
+    .ekram_report { font-size:10pt; }
+    .ekram_report_table thead th,.patient_card_id_band,.flag-badge { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+
+.kpi-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}

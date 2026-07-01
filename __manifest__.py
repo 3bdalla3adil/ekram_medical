@@ -48,7 +48,6 @@ Features:
         'views/medical_lab_result_views.xml',
         'views/medical_dashboard_views.xml',
         'views/medical_dashboard_actions.xml',
-        # 'views/medical_admin_dashboard_action.xml',
         'reports/medical_lab_report.xml',
         'reports/medical_lab_report_template.xml',
         'views/ekram_medical_menus.xml',
@@ -65,12 +64,12 @@ Features:
             # 'ekram_medical/static/src/css/ekram_medical.css',
             'ekram_medical/static/src/css/ekram_dashboard.css',
             # XML
-            # 'ekram_medical/static/src/xml/medical_dashboard.xml',
+            'ekram_medical/static/src/xml/medical_dashboard.xml',
             'ekram_medical/static/src/xml/reception_dashboard.xml',
             'ekram_medical/static/src/xml/doctor_dashboard.xml',
             'ekram_medical/static/src/xml/lab_dashboard.xml',
             # JS 
-            # 'ekram_medical/static/src/js/medical_dashboard.js',
+            'ekram_medical/static/src/js/medical_dashboard.js',
             'ekram_medical/static/src/js/reception_dashboard.js',
             'ekram_medical/static/src/js/doctor_dashboard.js',
             'ekram_medical/static/src/js/lab_dashboard.js',
