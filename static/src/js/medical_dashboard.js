@@ -25,26 +25,24 @@ export class MedicalDashboard extends Component {
     }
 
     // Dynamic counts straight from your medical.appointment schema
-    async loadDashboardStatistics() {}
-    // async loadDashboardStatistics() {
-    //     // const counts = await this.orm.readGroup(
-    //     const counts = await this.orm.formattedReadGroup(
-    //         "medical.appointment",
-    //         [],
-    //         ["state"],
-    //         ["state"]
-    //     );
+    async loadDashboardStatistics() {
+        const counts = await this.orm.formattedReadGroup(
+            "medical.appointment",
+            [],
+            ["state"],
+            ["state"]
+        );
         
-    //     let totalCount = 0;
-    //     counts.forEach(c => {
-    //         totalCount += c.state_count;
-    //         if (c.state === 'confirmed') this.state.confirmed = c.state_count;
-    //         if (c.state === 'in_progress') this.state.inProgress = c.state_count;
-    //         if (c.state === 'done') this.state.done = c.state_count;
-    //         if (c.state === 'cancelled') this.state.cancelled = c.state_count;
-    //     });
-    //     this.state.total = totalCount;
-    // }
+        let totalCount = 0;
+        counts.forEach(c => {
+            totalCount += c.state_count;
+            if (c.state === 'confirmed') this.state.confirmed = c.state_count;
+            if (c.state === 'in_progress') this.state.inProgress = c.state_count;
+            if (c.state === 'done') this.state.done = c.state_count;
+            if (c.state === 'cancelled') this.state.cancelled = c.state_count;
+        });
+        this.state.total = totalCount;
+    }
 
     // Quick Action 1: Book New Appointment Form Popup
     openNewAppointmentWizard() {
@@ -69,18 +67,30 @@ export class MedicalDashboard extends Component {
         });
     }
 
+    viewAppointmentsByState(stateValue = null) { 
+    const domain = stateValue ? [["state", "=", stateValue]] : []; 
+    this.actionService.doAction({ 
+        type: "ir.actions.act_window", 
+        name: stateValue ? `${stateValue.toUpperCase()} Appointments` : "All Appointments", 
+        res_model: "medical.appointment", 
+        domain: domain, 
+        views: [[false, "list"], [false, "form"], [false, "kanban"]], 
+        target: "current", 
+    }); 
+}
+
     // Metrics Navigation Filters
-    viewAppointmentsByState(stateValue = null) {
-        const domain = stateValue ? [["state", "=", stateValue]] : [];
-        this.actionService.doAction({
-            type: "ir.actions.act_window",
-            name: stateValue ? `${stateValue.toUpperCase()} Appointments` : "All Appointments",
-            res_model: "medical.appointment",
-            domain: domain,
-            views: [[false, "list"], [false, "form"], [false, "kanban"]],
-            target: "current",
-        });
-    }
+    // viewAppointmentsByState(stateValue = null) {
+    //     const domain = stateValue ? [["state", "=", stateValue]] : [];
+    //     this.actionService.doAction({
+    //         type: "ir.actions.act_window",
+    //         name: stateValue ? `${stateValue.toUpperCase()} Appointments` : "All Appointments",
+    //         res_model: "medical.appointment",
+    //         domain: domain,
+    //         views: [[false, "list"], [false, "form"], [false, "kanban"]],
+    //         target: "current",
+    //     });
+    // }
 }
 
 // Map JavaScript client class to backend tag name

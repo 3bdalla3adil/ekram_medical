@@ -71,6 +71,11 @@ class MedicalLabRequest(models.Model):
         default=lambda self: self.env.company,
         required=True,
     )
+    appointment_id = fields.Many2one(
+        'medical.appointment',
+        string='Appointment',
+        tracking=True,
+    )
 
     # ── Compute ───────────────────────────────────────────────────────────────
     def _compute_result_count(self):

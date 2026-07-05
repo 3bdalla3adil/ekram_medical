@@ -92,7 +92,7 @@
                                         </t>
                                         <t t-else="">
                                             <button class="btn btn-xs btn-primary"
-                                                    t-on-click="() => openAppointment(p.appointment_id)">
+                                                    t-on-click="() => viewAppointmentById(p.appointment_id)">
                                                 <i class="fa fa-eye"/> View
                                             </button>
                                         </t>

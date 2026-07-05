@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
 
         <!-- ── Demo Employees (Doctors) ───────────────────────────────── -->
         <record id="demo_doctor_ahmed" model="hr.employee">
@@ -82,6 +82,27 @@
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
+        <record id="demo_product_tsh" model="product.template">
+            <field name="name">T S H (TSH)</field>
+            <field name="type">service</field>
+            <field name="list_price">3.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
+        <record id="demo_product_ft4" model="product.template">
+            <field name="name">F T 4 (FT4)</field>
+            <field name="type">service</field>
+            <field name="list_price">3.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
+        <record id="demo_product_ft3" model="product.template">
+            <field name="name">F T 3 (FT3)</field>
+            <field name="type">service</field>
+            <field name="list_price">3.000</field>
+            <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
+        </record>
+
         <record id="demo_product_thyroid" model="product.template">
             <field name="name">Thyroid Function Tests (TFT)</field>
             <field name="type">service</field>
@@ -91,7 +112,53 @@
 
         <!-- ── Lab Templates ──────────────────────────────────────────── -->
 
+        <!-- Thyroid Template -->
+
+        <record id="demo_template_thyroid" model="medical.lab.template">
+            <field name="name">Thyroid Function Tests (TFT)</field>
+            <field name="product_id" ref="demo_product_thyroid"/>
+            <field name="code">TFT</field>
+            <field name="department">hematology</field>
+            <field name="sample_type">blood</field>
+            <field name="turnaround_hours">2</field>
+        </record>
+
+        <record id="demo_template_line_tsh" model="medical.lab.template.line">
+            <field name="template_id" ref="demo_template_thyroid"/>
+            <field name="sequence">10</field>
+            <field name="test_name">TSH (T S H)</field>
+            <field name="unit">10³/µL</field>
+            <field name="normal_range_text">4.5 - 11.0</field>
+            <field name="normal_min">4.5</field>
+            <field name="normal_max">11.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_line_ft4" model="medical.lab.template.line">
+            <field name="test_name">FT4 (F T 4)</field>
+            <field name="template_id" ref="demo_template_thyroid"/>
+            <field name="sequence">10</field>
+            <field name="test_name">FT4 (F T 4)</field>
+            <field name="unit">10³/µL</field>
+            <field name="normal_range_text">4.5 - 11.0</field>
+            <field name="normal_min">4.5</field>
+            <field name="normal_max">11.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
+        <record id="demo_template_line_ft3" model="medical.lab.template.line">
+            <field name="test_name">FT3 (F T 3)</field>
+            <field name="template_id" ref="demo_template_thyroid"/>
+            <field name="sequence">10</field>
+            <field name="unit">10³/µL</field>
+            <field name="normal_range_text">4.5 - 11.0</field>
+            <field name="normal_min">4.5</field>
+            <field name="normal_max">11.0</field>
+            <field name="result_type">numeric</field>
+        </record>
+
         <!-- CBC Template -->
+
         <record id="demo_template_cbc" model="medical.lab.template">
             <field name="name">Complete Blood Count (CBC)</field>
             <field name="code">CBC</field>

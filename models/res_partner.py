@@ -8,7 +8,6 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     # ── Medical Identity ──────────────────────────────────────────────────────
-    # is_person = fields.Boolean('Person', help="Check if the partner is a person.")
     is_patient = fields.Boolean(string='Is Patient', default=False, index=True)
     medical_number = fields.Char(
         string='Medical Number',
@@ -117,7 +116,7 @@ class ResPartner(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Appointments',
+            'name': 'مواعيد/Appointments',
             'res_model': 'medical.appointment',
             'view_mode': 'list,form',
             'domain': [('patient_id', '=', self.id)],
@@ -128,7 +127,7 @@ class ResPartner(models.Model):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Lab Requests',
+            'name': 'طلب مختبر/Lab Requests',
             'res_model': 'medical.lab.request',
             'view_mode': 'list,form',
             'domain': [('patient_id', '=', self.id)],

@@ -40,10 +40,10 @@ class MedicalAppointment(models.Model):
         default=fields.Datetime.now,
     )
     appointment_type = fields.Selection([
-        ('consultation', 'Consultation'),
-        ('follow_up', 'Follow-up'),
-        ('lab_only', 'Lab Only'),
-        ('emergency', 'Emergency'),
+        ('consultation', 'إستشارة/Consultation'),
+        ('follow_up', 'متابعة/Follow-up'),
+        ('lab_only', 'مفحص/Lab Only'),
+        ('emergency', 'طوارئ/Emergency'),
     ], string='Type', default='consultation', required=True, tracking=True)
     state = fields.Selection([
         ('draft', 'Scheduled'),
@@ -65,6 +65,19 @@ class MedicalAppointment(models.Model):
         default=lambda self: self.env.company,
         required=True,
     )
+
+    lab_request_ids = fields.One2many(
+        'medical.lab.request', 'appointment_id', string='Lab Requests'
+    )
+    lab_request_count = fields.Integer(
+        string='Lab Requests', compute='_compute_lab_request_count'
+    )
+    invoice_id = fields.Many2one('account.move', string='Invoice', readonly=True)
+
+    @api.depends('lab_request_ids')
+    def _compute_lab_request_count(self):
+        for rec in self:
+            rec.lab_request_count = len(rec.lab_request_ids)
 
     # ── ORM ───────────────────────────────────────────────────────────────────
     @api.model_create_multi
@@ -121,6 +134,18 @@ class MedicalAppointment(models.Model):
             'view_mode': 'form',
         }
 
+    def action_create_lab_request(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'New Lab Request',
+            'res_model': 'medical.lab.request',
+            'view_mode': 'form',
+            'context': {
+                'default_patient_id': self.patient_id.id,
+                'default_appointment_id': self.id,
+            },
+        }
+
     # ── Constraints ───────────────────────────────────────────────────────────
     @api.constrains('appointment_date')
     def _check_appointment_date(self):
@@ -128,3 +153,57 @@ class MedicalAppointment(models.Model):
             if rec.appointment_date and rec.appointment_date.date() < fields.Date.today():
                 if rec.state == 'draft':
                     pass  # allow backdating for walk-ins
+
+    def action_create_invoice(self):
+        """Create invoice from appointment + all linked lab requests."""
+        self.ensure_one()
+        lines = []
+        # Add lab request products
+        for req in self.lab_request_ids:
+            for tmpl in req.template_ids:
+                if tmpl.product_id:
+                    lines.append((0, 0, {
+                        'product_id': tmpl.product_id.id,
+                        'quantity': 1,
+                        'price_unit': tmpl.product_id.lst_price,
+                        'name': tmpl.name,
+                    }))
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'partner_id': self.patient_id.id,
+            'invoice_line_ids': lines,
+        })
+        self.invoice_id = invoice.id
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Invoice',
+            'res_model': 'account.move',
+            'view_mode': 'form',
+            'res_id': invoice.id,
+        }
+
+    def action_view_lab_requests(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Lab Requests',
+            'res_model': 'medical.lab.request',
+            'view_mode': 'list,form',
+            'domain': [('appointment_id', '=', self.id)],
+            'context': {
+                'default_patient_id': self.patient_id.id,
+                'default_appointment_id': self.id,
+            },
+        }
+
+    def action_view_invoices(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Lab Requests',
+            'res_model': 'account_move',
+            'view_mode': 'list,form',
+            'domain': [('move_id', '=', self.invoice_id.id)],
+            'context': {
+                'default_patient_id': self.patient_id.id,
+                'default_appointment_id': self.id,
+            },
+        }
