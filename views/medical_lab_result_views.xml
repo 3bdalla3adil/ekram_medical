@@ -41,6 +41,7 @@
                                         <field name="unit" readonly="1"/>
                                         <field name="normal_range_text" readonly="1" string="النطاق المرجعي / Reference Range"/>
                                         <field decoration-danger="flag == 'critical'" decoration-success="flag == 'normal'" decoration-warning="flag in ('high', 'low')" name="flag" readonly="1" widget="badge"/>
+
                                         <field name="remarks"/>
                                     </list>
                                 </field>
@@ -68,6 +69,28 @@
                     <field name="result_date"/>
                     <field decoration-muted="state == 'cancelled'" decoration-success="state == 'validated'" decoration-warning="state == 'draft'" name="state" widget="badge"/>
                 </list>
+            </field>
+        </record>
+
+        <!-- ── Search View ── -->
+        <record id="view_medical_lab_result_search" model="ir.ui.view">
+            <field name="name">medical.lab.result.search</field>
+            <field name="model">medical.lab.result</field>
+            <field name="arch" type="xml">
+                <search string="بحث طلبات المختبر / Search Lab Results">
+                    <field name="name"/>
+                    <field name="patient_id"/>
+                    <field name="technician_id"/>
+                    <separator/>
+                    <filter domain="[('result_date', '>=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')), ('request_date', '&lt;=', datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]" name="filter_today" string="اليوم / Today"/>
+                    <filter domain="[('state', '=', 'draft')]" name="filter_pending" string="قيد الانتظار / Pending"/>
+                    <filter domain="[('state', '=', 'completed')]" name="filter_completed" string="مكتمل / Completed"/>
+                    <group>
+                        <filter context="{'group_by': 'state'}" name="group_state" string="الحالة / Status"/>
+                        <filter context="{'group_by': 'technician_id'}" name="group_technician" string="افني المتبر/ Technician"/>
+                        <filter context="{'group_by': 'result_date:day'}" name="group_date" string="التاريخ / Date"/>
+                    </group>
+                </search>
             </field>
         </record>
 

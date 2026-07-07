@@ -1,5 +1,4 @@
 /** @odoo-module **/
-// import { Component, useState, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { rpc } from "@web/core/network/rpc";
@@ -23,6 +22,12 @@ class ReceptionDashboard extends Component {
             const data = await rpc("/ekram_medical/reception_data");
             this.state.kpis         = data.kpis        || {};
             this.state.appointments = data.appointments || [];
+        //     this.notification.add(
+        //     _t("Dashboard updated"),
+        //     {
+        //         type: "success",
+        //     }
+        // );
             
         } catch (e) {
             console.error("Reception dashboard error:", e);

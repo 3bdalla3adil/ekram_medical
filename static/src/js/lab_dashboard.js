@@ -2,21 +2,34 @@
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { rpc } from "@web/core/network/rpc";
-import { Component, onMounted, useState, useRef, onWillStart  } from "@odoo/owl";
+import { Component, onWillMount, onMounted, useState, useRef, onWillStart  } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 
 class LabDashboard extends Component {
     static template = "ekram_medical.LabDashboard";
 
     setup() {
-        this.action = useService("action");
-        this.state  = useState({ 
+        this.action       = useService("action");
+        this.state        = useState({ 
             loading: true, kpis: {}, 
             requests_in_progress: [],
              complete_requests: [],
               pending_requests: [],
                pending_results: [] });
+        
         onWillStart(async () => { await this.loadData(); });
+
+        onMounted(() => {
+            this.refreshInterval = setInterval(
+                () => this.loadData(),
+                15000
+            );
+        });
+
+    }
+
+    async refresh() {
+        await this.loadData();
     }
 
     async loadData() {
@@ -45,13 +58,11 @@ class LabDashboard extends Component {
         }
     }
 
-    openLabRequest(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.request", res_id:id, view_mode:"form", views:[[false,"form"]] });
-    }
+
+
     
-    openLabResult(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.result", res_id:id, view_mode:"form", views:[[false,"form"]] });
-    }
+    
+    
     
     openAllRequests() { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
     
@@ -81,6 +92,7 @@ class LabDashboard extends Component {
     openNewRequest() {
         this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]], target:"new" });
     }
+    
 
     getStateBadgeClass(state) {
         return "badge " + ({ draft:"badge-info", processing:"badge-warning", completed:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");

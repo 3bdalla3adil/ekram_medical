@@ -199,13 +199,6 @@ class MedicalDashboardController(http.Controller):
             [('state', '=', 'draft')], order='id asc', limit=10
         )
 
-        # cancelled_results_list = LabResult.search(
-        #     [('state', '=', 'cancelled')], order='id asc', limit=10
-        # )
-
-        # validated_results_list = LabResult.search(
-        #     [('state', '=', 'validated')], order='id asc', limit=10
-        # )
         res_list = []
         for res in pending_results_list:
             res_list.append({
@@ -216,29 +209,6 @@ class MedicalDashboardController(http.Controller):
                 'technician': res.technician_id.name if res.technician_id else '-',
                 'date': res.result_date.strftime('%d/%m %H:%M') if res.result_date else '-',
             })
-
-        # validated_res_list = []
-        # for validated in validated_results_list:
-        #     validated_res_list.append({
-        #                     'id': res.id,
-        #                     'name': res.name,
-        #                     'patient': res.patient_id.name,
-        #                     'investigation': res.template_id.name if res.template_id else '-',
-        #                     'technician': res.technician_id.name if res.technician_id else '-',
-        #                     'date': res.result_date.strftime('%d/%m %H:%M') if res.result_date else '-',
-        #     })
-            
-        # cancelled_res_list = []
-        # for cancelled in cancelled_results_list:
-        #     cancelled_res_list.append({
-        #                     'id': res.id,
-        #                     'name': res.name,
-        #                     'patient': res.patient_id.name,
-        #                     'investigation': res.template_id.name if res.template_id else '-',
-        #                     'technician': res.technician_id.name if res.technician_id else '-',
-        #                     'date': res.result_date.strftime('%d/%m %H:%M') if res.result_date else '-',
-        #     })
-
         return {
             'kpis': {
                 'pending_requests': pending_requests,
@@ -248,6 +218,5 @@ class MedicalDashboardController(http.Controller):
             },
             'pending_requests_list': req_list,
             'pending_results_list': res_list,
-            # 'validated_results_list': validated_res_list,
-            # 'cancelled_results_list': cancelled_res_list,
+            
         }
