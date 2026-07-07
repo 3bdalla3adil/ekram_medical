@@ -8,13 +8,22 @@
             <form string="الموعد / Appointment">
                 <header>
                     <button class="btn-primary" invisible="state != 'draft'" name="action_confirm" string="تأكيد / Confirm" type="object"/>
+
                     <button class="btn-primary" invisible="state != 'confirmed'" name="action_start" string="بدء / Start" type="object"/>
-                    <button class="btn-success" invisible="state not in ['confirmed', 'in_progress']" name="action_create_consultation" string="إنشاء استشارة / Create Consultation" type="object"/>
-                    <button invisible="state != 'in_progress'" name="action_done" string="إنهاء / Mark Done" type="object"/>
-                    <button invisible="state in ['done', 'cancelled']" name="action_cancel" string="إلغاء / Cancel" type="object"/>
-                    <button invisible="state in ['done']" name="action_create_invoice" string="إنشاء فاتورة/ Create Invoice" type="object"/>
+
+                    <button class="btn-success" invisible="state not in ['confirmed', 'in_progress']" groups="ekram_medical.group_medical_reception,ekram_medical.group_medical_doctor" name="action_create_consultation" string="إنشاء استشارة / Create Consultation" type="object"/>
+
+                    <button invisible="state != 'in_progress'" name="action_done" string="إنهاء / Mark Done"
+                        groups="ekram_medical.group_medical_reception,ekram_medical.group_medical_doctor" type="object"/>
+
+                    <button invisible="state in ['done', 'cancelled']" name="action_cancel" string="إلغاء / Cancel" groups="ekram_medical.group_medical_reception" type="object"/>
+
+                    <button invisible="state in ['done']" name="action_create_invoice" string="إنشاء فاتورة/ Create Invoice" groups="ekram_medical.group_medical_reception" type="object"/>
+
                     <button class="btn-info" invisible="state not in ['in_progress', 'done']" name="action_create_lab_request" string="طلب فحوصات مختبر / Request Lab Tests" type="object"/>
-                    <button invisible="state != 'cancelled'" name="action_reset_draft" string="إرجاع لمسودة / Reset to Draft" type="object"/>
+
+                    <button invisible="state != 'cancelled'" name="action_reset_draft" string="إرجاع لمسودة / Reset to Draft" groups="ekram_medical.group_medical_reception" type="object"/>
+
                     <field name="state" statusbar_visible="draft,confirmed,in_progress,done" widget="statusbar"/>
                 </header>
                 <sheet>

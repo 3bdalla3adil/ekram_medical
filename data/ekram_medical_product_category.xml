@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <record id="product_category_lab_investigations" model="product.category">
-            <field name="name">Laboratory Investigations</field>
-            <!-- <field name="parent_id" ref="product.product_category_all"/> -->
+        <record id="product_category_medical" model="product.category">
+            <field name="name">Medical Services</field>
         </record>
-
-        <record id="product_category_consultation" model="product.category">
-            <field name="name">Medical Consultations</field>
-            <!-- <field name="parent_id" ref="product.product_category_all"/> -->
+        <record id="product_category_lab" model="product.category">
+            <field name="name">Lab Tests</field>
+            <field name="parent_id" ref="product_category_medical"/>
+        </record>
+        <record id="product_category_nurse" model="product.category">
+            <field name="name">Nurse Procedures</field>
+            <field name="parent_id" ref="product_category_medical"/>
         </record>
     </data>
 </odoo>

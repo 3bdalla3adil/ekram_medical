@@ -7,7 +7,8 @@ from dateutil.relativedelta import relativedelta
 
 class MedicalAdminDashboardController(http.Controller):
 
-    @http.route('/ekram_medical/admin_data', type='jsonrpc', auth='user')
+    # @http.route('/ekram_medical/admin_data', type='jsonrpc', auth='user')
+    @http.route('/ekram_medical/admin_data', type='json', auth='user')
     def admin_dashboard_data(self):
         today = date.today()
         today_start = datetime.combine(today, datetime.min.time())

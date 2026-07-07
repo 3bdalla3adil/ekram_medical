@@ -60,8 +60,8 @@
     <menuitem id="menu_lab_dashboard"
               name="لوحة المختبر / Lab Dashboard"
               parent="menu_ekram_medical_root"
-              action="action_lab_dashboard"
-              active="0"
+              action="action_lab_dashboard_owl"
+              active="1"
               groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
               sequence="7"/>
 

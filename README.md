@@ -88,3 +88,5 @@ Reception menu stopped showing up
 update :
 
 active="1"
+
+added Notifiaction feature added function to lab_rquest.py and new js file 

@@ -30,3 +30,7 @@ access_invoice_lab,invoice.lab,account.model_account_move,ekram_medical.group_me
 # ── account.payment ──
 access_payment_admin,payment.admin,account.model_account_payment,ekram_medical.group_medical_admin,1,1,1,1
 access_payment_reception,payment.reception,account.model_account_payment,ekram_medical.group_medical_reception,1,1,1,0
+# ── medical.nurse.procedure ──
+access_nurse_proc_admin,nurse.proc.admin,model_medical_nurse_procedure,ekram_medical.group_medical_admin,1,1,1,1
+access_nurse_proc_reception,nurse.proc.reception,model_medical_nurse_procedure,ekram_medical.group_medical_reception,1,1,1,1
+access_nurse_proc_lab,nurse.proc.lab,model_medical_nurse_procedure,ekram_medical.group_medical_lab,1,0,0,0

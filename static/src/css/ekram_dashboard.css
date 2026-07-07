@@ -546,159 +546,363 @@
 
 /* LAB CSS STYLE SHEET */
 
-/* General Lab Dashboard */
-.lab_dashboard {
-    padding: 20px;
-    background: #f4f6f9;
-    font-family: "Inter", "Segoe UI", sans-serif;
+/* ==========================================================================
+   Ekram Medical Laboratory Dashboard - Modern UI Styling
+   ========================================================================== */
+
+/* Main Container Base */
+.ekram_dashboard.lab_dashboard {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Header */
-.lab_header h3 {
-    font-weight: 600;
-    color: #0d6efd;
+/* 1. Loading State */
+.ekram_loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 0;
 }
-.lab_header small {
-    color: #6c757d;
+.ekram_loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #0dcaf0 !important; /* text-info modern pop */
 }
 
-/* KPI Row */
+/* 2. Header Section */
+.ekram_dash_header.lab_header {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e9ecef;
+}
+.ekram_dash_header h3 {
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+.ekram_dash_header h3 i {
+    margin-right: 0.5rem;
+}
+
+/* 3. KPI Row & Grid */
 .ekram_kpi_row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 16px;
-    margin-bottom: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
 }
+
+/* Core KPI Card Architecture */
 .ekram_kpi_card {
-    background: linear-gradient(135deg, #ffffff, #f9fbfd);
+    background: #ffffff;
     border-radius: 12px;
-    padding: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
     cursor: pointer;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
 }
+
 .ekram_kpi_card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
-.kpi_icon {
-    font-size: 28px;
-    margin-bottom: 10px;
-    opacity: 0.8;
+
+/* Left Accent Borders per KPI State */
+.ekram_kpi_card.warning  { border-left: 4px solid #ffc107; }
+.ekram_kpi_card.success  { border-left: 4px solid #198754; }
+.ekram_kpi_card.info     { border-left: 4px solid #0dcaf0; }
+.ekram_kpi_card.primary  { border-left: 4px solid #0d6efd; }
+
+/* KPI Inner Parts */
+.kpi_body {
+    margin-top: 0.25rem;
 }
 .kpi_number {
-    font-size: 24px;
-    font-weight: 700;
-    color: #212529;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #1e293b;
 }
 .kpi_label {
-    font-size: 14px;
-    color: #6c757d;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    margin-bottom: 0.5rem;
 }
 .kpi_total {
-    font-size: 12px;
-    color: #999;
-    margin-top: 6px;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 0.5rem;
+    margin-top: 0.25rem;
 }
 
-/* Section Cards */
-.ekram_section_card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+/* Floating Soft Background Icons for KPIs */
+.kpi_icon {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
 }
+.ekram_kpi_card.warning .kpi_icon { background: rgba(255, 193, 7, 0.12); color: #ffc107; }
+.ekram_kpi_card.success .kpi_icon { background: rgba(25, 187, 84, 0.12); color: #198754; }
+.ekram_kpi_card.info .kpi_icon    { background: rgba(13, 202, 240, 0.12); color: #0dcaf0; }
+.ekram_kpi_card.primary .kpi_icon { background: rgba(13, 110, 253, 0.12); color: #0d6efd; }
+
+
+/* 4. Two Column Sub-Layout */
+.ekram_two_col {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Modern Content Container Sections */
+.ekram_section_card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    padding: 1.5rem;
+}
+
 .section_header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
 }
 .section_header h5 {
-    font-weight: 600;
-    color: #343a40;
-}
-
-/* Lab Request List */
-.lab_request_item {
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 14px;
-    border-bottom: 1px solid #f1f1f1;
-    transition: background 0.2s ease;
 }
-.lab_request_item:hover {
-    background: #f9fafc;
-}
-.lab_request_priority .priority_dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-}
-.priority_dot.normal {
-    background: #6c757d;
-}
-.priority_dot.urgent {
-    background: #ffc107;
-    animation: pulse 1.5s infinite;
-}
-.priority_dot.critical {
-    background: #dc3545;
-    animation: pulse 1s infinite;
-}
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.3); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.7; }
+.section_header h5 i {
+    color: #64748b;
+    margin-right: 0.5rem;
 }
 
-/* Result Entry List */
+/* 5. Empty State Blocks */
+.ekram_empty_state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+.ekram_empty_state i {
+    opacity: 0.8;
+    margin-bottom: 0.5rem;
+}
+
+/* 6. Request/Result Lists & Dynamic Items */
+.lab_request_list, 
+.result_entry_list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.lab_request_item, 
 .result_entry_item {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 14px;
-    border-bottom: 1px solid #f1f1f1;
-    transition: background 0.2s ease;
-}
-.result_entry_item:hover {
-    background: #f9fafc;
-}
-.result_entry_icon {
-    font-size: 20px;
-    margin-right: 10px;
-}
-.result_entry_info {
-    flex: 1;
-}
-.result_entry_patient {
-    font-weight: 600;
-    color: #212529;
-}
-.result_entry_test {
-    font-size: 13px;
-    color: #6c757d;
-}
-.result_entry_meta {
-    font-size: 12px;
-    color: #999;
-}
-.result_entry_action button {
-    border-radius: 6px;
-    font-size: 12px;
-    padding: 4px 8px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-/* Empty States */
-.ekram_empty_state {
-    text-align: center;
-    padding: 25px;
-    color: #6c757d;
+.lab_request_item:hover, 
+.result_entry_item:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
 }
-.ekram_empty_state i {
-    margin-bottom: 8px;
-    opacity: 0.7;
+
+/* Row Internal Structural Layouts */
+.lab_request_priority {
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+}
+.lab_request_info, 
+.result_entry_info {
+    flex-grow: 1;
+}
+.lab_request_actions, 
+.result_entry_action {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+/* Metadata Text Elements */
+.lab_request_patient, 
+.result_entry_patient {
+    color: #1e293b;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+}
+.lab_request_meta, 
+.lab_request_tests,
+.result_entry_test,
+.result_entry_meta {
+    font-size: 0.8rem !important;
+    color: #64748b !important;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.15rem;
+}
+.lab_request_meta span i,
+.lab_request_tests i,
+.result_entry_meta i {
+    color: #94a3b8;
+}
+
+/* Priority Status Ring Dots */
+.priority_dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.priority_dot.critical { background-color: #dc3545; box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2); }
+.priority_dot.urgent   { background-color: #ffc107; box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2); }
+.priority_dot.normal   { background-color: #cbd5e1; }
+
+/* Entry Icons */
+.result_entry_icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: rgba(13, 202, 240, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-size: 1rem;
+}
+
+/* Odoo Legacy Spacing Overrides to match standard Bootstrap 5 layouts */
+.ml-1 { margin-left: 0.25rem !important; }
+.ml-2 { margin-left: 0.5rem !important; }
+.mr-2 { margin-right: 0.5rem !important; }
+.me-3 { margin-right: 1rem !important; }
+
+/* ============================================================================ */
+/* ======================ekram_medical.css=================================== */
+/* ============================================================================ */
+
+/* ── Ekram Medical Center - Custom Styles ─────────────────────────────── */
+
+/* Flag badges in lab results */
+.o_field_widget .badge.badge-flag-normal  { background-color: #28a745; color: #fff; }
+.o_field_widget .badge.badge-flag-high    { background-color: #ffc107; color: #212529; }
+.o_field_widget .badge.badge-flag-low     { background-color: #17a2b8; color: #fff; }
+.o_field_widget .badge.badge-flag-critical{ background-color: #dc3545; color: #fff; }
+
+/* Lab result lines - color coding */
+.o_list_view .o_data_row.flag-critical td { background-color: #fff5f5 !important; }
+.o_list_view .o_data_row.flag-high td     { background-color: #fffbf0 !important; }
+.o_list_view .o_data_row.flag-low td      { background-color: #f0f8ff !important; }
+
+/* Dashboard stat cards */
+.ekram_empty_stat_card {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ekram_stat_card {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.ekram_stat_card .stat_number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+}
+.ekram_stat_card .stat_label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+.ekram_stat_card.primary   { border-left: 4px solid #007bff; }
+.ekram_stat_card.success   { border-left: 4px solid #28a745; }
+.ekram_stat_card.warning   { border-left: 4px solid #ffc107; }
+.ekram_stat_card.danger    { border-left: 4px solid #dc3545; }
+.ekram_stat_card.info      { border-left: 4px solid #17a2b8; }
+
+/* Medical number badge */
+.medical_number_badge {
+    background-color: #e8f4fd;
+    color: #0066cc;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.kpi_number {
+    background-color: #e8f4fd;
+    color: #0066cc;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Lab report print styles */
+@media print {
+    .ekram_lab_report .report-header { border-bottom: 2px solid #007bff; }
+    .ekram_lab_report table          { font-size: 11px; }
+    .ekram_lab_report .flag-critical { background-color: #ffe0e0 !important; }
+    .ekram_lab_report .flag-high     { background-color: #fff8e0 !important; }
+    .ekram_lab_report .flag-low      { background-color: #e0f0ff !important; }
+}
+
+.ekram_table {
+    padding:1rem 0;
+    margin-left:6%;
+    width:40%;
+}
+
+.ekram_kpi_row{
+    
+}
+
+.ekram_section_card{
+
 }

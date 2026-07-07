@@ -16,10 +16,11 @@ class ReceptionDashboard extends Component {
         onWillStart(async () => { await this.loadData(); });
         }
 
+
     async loadData() {
         this.state.loading = true;
         try {
-            const data = await rpc("/ekram_medical/reception_data", {});
+            const data = await rpc("/ekram_medical/reception_data");
             this.state.kpis         = data.kpis        || {};
             this.state.appointments = data.appointments || [];
             
@@ -55,7 +56,6 @@ class ReceptionDashboard extends Component {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("New Appointment"),
             res_model: "medical.appointment", view_mode: "form",
-            // views: [[false, "form"]], target: "new",
             views: [[false, "form"]],
         });
     }
@@ -63,7 +63,6 @@ class ReceptionDashboard extends Component {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("New Invoice"),
             res_model: "account.move", view_mode: "form",
-            // views: [[false, "form"]], target: "new",
             views: [[false, "form"]],
             context: { default_move_type: "out_invoice" },
         });
@@ -80,48 +79,15 @@ class ReceptionDashboard extends Component {
         });
     }
 
-    viewRequestsByState(stateValue = null) { 
-        const domain = stateValue ? [["state", "=", stateValue]] : []; 
-        this.actionService.doAction({ 
-            type: "ir.actions.act_window", 
-            name: stateValue ? `${stateValue.toUpperCase()} Appointments` : "All Appointments", 
-            res_model: "medical.appointment", 
-            domain: domain, 
-            views: [[false, "list"], [false, "form"], [false, "kanban"]], 
-            target: "current", 
-        }); 
-    }
-
-    // viewAppointmentsByState(stateValue)
-
-    viewAppointmentsById(id = null) {
+    viewAppointmentsById(id) {
         const domain = id ? [["id", "=", id]] : [];
-        this.actionService.doAction({
-            type: "ir.actions.act_window",
-            name: id ? `${id} Appointments` : "All Appointments",
-            res_model: "medical.appointment",
-            domain: domain,
-            views: [[false, "list"], [false, "form"], [false, "kanban"]],
-            target: "new",
+        this.action.doAction("ekram_medical.action_medical_appointments", {
+        additionalContext: {},
+        domain: domain,
         });
     }
-    
-    openLabRequest(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.request", res_id:id, view_mode:"form", views:[[false,"form"]] });
-    }
-    
-    openLabResult(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.result", res_id:id, view_mode:"form", views:[[false,"form"]] });
-    }
-    
-    openAllRequests() { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
-    
-    openAllResults()  { this.action.doAction("ekram_medical.action_medical_lab_results"); }
-    
-    openNewRequest() {
-        // this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]], target:"new" });
-        this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]],});
-    }
+
+
 
     getStateBadgeClass(state) {
         return "badge " + ({ draft:"badge-secondary", confirmed:"badge-info", in_progress:"badge-warning", done:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");

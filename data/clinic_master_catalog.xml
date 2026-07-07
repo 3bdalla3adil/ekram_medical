@@ -7,23 +7,23 @@
         <!-- 1. CLINIC SERVICES & PROCEDURES PRICING                  -->
         <!-- ======================================================== -->
         
-        <record id="product_consultation_fee" model="product.template">
+        <record id="product_consultation_fee" model="product.product">
             <field name="name">General Practitioner Consultation Fee / رسوم كشف الطبيب العام</field>
-            <field name="list_price">10000.00</field>
-            <field name="type">service</field>
-            <field name="sale_ok">True</field>
-            <field name="purchase_ok">False</field>
-        </record>
-
-        <record id="product_specialist_fee" model="product.template">
-            <field name="name">Specialist Consultation Fee / رسوم كشف الطبيب الأخصائي</field>
             <field name="list_price">15000.00</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
         </record>
 
-        <record id="product_minor_surgery" model="product.template">
+        <record id="product_specialist_fee" model="product.product">
+            <field name="name">Specialist Consultation Fee / رسوم كشف الطبيب الأخصائي</field>
+            <field name="list_price">20000.00</field>
+            <field name="type">service</field>
+            <field name="sale_ok">True</field>
+            <field name="purchase_ok">False</field>
+        </record>
+
+        <record id="product_minor_surgery" model="product.product">
             <field name="name">Minor Operation/Suture Procedure Fee / رسوم العمليات الصغرى والغسيل</field>
             <field name="list_price">25000.00</field>
             <field name="type">service</field>
@@ -31,7 +31,7 @@
             <field name="purchase_ok">False</field>
         </record>
 
-        <record id="product_ecg_procedure" model="product.template">
+        <record id="product_ecg_procedure" model="product.product">
             <field name="name">ECG/Electrocardiogram Investigation / تخطيط القلب الكهربائي</field>
             <field name="list_price">80.00</field>
             <field name="type">service</field>
@@ -39,9 +39,8 @@
             <field name="purchase_ok">False</field>
         </record>
 
-        <record id="product_ultrasound_scan" model="product.template">
+        <record id="product_ultrasound_scan" model="product.product">
             <field name="name">Abdominal Ultrasound Scan / الأشعة فوق الصوتية للبطن</field>
-            
             <field name="list_price">200.00</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
@@ -99,40 +98,35 @@
         <!-- ======================================================== -->
 
         <!-- PROFILE A: Complete Blood Count (CBC) -->
-        <record id="lab_test_hemoglobin" model="product.template">
-            
+        <record id="lab_test_hemoglobin" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Hemoglobin (Hb) / الهيموجلوبين</field>
             <field name="uom_id" ref="uom_g_dl"/>
             <field name="description">Normal Range: 12.0 - 17.5 g/dL</field>
         </record>
 
-        <record id="lab_test_wbc" model="product.template">
-            
+        <record id="lab_test_wbc" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">White Blood Cells (WBC) / خلايا الدم البيضاء</field>
             <field name="uom_id" ref="uom_cells_ul"/>
             <field name="description">Normal Range: 4,500 - 11,000 cells/µL</field>
         </record>
 
-        <record id="lab_test_rbc" model="product.template">
-            
+        <record id="lab_test_rbc" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Red Blood Cells Count (RBC) / خلايا الدم الحمراء</field>
             <field name="uom_id" ref="uom_cells_ul"/>
             <field name="description">Normal Range: 4.3 - 5.9 million/µL</field>
         </record>
 
-        <record id="lab_test_platelets" model="product.template">
-            
+        <record id="lab_test_platelets" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Platelets Count / صفائح الدم</field>
             <field name="uom_id" ref="uom_cells_ul"/>
             <field name="description">Normal Range: 150,000 - 450,000 cells/µL</field>
         </record>
 
-        <record id="lab_test_hematocrit" model="product.template">
-            
+        <record id="lab_test_hematocrit" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Hematocrit (PCV) / حجم خلايا الدم المتراصة</field>
             <field name="uom_id" ref="uom_percentage"/>
@@ -140,32 +134,28 @@
         </record>
 
         <!-- Lipid Panel -->
-        <record id="lab_test_cholesterol" model="product.template">
-            
+        <record id="lab_test_cholesterol" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Total Cholesterol / الكوليسترول الكلي</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Desirable: Less than 200 mg/dL</field>
         </record>
 
-        <record id="lab_test_hdl" model="product.template">
-            
+        <record id="lab_test_hdl" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">HDL Cholesterol (Good) / الكوليسترول النافع</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Optimal: Above 40 mg/dL</field>
         </record>
 
-        <record id="lab_test_ldl" model="product.template">
-            
+        <record id="lab_test_ldl" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">LDL Cholesterol (Bad) / الكوليسترول الضار</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Optimal: Less than 100 mg/dL</field>
         </record>
 
-        <record id="lab_test_triglycerides" model="product.template">
-            
+        <record id="lab_test_triglycerides" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Triglycerides / الدهون الثلاثية</field>
             <field name="uom_id" ref="uom_mg_dl"/>
@@ -173,22 +163,21 @@
         </record>
 
         <!-- Renal Function -->
-        <record id="lab_test_creatinine" model="product.template">
-
+        <record id="lab_test_creatinine" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Serum Creatinine / الكرياتينين في الدم</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Normal Range: 0.6 - 1.2 mg/dL</field>
         </record>
 
-        <record id="lab_test_blood_urea" model="product.template">
+        <record id="lab_test_blood_urea" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Blood Urea Nitrogen (BUN) / يوريا الدم</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Normal Range: 7 - 20 mg/dL</field>
         </record>
 
-        <record id="lab_test_uric_acid" model="product.template">
+        <record id="lab_test_uric_acid" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Uric Acid / حمض اليوريك (النقرس)</field>
             <field name="uom_id" ref="uom_mg_dl"/>
@@ -196,28 +185,28 @@
         </record>
 
         <!-- Liver Function -->
-        <record id="lab_test_sgpt_alt" model="product.template">
+        <record id="lab_test_sgpt_alt" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Alanine Aminotransferase (ALT/SGPT) / إنزيم الكبد ALT</field>
             <field name="uom_id" ref="uom_u_l"/>
             <field name="description">Normal Range: 7 - 56 U/L</field>
         </record>
 
-        <record id="lab_test_sgot_ast" model="product.template">
+        <record id="lab_test_sgot_ast" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Aspartate Aminotransferase (AST/SGOT) / إنزيم الكبد AST</field>
             <field name="uom_id" ref="uom_u_l"/>
             <field name="description">Normal Range: 10 - 40 U/L</field>
         </record>
 
-        <record id="lab_test_bilirubin" model="product.template">
+        <record id="lab_test_bilirubin" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Total Bilirubin / الصفراء الكلية</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Normal Range: 0.2 - 1.2 mg/dL</field>
         </record>
 
-        <record id="lab_test_protien" model="product.template">
+        <record id="lab_test_protien" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Total Protien /ابيروتينالكلية</field>
             <field name="uom_id" ref="uom_mg_dl"/>
@@ -225,7 +214,7 @@
             <field name="description">Normal Range: 0.2 - 1.2 mg/dL</field>
         </record>
 
-        <record id="lab_test_alk_phos" model="product.template">
+        <record id="lab_test_alk_phos" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Alkaline Phosphatase (ALP) / الفوسفاتاز القلوي</field>
             <field name="uom_id" ref="uom_u_l"/>
@@ -233,35 +222,35 @@
         </record>
 
         <!-- Diabetes & Endocrinology -->
-        <record id="lab_test_fbs" model="product.template">
+        <record id="lab_test_fbs" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Fasting Blood Sugar (FBS) / سكر الدم الصائم</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Normal Range: 70 - 100 mg/dL</field>
         </record>
 
-        <record id="lab_test_ppbs" model="product.template">
+        <record id="lab_test_ppbs" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Post Prandial Blood Sugar (PPBS) / السكر بعد الأكل بساعتين</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Normal: Less than 140 mg/dL</field>
         </record>
 
-        <record id="lab_test_hba1c" model="product.template">
+        <record id="lab_test_hba1c" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">HbA1c (Glycated Hemoglobin) / السكر التراكمي</field>
             <field name="uom_id" ref="uom_percentage"/>
             <field name="description">Normal: Less than 5.7%</field>
         </record>
 
-        <record id="lab_test_tsh" model="product.template">
+        <record id="lab_test_tsh" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Thyroid Stimulating Hormone (TSH) / هرمون الغدة الدرقية</field>
             <field name="uom_id" ref="uom_u_l"/>
             <field name="description">Normal Range: 0.4 - 4.0 mIU/L</field>
         </record>
 
-        <record id="lab_test_vitamin_d" model="product.template">
+        <record id="lab_test_vitamin_d" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Vitamin D (25-Hydroxy) / فيتامين د</field>
             <field name="uom_id" ref="uom_ng_ml"/>
@@ -269,34 +258,34 @@
         </record>
 
         <!-- Electrolytes -->
-        <record id="lab_test_sodium" model="product.template">
+        <record id="lab_test_sodium" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Serum Sodium (Na+) / الصوديوم في الدم</field>
             <field name="uom_id" ref="uom_mmol_l"/>
             <field name="description">Normal Range: 135 - 145 mmol/L</field>
         </record>
 
-        <record id="lab_test_potassium" model="product.template">
+        <record id="lab_test_potassium" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Serum Potassium (K+) / البوتاسيوم في الدم</field>
             <field name="uom_id" ref="uom_mmol_l"/>
             <field name="description">Normal Range: 3.5 - 5.2 mmol/L</field>
         </record>
 
-        <record id="lab_test_calcium" model="product.template">
+        <record id="lab_test_calcium" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Total Calcium / الكالسيوم الكلي</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="description">Normal Range: 8.8 - 10.2 mg/dL</field>
         </record>
 
-        <record id="lab_test_crp" model="product.template">
+        <record id="lab_test_crp" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">C-Reactive Protein (CRP) / البروتين التفاعلي C</field>
             <field name="uom_id" ref="uom_mg_dl"/>
             <field name="normal_range">Normal: Less than 0.3 mg/dL</field>
         </record>
-        <record id="lab_test_esr" model="product.template">
+        <record id="lab_test_esr" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Erythrocyte Sedimentation Rate (ESR) / سرعة ترسيب الدم</field>
             <field name="uom_id" ref="uom_percentage"/>
@@ -305,8 +294,7 @@
 
         <!-- FROM EKRAM INVESTIGATION LIST -->
         <!-- CBC -->
-        <record id="product_cbc" model="product.template">
-            
+        <record id="product_cbc" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">CBC / صورة الدم الكاملة</field>
             <field name="type">service</field>
@@ -316,52 +304,43 @@
         </record>
 
         <!-- Urine General -->
-        <record id="product_urine_general" model="product.template">
-            
+        <record id="product_urine_general" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Urine General (UG) / تحليل البول العام</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- Stool General -->
-        <record id="product_stool_general" model="product.template">
-            
+        <record id="product_stool_general" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Stool General (SG) / تحليل البراز العام</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- BFFM -->
-        <record id="product_bffm" model="product.template">
-            
+        <record id="product_bffm" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">BFFM / اختبار بكتيري</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- Ict Malaria -->
-        <record id="product_ict_malaria" model="product.template">
-            
+        <record id="product_ict_malaria" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">ICT Malaria / اختبار الملاريا السريع</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- ESR -->
-        <record id="product_esr" model="product.template">
-            
+        <record id="product_esr" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">ESR / سرعة ترسيب الدم</field>
             <field name="type">service</field>
@@ -371,19 +350,16 @@
         </record>
 
         <!-- HCG -->
-        <record id="product_hcg" model="product.template">
-            
+        <record id="product_hcg" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">HCG (Strips) / اختبار الحمل</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- RBG -->
-        <record id="product_rbg" model="product.template">
-            
+        <record id="product_rbg" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">RBG / سكر الدم العشوائي</field>
             <field name="type">service</field>
@@ -393,8 +369,7 @@
         </record>
 
         <!-- CRP -->
-        <record id="product_crp" model="product.template">
-            
+        <record id="product_crp" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">CRP / البروتين التفاعلي C</field>
             <field name="type">service</field>
@@ -404,41 +379,34 @@
         </record>
 
         <!-- ASO -->
-        <record id="product_aso" model="product.template">
-            
+        <record id="product_aso" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">ASO / اختبار مضاد الستربتوليزين</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- ICT Typhoid -->
-        <record id="product_ict_typhoid" model="product.template">
-            
+        <record id="product_ict_typhoid" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">ICT Typhoid / اختبار التيفويد السريع</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- ICT Dengue -->
-        <record id="product_ict_dengue" model="product.template">
-            
+        <record id="product_ict_dengue" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">ICT Dengue Fever / اختبار حمى الضنك السريع</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- HbA1c -->
-        <record id="product_hba1c" model="product.template">
-            
+        <record id="product_hba1c" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">HbA1c / السكر التراكمي</field>
             <field name="type">service</field>
@@ -448,30 +416,25 @@
         </record>
 
         <!-- Blood Group -->
-        <record id="product_blood_group" model="product.template">
-            
+        <record id="product_blood_group" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Blood Group (BG) / فصيلة الدم</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- ICT H. pylori -->
-        <record id="product_ict_h_pylori" model="product.template">
-            
+        <record id="product_ict_h_pylori" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">ICT H. pylori Ag / اختبار جرثومة المعدة السريع</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- Uric Acid -->
-        <record id="product_uric_acid" model="product.template">
-            
+        <record id="product_uric_acid" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Uric Acid (SUA) / حمض اليوريك</field>
             <field name="type">service</field>
@@ -481,7 +444,7 @@
         </record>
 
         <!-- Vitamin D -->
-        <record id="product_vitamin_d" model="product.template">
+        <record id="product_vitamin_d" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Vitamin D / فيتامين د</field>
             <field name="type">service</field>
@@ -491,7 +454,7 @@
         </record>
 
         <!-- Cholesterol -->
-        <record id="product_cholesterol" model="product.template">
+        <record id="product_cholesterol" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Cholesterol / الكوليسترول</field>
             <field name="type">service</field>
@@ -501,7 +464,7 @@
         </record>
 
         <!-- Triglycerides -->
-        <record id="product_triglycerides" model="product.template">
+        <record id="product_triglycerides" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">Triglycerides (TAG) / الدهون الثلاثية</field>
             <field name="type">service</field>
@@ -511,27 +474,25 @@
         </record>
 
         <!-- H. pylori -->
-        <record id="product_h_pylori" model="product.template">
+        <record id="product_h_pylori" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">H. pylori / جرثومة المعدة</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- HBsAg -->
-        <record id="product_hbsag" model="product.template">
+        <record id="product_hbsag" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">HBsAg / التهاب الكبد B</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
             <field name="purchase_ok">False</field>
-            
         </record>
 
         <!-- HIV -->
-        <record id="product_hiv" model="product.template">
+        <record id="product_hiv" model="product.product">
             <field name="list_price">200.00</field>
             <field name="name">HIV / فحص فيروس نقص المناعة </field>
             <field name="type">service</field>
@@ -540,7 +501,7 @@
         </record>
 
         <!-- HCV -->
-        <record id="product_hcv" model="product.template">
+        <record id="product_hcv" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">HCV / التهاب الكبد C</field>
             <field name="type">service</field>
@@ -549,8 +510,8 @@
         </record>
 
         <!-- Urea -->
-        <record id="product_urea" model="product.template">
-            <field name="list_price">0.00</field>
+        <record id="product_urea" model="product.product">
+            <field name="list_price">10000.00</field>
             <field name="name">Urea / يوريا الدم</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
@@ -559,8 +520,8 @@
         </record>
 
         <!-- Creatinine -->
-        <record id="product_creatinine" model="product.template">
-            <field name="list_price">0.00</field>
+        <record id="product_creatinine" model="product.product">
+            <field name="list_price">10000.00</field>
             <field name="name">Creatinine / الكرياتينين</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
@@ -569,8 +530,8 @@
         </record>
 
         <!-- Sodium -->
-        <record id="product_sodium" model="product.template">
-            <field name="list_price">0.00</field>
+        <record id="product_sodium" model="product.product">
+            <field name="list_price">10000.00</field>
             <field name="name">Sodium / الصوديوم</field>
             <field name="type">service</field>
             <field name="sale_ok">True</field>
@@ -579,7 +540,7 @@
         </record>
 
         <!-- PTT -->
-        <record id="product_ptt" model="product.template">
+        <record id="product_ptt" model="product.product">
             <field name="list_price">15000.00</field>
             <field name="name">PTT / زمن الثرومبوبلاستين الجزئي</field>
             <field name="type">service</field>
@@ -588,7 +549,7 @@
         </record>
 
         <!-- Calcium -->
-        <record id="product_calcium" model="product.template">
+        <record id="product_calcium" model="product.product">
             <field name="list_price">15000.00</field>
             <field name="name">Calcium (Ca+) / الكالسيوم</field>
             <field name="type">service</field>
@@ -598,7 +559,7 @@
         </record>
 
         <!-- INR & PT -->
-        <record id="product_inr_pt" model="product.template">
+        <record id="product_inr_pt" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">INR &amp; PT / زمن البروثرومبين و INR</field>
             <field name="type">service</field>
@@ -607,7 +568,7 @@
         </record>
 
         <!-- Widal BO -->
-        <record id="product_widal_bo" model="product.template">
+        <record id="product_widal_bo" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">Widal BO / اختبار فيدال</field>
             <field name="type">service</field>
@@ -616,7 +577,7 @@
         </record>
 
         <!-- Short Stay (4 Hours) -->
-        <record id="procedure_short_stay_4hrs" model="product.template">
+        <record id="procedure_short_stay_4hrs" model="product.product">
             <field name="list_price">20000.00</field>
             <field name="name">Short Stay (4 hrs) / إقامة قصيرة (4 ساعات)</field>
             <field name="type">service</field>
@@ -625,7 +586,7 @@
         </record>
 
         <!-- Cannula Insertion -->
-        <record id="procedure_cannula_insertion" model="product.template">
+        <record id="procedure_cannula_insertion" model="product.product">
             <field name="list_price">5000.00</field>
             <field name="name">Cannula Insertion / تركيب كانيولا</field>
             <field name="type">service</field>
@@ -634,7 +595,7 @@
         </record>
 
         <!-- Injections -->
-        <record id="procedure_injections" model="product.template">
+        <record id="procedure_injections" model="product.product">
             <field name="list_price">2000.00</field>
             <field name="name">Injections / الحقن</field>
             <field name="type">service</field>
@@ -643,7 +604,7 @@
         </record>
 
         <!-- IV Drip -->
-        <record id="procedure_iv_drip" model="product.template">
+        <record id="procedure_iv_drip" model="product.product">
             <field name="list_price">5000.00</field>
             <field name="name">IV Drip / المحلول الوريدي</field>
             <field name="type">service</field>
@@ -652,7 +613,7 @@
         </record>
 
         <!-- Oxygen -->
-        <record id="procedure_oxygen_1hr" model="product.template">
+        <record id="procedure_oxygen_1hr" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">Oxygen (1 Hour) / الأكسجين (ساعة واحدة)</field>
             <field name="type">service</field>
@@ -661,7 +622,7 @@
         </record>
 
         <!-- NG Tube Insertion -->
-        <record id="procedure_ng_tube_insertion" model="product.template">
+        <record id="procedure_ng_tube_insertion" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">N.G. Tube Insertion / إدخال أنبوب أنفي معدي</field>
             <field name="type">service</field>
@@ -670,7 +631,7 @@
         </record>
 
         <!-- Nebulizer Session -->
-        <record id="procedure_nebulizer_session" model="product.template">
+        <record id="procedure_nebulizer_session" model="product.product">
             <field name="list_price">7000.00</field>
             <field name="name">Nebulizer Session / جلسة تبخير</field>
             <field name="type">service</field>
@@ -679,7 +640,7 @@
         </record>
 
         <!-- Small Dressing -->
-        <record id="procedure_small_dressing" model="product.template">
+        <record id="procedure_small_dressing" model="product.product">
             <field name="list_price">5000.00</field>
             <field name="name">Small Dressing / غيار جرح صغير</field>
             <field name="type">service</field>
@@ -688,7 +649,7 @@
         </record>
 
         <!-- Medium Dressing -->
-        <record id="procedure_medium_dressing" model="product.template">
+        <record id="procedure_medium_dressing" model="product.product">
             <field name="list_price">7000.00</field>
             <field name="name">Medium Dressing / غيار جرح متوسط</field>
             <field name="type">service</field>
@@ -697,7 +658,7 @@
         </record>
 
         <!-- Large Dressing -->
-        <record id="procedure_large_dressing" model="product.template">
+        <record id="procedure_large_dressing" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">Large Dressing / غيار جرح كبير</field>
             <field name="type">service</field>
@@ -706,7 +667,7 @@
         </record>
 
         <!-- Small Wound Suture -->
-        <record id="procedure_small_wound_suture" model="product.template">
+        <record id="procedure_small_wound_suture" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">Small Wound Suture / خياطة جرح صغير</field>
             <field name="type">service</field>
@@ -715,7 +676,7 @@
         </record>
 
         <!-- Medium Wound Suture -->
-        <record id="procedure_medium_wound_suture" model="product.template">
+        <record id="procedure_medium_wound_suture" model="product.product">
             <field name="list_price">14000.00</field>
             <field name="name">Medium Wound Suture / خياطة جرح متوسط</field>
             <field name="type">service</field>
@@ -724,7 +685,7 @@
         </record>
 
         <!-- Large Wound Suture -->
-        <record id="procedure_large_wound_suture" model="product.template">
+        <record id="procedure_large_wound_suture" model="product.product">
             <field name="list_price">20000.00</field>
             <field name="name">Large Wound Suture / خياطة جرح كبير</field>
             <field name="type">service</field>
@@ -733,7 +694,7 @@
         </record>
 
         <!-- Urinary Catheter Insertion -->
-        <record id="procedure_urinary_catheter_insertion" model="product.template">
+        <record id="procedure_urinary_catheter_insertion" model="product.product">
             <field name="list_price">10000.00</field>
             <field name="name">Urinary Catheter Insertion / إدخال قسطرة بولية</field>
             <field name="type">service</field>
@@ -742,7 +703,7 @@
         </record>
 
         <!-- Gastric Lavage -->
-        <record id="procedure_gastric_lavage" model="product.template">
+        <record id="procedure_gastric_lavage" model="product.product">
             <field name="list_price">20000.00</field>
             <field name="name">Gastric Lavage / غسيل المعدة</field>
             <field name="type">service</field>

@@ -10,8 +10,14 @@ class MedicalLabTemplate(models.Model):
 
     name = fields.Char(string='Investigation Name', required=True, index=True)
     code = fields.Char(string='Code', index=True)
+    # product_id = fields.Many2one(
+    #     'product.template',
+    #     string='Investigation Product',
+    #     domain=[('type', '=', 'service')],
+    #     help='Link to product for invoicing. Price is taken from the product.',
+    # )
     product_id = fields.Many2one(
-        'product.template',
+        'product.product',
         string='Investigation Product',
         domain=[('type', '=', 'service')],
         help='Link to product for invoicing. Price is taken from the product.',

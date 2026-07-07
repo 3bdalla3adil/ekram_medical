@@ -56,6 +56,7 @@ class MedicalLabRequest(models.Model):
         'medical.lab.template',
         string='Requested Investigations',
     )
+    
     result_ids = fields.One2many(
         'medical.lab.result',
         'request_id',
@@ -111,6 +112,7 @@ class MedicalLabRequest(models.Model):
                     })
                     result._load_template_lines()
 
+    
     def action_complete(self):
         for rec in self:
             rec.state = 'completed'

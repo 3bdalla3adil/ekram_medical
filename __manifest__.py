@@ -26,12 +26,14 @@
     'license': 'LGPL-3',
     'depends': [
         'base',
+        'bus',
         'mail',
         'hr',
         'product',
         'account',
         'sale_management',
         'web',
+        # 'web_notify',
     ],
     'data': [
         'security/ekram_medical_groups.xml',
@@ -40,7 +42,7 @@
         # data
         'data/ekram_medical_sequence.xml',
         'data/ekram_medical_product_category.xml',
-        'demo/ekram_medical_demo.xml',
+        # 'demo/ekram_medical_demo.xml',
         # VIEWS
         'views/res_partner_views.xml',
         'views/medical_appointment_views.xml',
@@ -69,7 +71,7 @@
             'ekram_medical/static/src/xml/admin_dashboard.xml',
             'ekram_medical/static/src/js/admin_dashboard.js',
             # CSS
-            'ekram_medical/static/src/css/ekram_medical.css',
+            # 'ekram_medical/static/src/css/ekram_medical.css',
             'ekram_medical/static/src/css/ekram_dashboard.css',
             # XML
             'ekram_medical/static/src/xml/medical_dashboard.xml',

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="view_appointment_form" model="ir.ui.view">
+    <field name="name">medical.appointment.form</field>
+    <field name="model">medical.appointment</field>
+    <field name="arch" type="xml">
+        <form string="Appointment / موعد">
+            <header>
+                <button name="action_confirm"
+                        string="Confirm / تأكيد"
+                        type="object" class="btn-primary"
+                        invisible="state != 'draft'"/>
+                <button name="action_done"
+                        string="Done / منتهي"
+                        type="object"
+                        invisible="state != 'confirmed'"/>
+                <button name="action_cancel"
+                        string="Cancel / إلغاء"
+                        type="object"
+                        invisible="state in ('done','cancelled')"/>
+                <button name="action_create_invoice"
+                        string="Create Invoice / إنشاء فاتورة"
+                        type="object" class="btn-success"
+                        invisible="invoice_id != False or state == 'cancelled'"
+                        groups="ekram_medical.group_medical_reception,
+                                ekram_medical.group_medical_admin"/>
+                <button name="action_view_invoice"
+                        string="View Invoice / عرض الفاتورة"
+                        type="object" class="btn-secondary"
+                        invisible="invoice_id == False"/>
+                <field name="state" widget="statusbar"
+                       statusbar_visible="draft,confirmed,done"/>
+            </header>
+
+            <sheet>
+                <!-- Smart buttons -->
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_lab_requests"
+                            type="object"
+                            class="oe_stat_button" icon="fa-flask"
+                            invisible="lab_request_count == 0">
+                        <field name="lab_request_count" widget="statinfo"
+                               string="Lab / مختبر"/>
+                    </button>
+                    <button name="action_view_invoice"
+                            type="object"
+                            class="oe_stat_button" icon="fa-file-text-o"
+                            invisible="invoice_id == False">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Invoice</span>
+                            <span class="o_stat_value">
+                                <field name="invoice_state"/>
+                            </span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="oe_title">
+                    <h1><field name="name" readonly="1"/></h1>
+                </div>
+
+                <!-- Basic info -->
+                <group>
+                    <group string="Appointment / الموعد">
+                        <field name="patient_id"/>
+                        <field name="appointment_date"/>
+                        <field name="appointment_type"/>
+                        <field name="reason"
+                               placeholder="Reason for visit / سبب الزيارة "/>
+                    </group>
+                    <group string="Billing Summary / ملخص الفاتورة">
+                        <field name="total_consultation"
+                               string="Consultation / الاستشارة"
+                               widget="monetary"/>
+                        <field name="total_nurse"
+                               string="Nurse Procedures / إجراءات التمريض"
+                               widget="monetary"/>
+                        <field name="total_lab"
+                               string="Lab Investigations / فحوصات المختبر"
+                               widget="monetary"/>
+                        <field name="total_amount"
+                               string="Grand Total / الإجمالي"
+                               widget="monetary"
+                               class="fw-bold text-success"/>
+                    </group>
+                </group>
+
+                <notebook>
+
+                    <!-- ══ TAB 1: CONSULTATION FEE ══ -->
+                    <page string="Consultation / الاستشارة" name="consultation">
+                        <group>
+                            <group string="Doctor Consultation Fee / رسوم الاستشارة الطبية">
+                                <field name="consultation_product_id"
+                                       string="Consultation Service / خدمة الاستشارة"
+                                       options="{'no_create': True}"
+                                       placeholder="Select consultation product..."/>
+                                <field name="consultation_price"
+                                       string="Fee / الرسوم"
+                                       widget="monetary"
+                                       readonly="1"/>
+                            </group>
+                        </group>
+                        <div class="alert alert-info" role="alert"
+                             invisible="consultation_product_id != False">
+                            <i class="fa fa-info-circle"/>
+                            Select a consultation product to add the doctor fee to the invoice.
+                            / اختر منتج الاستشارة لإضافة رسوم الطبيب إلى الفاتورة.
+                        </div>
+                    </page>
+
+                    <!-- ══ TAB 2: NURSE PROCEDURES ══ -->
+                    <page string="Nurse Procedures / إجراءات التمريض" name="nurse">
+                        <field name="nurse_procedure_ids" widget="one2many">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="product_id"
+                                       string="Procedure / الإجراء"
+                                       options="{'no_create': True}"/>
+                                <field name="description"
+                                       string="Notes / ملاحظات"/>
+                                <field name="quantity"
+                                       string="Qty / الكمية"/>
+                                <field name="unit_price"
+                                       string="Price / السعر"
+                                       widget="monetary"/>
+                                <field name="subtotal"
+                                       string="Subtotal / الإجمالي"
+                                       widget="monetary"
+                                       readonly="1"/>
+                            </list>
+                        </field>
+                        <group class="oe_subtotal_footer">
+                            <field name="total_nurse"
+                                   string="Nurse Total / إجمالي التمريض"
+                                   widget="monetary"
+                                   readonly="1"
+                                   class="oe_subtotal_footer_separator"/>
+                        </group>
+                        <div class="alert alert-info" role="alert"
+                             invisible="nurse_procedure_ids != []">
+                            <i class="fa fa-info-circle"/>
+                            Add nurse procedures performed during this visit (IV, dressing, injection, etc.)
+                            / أضف إجراءات التمريض المنفذة خلال هذه الزيارة.
+                        </div>
+                    </page>
+
+                    <!-- ══ TAB 3: LAB INVESTIGATIONS ══ -->
+                    <page string="Lab Investigations / فحوصات المختبر" name="lab">
+                        <button name="action_create_lab_request"
+                                string="+ New Lab Request / طلب مختبر جديد"
+                                type="object"
+                                class="btn-primary mb-2"
+                                invisible="state == 'cancelled'"
+                                groups="ekram_medical.group_medical_reception,
+                                        ekram_medical.group_medical_admin"/>
+                        <field name="lab_request_ids" widget="one2many">
+                            <list>
+                                <field name="name" string="Ref / المرجع"/>
+                                <field name="template_ids"
+                                       widget="many2many_tags"
+                                       string="Investigations / الفحوصات"/>
+                                <field name="state" widget="badge"
+                                       string="Status / الحالة"/>
+                                <field name="has_critical" widget="boolean"
+                                       string="Critical / حرج"
+                                       optional="show"/>
+                            </list>
+                        </field>
+                        <group class="oe_subtotal_footer">
+                            <field name="total_lab"
+                                   string="Lab Total / إجمالي المختبر"
+                                   widget="monetary"
+                                   readonly="1"
+                                   class="oe_subtotal_footer_separator"/>
+                        </group>
+                    </page>
+
+                    <!-- ══ TAB 4: NOTES ══ -->
+                    <page string="Notes / ملاحظات" name="notes">
+                        <field name="notes"
+                               placeholder="Internal notes / ملاحظات داخلية"
+                               nolabel="1"/>
+                    </page>
+
+                </notebook>
+            </sheet>
+            <chatter/>
+        </form>
+    </field>
+</record>
+
+<!-- ══ LIST VIEW ══ -->
+<record id="view_appointment_list" model="ir.ui.view">
+    <field name="name">medical.appointment.list</field>
+    <field name="model">medical.appointment</field>
+    <field name="arch" type="xml">
+        <list string="Appointments / المواعيد"
+              decoration-success="state == 'done'"
+              decoration-muted="state == 'cancelled'">
+            <field name="name"           string="Ref"/>
+            <field name="patient_id"     string="Patient / المريض"/>
+            <field name="appointment_date" string="Date / التاريخ"/>
+            <field name="appointment_type" string="Type / النوع"/>
+            <field name="total_amount"   string="Total / الإجمالي"
+                   widget="monetary"/>
+            <field name="invoice_state"  string="Invoice / الفاتورة"/>
+            <field name="state"          widget="badge"
+                   decoration-info="state == 'draft'"
+                   decoration-warning="state == 'confirmed'"
+                   decoration-success="state == 'done'"
+                   decoration-danger="state == 'cancelled'"
+                   string="Status / الحالة"/>
+        </list>
+    </field>
+</record>
+
+<!-- ══ SEARCH ══ -->
+<record id="view_appointment_search" model="ir.ui.view">
+    <field name="name">medical.appointment.search</field>
+    <field name="model">medical.appointment</field>
+    <field name="arch" type="xml">
+        <search string="Search Appointments / بحث المواعيد">
+            <field name="name"/>
+            <field name="patient_id"/>
+            <filter string="Today / اليوم" name="today"
+                    domain="[('appointment_date','&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]"/>
+            <filter string="Confirmed / مؤكد" name="confirmed"
+                    domain="[('state','=','confirmed')]"/>
+            <filter string="Not Invoiced / غير مفوتر" name="not_invoiced"
+                    domain="[('invoice_id','=',False),('state','=','done')]"/>
+            <group expand="0" string="Group By / تجميع حسب">
+                <filter string="Status / الحالة" name="grp_state"
+                        context="{'group_by': 'state'}"/>
+                <filter string="Patient / المريض" name="grp_patient"
+                        context="{'group_by': 'patient_id'}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+<!-- ══ ACTION ══ -->
+<record id="action_appointment" model="ir.actions.act_window">
+    <field name="name">Appointments / المواعيد</field>
+    <field name="res_model">medical.appointment</field>
+    <field name="view_mode">list,form</field>
+    <field name="search_view_id" ref="view_appointment_search"/>
+    <field name="context">{'search_default_confirmed': 1}</field>
+</record>
+
+<!-- ── Action ──────────────────────────────────────────────────── -->
+    <record id="action_medical_appointments_today" model="ir.actions.act_window">
+        <field name="name">المواعيد / Appointments</field>
+        <field name="res_model">medical.appointment</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_filter_today': 1}</field>
+    </record>
+
+    <!-- ── Action (Main) ───────────────────────────────────────────── -->
+    <record id="action_medical_appointment" model="ir.actions.act_window">
+        <field name="name">المواعيد / Appointments</field>
+        <field name="res_model">medical.appointment</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+
+</odoo>

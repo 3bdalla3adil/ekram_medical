@@ -9,21 +9,37 @@ class LabDashboard extends Component {
     static template = "ekram_medical.LabDashboard";
 
     setup() {
-        // this.rpc    = useService("rpc");
         this.action = useService("action");
-        this.state  = useState({ loading: true, kpis: {}, pending_requests: [], pending_results: [] });
+        this.state  = useState({ 
+            loading: true, kpis: {}, 
+            requests_in_progress: [],
+             complete_requests: [],
+              pending_requests: [],
+               pending_results: [] });
         onWillStart(async () => { await this.loadData(); });
     }
 
     async loadData() {
         this.state.loading = true;
+
         try {
-            const data = await this.rpc("/ekram_medical/lab_data", {});
-            this.state.kpis             = data.kpis || {};
-            this.state.pending_requests = data.pending_requests_list || [];
-            this.state.pending_results  = data.pending_results_list  || [];
-        } catch (e) {
-            console.error("Lab dashboard error:", e);
+            const data = await rpc("/ekram_medical/lab_data");
+
+            this.state.kpis = data.kpis || {};
+
+            this.state.pending_requests =
+                data.pending_requests_list || [];
+
+            this.state.complete_requests =
+                data.completed_today || [];
+
+            this.state.requests_in_progress =
+                data.in_progress || [];
+
+            this.state.pending_results =
+                data.pending_results_list || [];
+        } catch (error) {
+            console.error("Lab Dashboard:", error);
         } finally {
             this.state.loading = false;
         }
@@ -40,13 +56,35 @@ class LabDashboard extends Component {
     openAllRequests() { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
     
     openAllResults()  { this.action.doAction("ekram_medical.action_medical_lab_results"); }
+
+    openPendingRequests() {
+        this.action.doAction("ekram_medical.action_medical_lab_requests", {
+        additionalContext: {},
+        domain: [["state", "in", ["draft", "processing"]]],
+        });
+    }
+
+    openCompleteRequests() {
+        this.action.doAction("ekram_medical.action_medical_lab_requests", {
+        additionalContext: {},
+        domain: [["state", "in", ["completed"]]],
+        });
+    }
+
+    openPendingResults() {
+        this.action.doAction("ekram_medical.action_medical_lab_requests", {
+        additionalContext: {},
+        domain: [["state", "in", ["draft"]]],
+        });
+    }
     
     openNewRequest() {
         this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]], target:"new" });
     }
+
     getStateBadgeClass(state) {
         return "badge " + ({ draft:"badge-info", processing:"badge-warning", completed:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
     }
 }
 
-registry.category("actions").add("ekram_medical.lab_dashboard", LabDashboard);
+registry.category("actions").add("ekram_medical_lab_dashboard", LabDashboard)

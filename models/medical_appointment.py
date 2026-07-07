@@ -66,18 +66,19 @@ class MedicalAppointment(models.Model):
         required=True,
     )
 
-    lab_request_ids = fields.One2many(
-        'medical.lab.request', 'appointment_id', string='Lab Requests'
+    medical_service_ids = fields.One2many(
+        'product.product', 'appointment_id',
+        string='خدمة طبية/Medical Service'
     )
     lab_request_count = fields.Integer(
         string='Lab Requests', compute='_compute_lab_request_count'
     )
     invoice_id = fields.Many2one('account.move', string='Invoice', readonly=True)
 
-    @api.depends('lab_request_ids')
-    def _compute_lab_request_count(self):
-        for rec in self:
-            rec.lab_request_count = len(rec.lab_request_ids)
+    # @api.depends('lab_request_ids')
+    # def _compute_lab_request_count(self):
+    #     for rec in self:
+    #         rec.lab_request_count = len(rec.lab_request_ids)
 
     # ── ORM ───────────────────────────────────────────────────────────────────
     @api.model_create_multi
@@ -134,6 +135,36 @@ class MedicalAppointment(models.Model):
             'view_mode': 'form',
         }
 
+    # def notify_the_world(self, vals):
+    #     if 'state' in vals:
+    #         state = vals['state']
+    #         for appointment in self:
+    #             # Check if a specific user is assigned to this appointment
+    #             # Replace 'user_id' with your actual field name (e.g., 'doctor_id.user_id')
+    #             target_user = appointment.doctor_id.user_id 
+                
+    #             if target_user:
+    #                 target_user.notify_warning(
+    #                     f"Appointment For Patient [{appointment.patient_id.name}] "
+    #                     f"state has been changed to {state}."
+    #                 )
+
+    # def notify_the_world(self, vals):
+    #     users = self.env['res.users'].search(
+    #         [('user_id', '!=', self.env.user.id), ('company_id', '=', self.env.user.company_id.id)])
+    #     if 'state' in vals:
+    #         state = vals['state']
+    #         for appointment in self:
+    #             for user in users:
+    #                 user.notify_warning(
+    #                     f"Appointment For Patient [{appointment.patient_id}] state has been changed to {state}.")
+    #     self.update_screen()
+
+    # @api.model
+    # def write(self, vals):
+    #     self.notify_the_world(vals)
+    #     return super(MedicalAppointment, self).write(vals)
+
     def action_create_lab_request(self):
         return {
             'type': 'ir.actions.act_window',
@@ -174,6 +205,13 @@ class MedicalAppointment(models.Model):
             'invoice_line_ids': lines,
         })
         self.invoice_id = invoice.id
+        # if self.medical_service_ids:
+        #     lines.append((0, 0, {
+        #         'product_id':  self.consultation_product_id.id,
+        #         'quantity':    1,
+        #         'price_unit':  self.consultation_product_id.lst_price,
+        #         'name':        self.consultation_product_id.name,
+        #     }))
         return {
             'type': 'ir.actions.act_window',
             'name': 'Invoice',
@@ -207,3 +245,15 @@ class MedicalAppointment(models.Model):
                 'default_appointment_id': self.id,
             },
         }
+
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    appointment_id = fields.Many2one('medical.appointment')
+
+
+# class ProductTemplate(models.Model):
+#     _inherit = 'product.product'
+
+#     appointment_id = fields.Many2one('medical.appointment')

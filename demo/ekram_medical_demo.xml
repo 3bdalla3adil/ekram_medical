@@ -4,18 +4,75 @@
 
         <!-- ── Demo Employees (Doctors) ───────────────────────────────── -->
         <record id="demo_doctor_ahmed" model="hr.employee">
-            <field name="name">Dr. Ahmed Al-Rashidi</field>
+            <field name="name">Dr. Amjad</field>
             <field name="job_title">Doctor - Internal Medicine</field>
         </record>
 
         <record id="demo_doctor_fatima" model="hr.employee">
-            <field name="name">Dr. Fatima Al-Zahra</field>
+            <field name="name">Dr. Ahmed Zahir</field>
             <field name="job_title">Doctor - Pediatrics</field>
         </record>
 
         <record id="demo_technician_omar" model="hr.employee">
-            <field name="name">Omar Al-Farsi</field>
+            <field name="name">Dr. Remah</field>
             <field name="job_title">Lab Technician</field>
+        </record>
+
+        <!-- ── Consultation Products ── -->
+        <record id="demo_product_consultation" model="product.product">
+            <field name="name">General Consultation</field>
+            <field name="type">service</field>
+            <field name="lst_price">10.000</field>
+            <field name="categ_id" ref="product_category_medical"/>
+        </record>
+
+        <!-- ── Nurse Procedure Products ── -->
+        <record id="demo_product_iv" model="product.product">
+            <field name="name">IV Cannula Insertion</field>
+            <field name="type">service</field>
+            <field name="lst_price">2.000</field>
+            <field name="categ_id" ref="product_category_nurse"/>
+        </record>
+        <record id="demo_product_dressing" model="product.product">
+            <field name="name">Wound Dressing</field>
+            <field name="type">service</field>
+            <field name="lst_price">1.500</field>
+            <field name="categ_id" ref="product_category_nurse"/>
+        </record>
+        <record id="demo_product_injection" model="product.product">
+            <field name="name">IM Injection</field>
+            <field name="type">service</field>
+            <field name="lst_price">1.000</field>
+            <field name="categ_id" ref="product_category_nurse"/>
+        </record>
+        <record id="demo_product_nebulizer" model="product.product">
+            <field name="name">Nebulizer Treatment</field>
+            <field name="type">service</field>
+            <field name="lst_price">3.000</field>
+            <field name="categ_id" ref="product_category_nurse"/>
+        </record>
+
+        <!-- ── Lab Products (link to existing templates) ── -->
+        <record id="demo_product_cbc" model="product.product">
+            <field name="name">CBC - Complete Blood Count</field>
+            <field name="type">service</field>
+            <field name="lst_price">5.000</field>
+            <field name="categ_id" ref="product_category_lab"/>
+        </record>
+        
+        <record id="demo_product_rft" model="product.product">
+            <field name="name">RFT - Renal Function Test</field>
+            <field name="type">service</field>
+            <field name="lst_price">7.000</field>
+            <field name="categ_id" ref="product_category_lab"/>
+        </record>
+
+        <!-- Link products to lab templates -->
+        <record id="demo_tmpl_cbc" model="medical.lab.template">
+            <field name="product_id" ref="demo_product_cbc"/>
+        </record>
+        <record id="demo_tmpl_rft" model="medical.lab.template">
+            <field name="product_id" ref="demo_product_rft"/>
         </record>
 
         <!-- ── Demo Patients ──────────────────────────────────────────── -->
@@ -54,56 +111,56 @@
         </record>
 
         <!-- ── Lab Investigation Products ────────────────────────────── -->
-        <record id="demo_product_cbc" model="product.template">
+        <record id="demo_product_cbc" model="product.product">
             <field name="name">Complete Blood Count (CBC)</field>
             <field name="type">service</field>
             <field name="list_price">5.000</field>
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
-        <record id="demo_product_rft" model="product.template">
+        <record id="demo_product_rft" model="product.product">
             <field name="name">Renal Function Tests (RFT)</field>
             <field name="type">service</field>
             <field name="list_price">8.000</field>
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
-        <record id="demo_product_lft" model="product.template">
+        <record id="demo_product_lft" model="product.product">
             <field name="name">Liver Function Tests (LFT)</field>
             <field name="type">service</field>
             <field name="list_price">10.000</field>
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
-        <record id="demo_product_urine" model="product.template">
+        <record id="demo_product_urine" model="product.product">
             <field name="name">Urine Analysis (UA)</field>
             <field name="type">service</field>
             <field name="list_price">3.000</field>
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
-        <record id="demo_product_tsh" model="product.template">
+        <record id="demo_product_tsh" model="product.product">
             <field name="name">T S H (TSH)</field>
             <field name="type">service</field>
             <field name="list_price">3.000</field>
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
-        <record id="demo_product_ft4" model="product.template">
+        <record id="demo_product_ft4" model="product.product">
             <field name="name">F T 4 (FT4)</field>
             <field name="type">service</field>
             <field name="list_price">3.000</field>
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
-        <record id="demo_product_ft3" model="product.template">
+        <record id="demo_product_ft3" model="product.product">
             <field name="name">F T 3 (FT3)</field>
             <field name="type">service</field>
             <field name="list_price">3.000</field>
             <field name="categ_id" ref="ekram_medical.product_category_lab_investigations"/>
         </record>
 
-        <record id="demo_product_thyroid" model="product.template">
+        <record id="demo_product_thyroid" model="product.product">
             <field name="name">Thyroid Function Tests (TFT)</field>
             <field name="type">service</field>
             <field name="list_price">12.000</field>
