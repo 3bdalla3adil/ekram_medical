@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ══ ROOT MENU ══ -->
+    <menuitem id="menu_medical_root" name="Medical" sequence="10"
+              web_icon="ekram_medical,static/description/icon.png"
+              groups="ekram_medical.group_medical_admin,
+                      ekram_medical.group_medical_reception,
+                      ekram_medical.group_medical_lab"/>
+
+    <!-- ══ RECEPTION ══ -->
+    <menuitem id="menu_reception" name="Reception" parent="menu_medical_root"
+              sequence="10"
+              groups="ekram_medical.group_medical_admin,ekram_medical.group_medical_reception"/>
+
+    <menuitem id="menu_patients" name="Patients" parent="menu_reception"
+              action="action_patient_list" sequence="10"/>
+    <menuitem id="menu_appointments" name="Appointments" parent="menu_reception"
+              action="action_appointment" sequence="20"/>
+    <menuitem id="menu_invoices" name="Invoices" parent="menu_reception"
+              action="action_medical_invoices" sequence="30"/>
+
+    <!-- ══ LABORATORY ══ -->
+    <menuitem id="menu_laboratory" name="Laboratory" parent="menu_medical_root"
+              sequence="20"
+              groups="ekram_medical.group_medical_admin,
+                      ekram_medical.group_medical_reception,
+                      ekram_medical.group_medical_lab"/>
+
+    <menuitem id="menu_lab_requests" name="Lab Requests" parent="menu_laboratory"
+              action="action_lab_request" sequence="10"/>
+
+    <!-- ══ DASHBOARDS ══ -->
+    <menuitem id="menu_dashboards" name="Dashboards" parent="menu_medical_root"
+              sequence="5"/>
+
+    <menuitem id="menu_reception_dashboard" name="Reception Dashboard"
+              parent="menu_dashboards"
+              action="action_reception_dashboard" sequence="10"
+              groups="ekram_medical.group_medical_admin,ekram_medical.group_medical_reception"/>
+    <menuitem id="menu_lab_dashboard" name="Lab Dashboard"
+              parent="menu_dashboards"
+              action="action_lab_dashboard" sequence="20"
+              groups="ekram_medical.group_medical_admin,ekram_medical.group_medical_lab"/>
+    <menuitem id="menu_admin_dashboard" name="Admin Dashboard"
+              parent="menu_dashboards"
+              action="action_admin_dashboard" sequence="30"
+              groups="ekram_medical.group_medical_admin"/>
+
+    <!-- ══ CONFIGURATION ══ -->
+    <menuitem id="menu_config" name="Configuration" parent="menu_medical_root"
+              sequence="99"
+              groups="ekram_medical.group_medical_admin"/>
+    <menuitem id="menu_lab_templates" name="Lab Templates" parent="menu_config"
+              action="action_lab_template" sequence="10"/>
+</odoo>

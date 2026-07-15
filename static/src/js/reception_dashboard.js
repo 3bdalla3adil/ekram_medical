@@ -22,6 +22,7 @@ class ReceptionDashboard extends Component {
             const data = await rpc("/ekram_medical/reception_data", {});
             this.state.kpis         = data.kpis        || {};
             this.state.appointments = data.appointments || [];
+            
         } catch (e) {
             console.error("Reception dashboard error:", e);
         } finally {
@@ -33,7 +34,8 @@ class ReceptionDashboard extends Component {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("New Patient"),
             res_model: "res.partner", view_mode: "form",
-            views: [[false, "form"]], target: "new",
+            // views: [[false, "form"]], target: "new",
+            views: [[false, "form"]],
             context: { default_is_patient: true },
         });
     }
@@ -53,20 +55,23 @@ class ReceptionDashboard extends Component {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("New Appointment"),
             res_model: "medical.appointment", view_mode: "form",
-            views: [[false, "form"]], target: "new",
+            // views: [[false, "form"]], target: "new",
+            views: [[false, "form"]],
         });
     }
     openNewInvoice() {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("New Invoice"),
             res_model: "account.move", view_mode: "form",
-            views: [[false, "form"]], target: "new",
+            // views: [[false, "form"]], target: "new",
+            views: [[false, "form"]],
             context: { default_move_type: "out_invoice" },
         });
     }
     openPatientList()      { this.action.doAction("ekram_medical.action_medical_patients"); }
+    openAppointmentTodayList()  { this.action.doAction("ekram_medical.action_medical_appointments_today"); }
     openAppointmentList()  { this.action.doAction("ekram_medical.action_medical_appointments"); }
-    openAppointmentList()  { this.action.doAction("ekram_medical.action_medical_appointments"); }
+    
     openOutstanding() {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("Outstanding Invoices"),
@@ -74,18 +79,30 @@ class ReceptionDashboard extends Component {
             domain: [["move_type","=","out_invoice"],["payment_state","in",["not_paid","partial"]],["state","=","posted"]],
         });
     }
-    openAppointment(id) {
-        const recordId = id;
-        this.action.doAction({
+
+    viewAppointmentsById(id = null) {
+        const domain = id ? [["id", "=", id]] : [];
+        this.actionService.doAction({
             type: "ir.actions.act_window",
-            name: name ? `${name.toUpperCase()} Appointments` : "All Appointments",
+            name: id ? `${id} Appointments` : "All Appointments",
             res_model: "medical.appointment",
-            domain: [["id","=",recordId],],
-            // res_id: recordId,
+            domain: domain,
             views: [[false, "list"], [false, "form"], [false, "kanban"]],
-            target: "current",
+            target: "new",
         });
     }
+    // openAppointment(id) {
+    //     const recordId = id;
+    //     this.action.doAction({
+    //         type: "ir.actions.act_window",
+    //         name: name ? `${name.toUpperCase()} Appointments` : "All Appointments",
+    //         res_model: "medical.appointment",
+    //         domain: [["id","=",recordId],],
+    //         // res_id: recordId,
+    //         views: [[false, "list"], [false, "form"], [false, "kanban"]],
+    //         target: "current",
+    //     });
+    // }
     openLabRequest(id) {
         this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.request", res_id:id, view_mode:"form", views:[[false,"form"]] });
     }
@@ -99,11 +116,12 @@ class ReceptionDashboard extends Component {
     openAllResults()  { this.action.doAction("ekram_medical.action_medical_lab_results"); }
     
     openNewRequest() {
-        this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]], target:"new" });
+        // this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]], target:"new" });
+        this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]],});
     }
-    getStateBadgeClass(state) {
-        return "badge " + ({ draft:"badge-info", processing:"badge-warning", completed:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
-    }
+    // getStateBadgeClass(state) {
+    //     return "badge " + ({ draft:"badge-info", processing:"badge-warning", completed:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
+    // }
     getStateBadgeClass(state) {
         return "badge " + ({ draft:"badge-secondary", confirmed:"badge-info", in_progress:"badge-warning", done:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
     }

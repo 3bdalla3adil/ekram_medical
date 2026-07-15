@@ -70,6 +70,8 @@ class MedicalConsultation(models.Model):
         default=lambda self: self.env.company,
         required=True,
     )
+    invoice_id = fields.Many2one('account.move', string='Invoice', readonly=True)
+
 
     # ── Compute ───────────────────────────────────────────────────────────────
     def _compute_lab_request_count(self):
@@ -100,6 +102,21 @@ class MedicalConsultation(models.Model):
     def action_cancel(self):
         for rec in self:
             rec.state = 'cancelled'
+
+    def notify_the_world(self, vals):
+        users = self.env['res.users'].search(
+            [('user_id', '!=', self.env.user.id), ('company_id', '=', self.env.user.company_id.id)])
+        if 'state' in vals:
+            state = vals['state']
+            for appointment in self:
+                for user in users:
+                    user.notify_warning(
+                        f"Appointment For Patient [{appointment.patient_id}] state has been changed to {state}.")
+    
+    @api.model
+    def write(self, vals):
+        self.notify_the_world(vals)
+        return super(MedicalAppointment, self).write(vals)
 
     def action_create_lab_request(self):
         self.ensure_one()

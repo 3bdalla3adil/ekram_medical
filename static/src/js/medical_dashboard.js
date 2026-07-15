@@ -25,26 +25,31 @@ export class MedicalDashboard extends Component {
     }
 
     // Dynamic counts straight from your medical.appointment schema
-    async loadDashboardStatistics() {}
+    async loadDashboardStatistics() {
     // async loadDashboardStatistics() {
     //     // const counts = await this.orm.readGroup(
-    //     const counts = await this.orm.formattedReadGroup(
-    //         "medical.appointment",
-    //         [],
-    //         ["state"],
-    //         ["state"]
-    //     );
+        // this.state.confirmed = 0;
+        // this.state.inProgress = 0;
+        // this.state.done = 0;
+        // this.state.cancelled = 0;
+        // this.state.total = 0;
+        const counts = await this.orm.formattedReadGroup(
+            "medical.appointment",
+            [],
+            ["state"],
+            ["state"]
+        );
         
-    //     let totalCount = 0;
-    //     counts.forEach(c => {
-    //         totalCount += c.state_count;
-    //         if (c.state === 'confirmed') this.state.confirmed = c.state_count;
-    //         if (c.state === 'in_progress') this.state.inProgress = c.state_count;
-    //         if (c.state === 'done') this.state.done = c.state_count;
-    //         if (c.state === 'cancelled') this.state.cancelled = c.state_count;
-    //     });
-    //     this.state.total = totalCount;
-    // }
+        let totalCount = 0;
+        counts.forEach(c => {
+            totalCount += c.state_count;
+            if (c.state === 'confirmed') this.state.confirmed = c.state_count;
+            if (c.state === 'in_progress') this.state.inProgress = c.state_count;
+            if (c.state === 'done') this.state.done = c.state_count;
+            if (c.state === 'cancelled') this.state.cancelled = c.state_count;
+        });
+        this.state.total = totalCount;
+    }
 
     // Quick Action 1: Book New Appointment Form Popup
     openNewAppointmentWizard() {

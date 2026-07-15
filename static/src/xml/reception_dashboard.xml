@@ -6,7 +6,7 @@
                 <t t-if="state.loading">
                     <div class="text-center py-5">
                         <div class="spinner-border text-primary" role="status"/>
-                        <p class="mt-2 text-muted">Loading dashboard...</p>
+                        <p class="mt-2 text-muted">جاري تحميل لوحة الاستقبال / Loading dashboard...</p>
                     </div>
                 </t>
                 <t t-else="">
@@ -14,50 +14,37 @@
                     <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                         <div class="mb-2">
                             <h3 class="mb-0 text-primary">
-                                <i class="fa fa-hospital-o mr-2"/> Reception Dashboard
+                                <i class="fa fa-hospital-o mr-2"/> لوحة الاستقبال / Reception Dashboard
                             </h3>
-                            <small class="text-muted">Ekram Medical Center</small>
+                            <small class="text-muted">مركز إكرام الطبي / Ekram Medical Center</small>
                         </div>
                         <div class="d-flex gap-2">
                             <button class="btn btn-outline-secondary btn-sm" t-on-click="loadData">
-                                <i class="fa fa-refresh"/> Refresh
+                                <i class="fa fa-refresh"/> تحديث / Refresh
                             </button>
                             <a href="/web/session/logout" class="btn btn-danger btn-sm">
-                                <i class="fa fa-sign-out"/> Logout
+                                <i class="fa fa-sign-out"/> تسجيل الخروج / Logout
                             </a>
                         </div>
                     </div>
 
                     <!-- Quick Actions -->
-                    <h6 class="text-uppercase text-muted mb-3">Quick Actions</h6>
+                    <h6 class="text-uppercase text-muted mb-3">إجراءات سريعة / Quick Actions</h6>
                     <div class="d-flex flex-wrap gap-2 mb-4 ">
                         <button class="btn btn-primary flex-fill kpi-card" t-on-click="openNewPatient">
-                            <i class="fa fa-user-plus mr-1"/> New Patient
+                            <i class="fa fa-user-plus mr-1"/> مريض جديد / New Patient
                         </button>
                         <button class="btn btn-success flex-fill kpi-cardgf vjbm" t-on-click="openNewAppointment">
-                            <i class="fa fa-calendar-plus-o mr-1"/> Book Appointment
+                            <i class="fa fa-calendar-plus-o mr-1"/> حجز موعد / Book Appointment
                         </button>
-                        <!-- <button class="btn btn-warning flex-fill" t-on-click="openNewInvoice">
-                            <i class="fa fa-file-text-o mr-1"/> New Invoice
-                        </button>
-                        <button class="btn btn-danger flex-fill" t-on-click="openOutstanding">
-                            <i class="fa fa-exclamation-circle mr-1"/> Outstanding
-                        </button> -->
                     </div>
 
                     <div class="ekram_dash_header lab_header">
                         <div class="d-flex align-items-center justify-content-between">
-                            <!-- <div>
-                                <h3 class="mb-0"><i class="fa fa-flask mr-2 text-info"/>Laboratory Dashboard</h3>
-                                <small class="text-muted">Ekram Medical Center — Lab</small>
-                            </div> -->
                             <div class="d-flex gap-2">
                                 <button class="btn btn-sm btn-primary kpi-card" t-on-click="openNewRequest">
-                                    <i class="fa fa-plus"/> New Request
+                                    <i class="fa fa-plus"/> طلب جديد / New Request
                                 </button>
-                                <!-- <button class="btn btn-sm btn-outline-secondary" t-on-click="loadData">
-                                    <i class="fa fa-refresh"/> Refresh
-                                </button> -->
                             </div>
                         </div>
                     </div>
@@ -69,18 +56,18 @@
                                 <div class="card-body" t-on-click="openPatientList">
                                     <i class="fa fa-users fa-2x text-primary mb-2"/>
                                     <h4><t t-esc="state.kpis.patients_today || 0"/></h4>
-                                    <p class="text-muted">Patients Today</p>
-                                    <small>Total: <t t-esc="state.kpis.total_patients || 0"/></small>
+                                    <p class="text-muted">مرضى اليوم / Patients Today</p>
+                                    <small>الإجمالي / Total: <t t-esc="state.kpis.total_patients || 0"/></small>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 col-lg-3 mb-3">
                             <div class="card text-center border-success h-100 kpi-card">
-                                <div class="card-body" t-on-click="openAppointmentList">
+                                <div class="card-body" t-on-click="openAppointmentTodayList">
                                     <i class="fa fa-calendar-check-o fa-2x text-success mb-2"/>
                                     <h4><t t-esc="state.kpis.appointments_today || 0"/></h4>
-                                    <p class="text-muted">Appointments Today</p>
-                                    <small>Pending: <t t-esc="state.kpis.pending_appointments || 0"/></small>
+                                    <p class="text-muted">مواعيد اليوم / Appointments Today</p>
+                                    <small>قيد الانتظار / Pending: <t t-esc="state.kpis.pending_appointments || 0"/></small>
                                 </div>
                             </div>
                         </div>
@@ -89,8 +76,8 @@
                                 <div class="card-body">
                                     <i class="fa fa-hourglass-half fa-2x text-warning mb-2"/>
                                     <h4><t t-esc="state.kpis.pending_requests || 0"/></h4>
-                                    <p class="text-muted">Pending Requests</p>
-                                    <small>In Progress: <t t-esc="state.kpis.in_progress || 0"/></small>
+                                    <p class="text-muted">طلبات معلقة / Pending Requests</p>
+                                    <small>قيد التنفيذ / In Progress: <t t-esc="state.kpis.in_progress || 0"/></small>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +87,7 @@
                                 <div class="card-body">
                                     <i class="fa fa-check-circle fa-2x text-success mb-2"/>
                                     <h4><t t-esc="state.kpis.completed_today || 0"/></h4>
-                                    <p class="text-muted">Completed Today</p>
+                                    <p class="text-muted">مكتمل اليوم / Completed Today</p>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +97,7 @@
                                 <div class="card-body">
                                     <i class="fa fa-pencil-square-o fa-2x text-info mb-2"/>
                                     <h4><t t-esc="state.kpis.pending_results || 0"/></h4>
-                                    <p class="text-muted">Results to Enter</p>
+                                    <p class="text-muted">نتائج بحاجة للإدخال / Results to Enter</p>
                                 </div>
                             </div>
                         </div>
@@ -120,48 +107,27 @@
                                 <div class="card-body">
                                     <i class="fa fa-spinner fa-spin fa-2x text-primary mb-2"/>
                                     <h4><t t-esc="state.kpis.in_progress || 0"/></h4>
-                                    <p class="text-muted">In Progress</p>
+                                    <p class="text-muted">قيد التنفيذ / In Progress</p>
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- ========================================================== -->
-                        <!-- <div class="col-12 col-sm-6 col-lg-3 mb-3">
-                            <div class="card text-center border-warning h-100">
-                                <div class="card-body" >
-                                    <i class="fa fa-file-text fa-2x text-warning mb-2"/>
-                                    <h4><t t-esc="state.kpis.invoices_today || 0"/></h4>
-                                    <p class="text-muted">Invoices Today</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6 col-lg-3 mb-3">
-                            <div class="card text-center border-danger h-100">
-                                <div class="card-body">
-                                    <i class="fa fa-exclamation-triangle fa-2x text-danger mb-2"/>
-                                    <h4><t t-esc="state.kpis.outstanding || 0"/></h4>
-                                    <p class="text-muted">Outstanding</p>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
 
                     <!-- Today's Appointments -->
                     <div class="card">
                         <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="fa fa-calendar mr-2"/> Today's Appointments</h5>
+                            <h5 class="mb-0"><i class="fa fa-calendar mr-2"/> مواعيد اليوم / Today's Appointments</h5>
                             <button class="btn btn-primary btn-sm mt-2 mt-sm-0" t-on-click="openNewAppointment">
-                                <i class="fa fa-plus"/> New
+                                <i class="fa fa-plus"/> جديد / New
                             </button>
                         </div>
                         <div class="card-body">
                             <t t-if="state.appointments.length === 0">
                                 <div class="text-center py-5">
                                     <i class="fa fa-calendar-o fa-3x text-muted"/>
-                                    <p class="text-muted mt-2">No appointments scheduled for today.</p>
+                                    <p class="text-muted mt-2">لا توجد مواعيد مجدولة لليوم / No appointments scheduled for today.</p>
                                     <button class="btn btn-primary btn-sm" t-on-click="openNewAppointment">
-                                        Book First Appointment
+                                        احجز أول موعد / Book First Appointment
                                     </button>
                                 </div>
                             </t>
@@ -170,8 +136,8 @@
                                     <table class="table table-hover">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th>Time</th><th>Patient</th><th>Doctor</th>
-                                                <th>Type</th><th>Status</th><th>Action</th>
+                                                <th>الوقت / Time</th><th>المريض / Patient</th><th>الطبيب / Doctor</th>
+                                                <th>النوع / Type</th><th>الحالة / Status</th><th>الإجراء / Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -189,7 +155,7 @@
                                                     <td>
                                                         <button class="btn btn-outline-primary btn-sm"
                                                                 t-on-click="() => openAppointment(apt.id)">
-                                                            <i class="fa fa-eye"/> Open
+                                                            <i class="fa fa-eye"/> فتح / Open
                                                         </button>
                                                     </td>
                                                 </tr>

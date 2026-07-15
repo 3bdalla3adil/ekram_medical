@@ -7,53 +7,65 @@ from datetime import date
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+
+    @api.model
+    def name_search(self, name, args=None, operator='ilike', limit=100):
+        args = args or []
+        recs = self.browse()
+        if name:
+            recs = self.search(['|','|', ('phone', operator, name), ('medical_number', operator, name),
+                                 ('name', operator, name)
+                                ])
+        if not recs:
+            recs = self.search([('name', operator, name)])
+
     # ── Medical Identity ──────────────────────────────────────────────────────
     # is_person = fields.Boolean('Person', help="Check if the partner is a person.")
     is_patient = fields.Boolean(string='Is Patient', default=False, index=True)
     medical_number = fields.Char(
-        string='Medical Number',
+        string='الرقم الطبي/Medical Number',
         copy=False,
         readonly=True,
         index=True,
     )
     # ── Demographics ──────────────────────────────────────────────────────────
     gender = fields.Selection([
-        ('male', 'Male'),
-        ('female', 'Female'),
-        ('other', 'Other'),
-    ], string='Gender')
-    date_of_birth = fields.Date(string='Date of Birth')
+        ('male', 'ذكر|Male'),
+        ('female', 'انثى|Female'),
+        ('other', 'اخرى|Other'),
+    ], string='الجنس|Gender')
+    date_of_birth = fields.Date(string='تاريخ الميلاد|Date of Birth')
     # age = fields.Integer(
     #     string='Age',
     #     compute='_compute_age',
     #     store=False,
     # )
-    age = fields.Integer(string='Age',)
+    age = fields.Integer(string='العمر|Age',)
     blood_group = fields.Selection([
         ('a+', 'A+'), ('a-', 'A-'),
         ('b+', 'B+'), ('b-', 'B-'),
         ('ab+', 'AB+'), ('ab-', 'AB-'),
         ('o+', 'O+'), ('o-', 'O-'),
-    ], string='Blood Group')
+    ], string='زمرة الدم|Blood Group')
     # ── Emergency Contact ─────────────────────────────────────────────────────
-    emergency_contact_name = fields.Char(string='Emergency Contact Name')
-    emergency_contact_phone = fields.Char(string='Emergency Contact Phone')
+    emergency_contact_name = fields.Char(string='اسم الطوارئ|Emergency Contact Name')
+    emergency_contact_phone = fields.Char(string='رقم الطوارئ|Emergency Contact Phone')
     emergency_contact_relation = fields.Char(string='Relation')
     # ── Medical Notes ─────────────────────────────────────────────────────────
-    medical_notes = fields.Text(string='Medical Notes')
-    known_allergies = fields.Text(string='Known Allergies')
-    chronic_conditions = fields.Text(string='Chronic Conditions')
+    medical_notes = fields.Text(string='ملاحظات طبية|Medical Notes')
+    known_allergies = fields.Text(string='حساسيات|Known Allergies')
+    chronic_conditions = fields.Text(string='حالة مزمنة|Chronic Conditions')
     # ── Statistics ────────────────────────────────────────────────────────────
     appointment_count = fields.Integer(
-        string='Appointments',
+        string='المواعيد|Appointments',
         compute='_compute_appointment_count',
     )
     lab_request_count = fields.Integer(
-        string='Lab Requests',
+        string='طلبات المختبر|Lab Requests',
         compute='_compute_lab_request_count',
     )
     invoice_count = fields.Integer(
-        string='Invoices',
+        string='فواتير|Invoices',
         compute='_compute_invoice_count',
     )
 

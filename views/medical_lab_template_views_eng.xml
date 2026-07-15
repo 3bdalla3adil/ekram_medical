@@ -2,21 +2,20 @@
 <odoo>
     <data>
 
-        <!-- ── Form View ── -->
         <record id="view_medical_lab_template_form" model="ir.ui.view">
             <field name="name">medical.lab.template.form</field>
             <field name="model">medical.lab.template</field>
             <field name="arch" type="xml">
-                <form string="قالب مختبر / Lab Template">
+                <form string="Lab Template">
                     <sheet>
                         <div class="oe_button_box" name="button_box">
                             <button type="object" name="action_view_template_lines"
                                     class="oe_stat_button" icon="fa-list">
-                                <field name="line_count" widget="statinfo" string="المعامل / Parameters"/>
+                                <field name="line_count" widget="statinfo" string="Parameters"/>
                             </button>
                         </div>
                         <div class="oe_title">
-                            <h1><field name="name" placeholder="اسم الفحص / Investigation Name..."/></h1>
+                            <h1><field name="name" placeholder="Investigation Name..."/></h1>
                         </div>
                         <group>
                             <group>
@@ -30,19 +29,19 @@
                                 <field name="active"/>
                             </group>
                         </group>
-                        <field name="notes" placeholder="ملاحظات / Notes..."/>
+                        <field name="notes" placeholder="Notes..."/>
                         <notebook>
-                            <page string="المعامل / Parameters" name="parameters">
+                            <page string="Parameters" name="parameters">
                                 <field name="line_ids">
                                     <list editable="bottom">
                                         <field name="sequence" widget="handle"/>
-                                        <field name="test_name" string="اسم الفحص / Test Name"/>
-                                        <field name="unit" string="الوحدة / Unit"/>
-                                        <field name="normal_range_text" string="النطاق المرجعي / Reference Range"/>
-                                        <field name="normal_min" string="الحد الأدنى / Normal Min"/>
-                                        <field name="normal_max" string="الحد الأقصى / Normal Max"/>
-                                        <field name="result_type" string="نوع النتيجة / Result Type"/>
-                                        <field name="notes" string="ملاحظات / Notes"/>
+                                        <field name="test_name"/>
+                                        <field name="unit"/>
+                                        <field name="normal_range_text"/>
+                                        <field name="normal_min"/>
+                                        <field name="normal_max"/>
+                                        <field name="result_type"/>
+                                        <field name="notes"/>
                                     </list>
                                 </field>
                             </page>
@@ -52,26 +51,24 @@
             </field>
         </record>
 
-        <!-- ── List View ── -->
         <record id="view_medical_lab_template_list" model="ir.ui.view">
             <field name="name">medical.lab.template.list</field>
             <field name="model">medical.lab.template</field>
             <field name="arch" type="xml">
-                <list string="قوالب المختبر / Lab Templates">
-                    <field name="name" string="الاسم / Name"/>
-                    <field name="code" string="الكود / Code"/>
-                    <field name="department" string="القسم / Department"/>
-                    <field name="sample_type" string="نوع العينة / Sample Type"/>
-                    <field name="line_count" string="المعامل / Parameters"/>
-                    <field name="turnaround_hours" string="مدة التنفيذ بالساعات / Turnaround Hours"/>
-                    <field name="active" string="نشط / Active"/>
+                <list string="Lab Templates">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="department"/>
+                    <field name="sample_type"/>
+                    <field name="line_count" string="Parameters"/>
+                    <field name="turnaround_hours"/>
+                    <field name="active"/>
                 </list>
             </field>
         </record>
 
-        <!-- ── Action ── -->
         <record id="action_medical_lab_templates" model="ir.actions.act_window">
-            <field name="name">قوالب المختبر / Lab Templates</field>
+            <field name="name">Lab Templates</field>
             <field name="res_model">medical.lab.template</field>
             <field name="view_mode">list,form</field>
         </record>

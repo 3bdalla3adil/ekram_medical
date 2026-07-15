@@ -6,20 +6,20 @@
     'category': 'Healthcare',
     'summary': 'Ekram Medical Center Management System - Laboratory, Appointments, Consultations',
     'description': """
-Ekram Medical Center Management System
-=======================================
-Version 1.1 MVP
+    Ekram Medical Center Management System
+    =======================================
+    Version 1.1 MVP
 
-Features:
-- Patient Registration (extends res.partner)
-- Appointment Management
-- Doctor Consultation
-- Laboratory Information System
-- Professional Lab Reports
-- Accounting Integration (account.move, account.payment)
-- Role-based Security (Reception, Doctor, Lab Technician, Admin)
-- Operational Dashboards
-- Demo Data
+    Features:
+    - Patient Registration (extends res.partner)
+    - Appointment Management
+    - Doctor Consultation
+    - Laboratory Information System
+    - Professional Lab Reports
+    - Accounting Integration (account.move, account.payment)
+    - Role-based Security (Reception, Doctor, Lab Technician, Admin)
+    - Operational Dashboards
+    - Demo Data
     """,
     'author': 'Abdulla Bashir',
     'website': 'https://www.3bdalla3adil.github.io',
@@ -37,8 +37,10 @@ Features:
         'security/ekram_medical_groups.xml',
         'security/ir.model.access.csv',
         'security/ekram_medical_record_rules.xml',
+        # data
         'data/ekram_medical_sequence.xml',
         'data/ekram_medical_product_category.xml',
+        'demo/ekram_medical_demo.xml',
         # VIEWS
         'views/res_partner_views.xml',
         'views/medical_appointment_views.xml',
@@ -48,6 +50,7 @@ Features:
         'views/medical_lab_result_views.xml',
         'views/medical_dashboard_views.xml',
         'views/medical_dashboard_actions.xml',
+        'reports/report_prescription.xml',
         'reports/medical_lab_report.xml',
         'reports/medical_lab_report_template.xml',
         'views/ekram_medical_menus.xml',
@@ -61,7 +64,7 @@ Features:
             'ekram_medical/static/src/xml/admin_dashboard.xml',
             'ekram_medical/static/src/js/admin_dashboard.js',
             # CSS
-            # 'ekram_medical/static/src/css/ekram_medical.css',
+            'ekram_medical/static/src/css/ekram_medical.css',
             'ekram_medical/static/src/css/ekram_dashboard.css',
             # XML
             'ekram_medical/static/src/xml/medical_dashboard.xml',

@@ -1,146 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- <data> -->
 
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!--  ROOT MENU                                                     -->
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <menuitem id="menu_ekram_medical_root"
-                  name="Medical Center"
-                  sequence="10"
-                  web_icon="ekram_medical,static/description/icon.png"/>
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!--  ROOT MENU                                                     -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_ekram_medical_root"
+              name="المركز الطبي / Medical Center"
+              sequence="10"
+              web_icon="ekram_medical,static/description/icon.png"/>
 
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!--  RECEPTION                                                     -->
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!-- <menuitem id="menu_reception"
-                  name="Reception"
-                  parent="menu_ekram_medical_root"
-                  sequence="10"
-                  groups="ekram_medical.group_medical_reception,ekram_medical.group_medical_administrator"/> -->
-
-        <!-- Dashboard Sub-Menu -->
-        <menuitem id="menu_medical_dashboard" 
-                  name="Reception Dashboard" 
-                  parent="menu_ekram_medical_root" 
-                  action="ekram_medical.action_reception_dashboard_owl" 
-                  sequence="1"/>
-
-        <menuitem id="menu_medical_new_dashboard" 
-                  name="Reception New Dashboard" 
-                  parent="menu_ekram_medical_root" 
-                  action="ekram_medical.action_medical_dashboard" 
-                  sequence="199"/>
-
-        <menuitem id="menu_medical_appointment" 
-              name="Appointments" 
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!--  RECEPTION                                                     -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+   
+    <!-- Dashboard Sub-Menu -->
+    <menuitem id="menu_medical_dashboard" 
+              name="لوحة الاستقبال / Reception Dashboard" 
               parent="menu_ekram_medical_root" 
-              action="action_medical_appointment" 
-              sequence="3"/>
+              action="ekram_medical.action_reception_dashboard_owl" 
+              sequence="1"/>
 
-        <menuitem id="menu_reception_patients"
-                  name="Patients"
-                  parent="menu_ekram_medical_root"
-                  action="action_medical_patients"
-                  active="1"
-                  groups="ekram_medical.group_medical_reception,ekram_medical.group_medical_administrator"
-                  sequence="2"/>
+    <menuitem id="menu_medical_new_dashboard" 
+              name="لوحة استقبال جديدة / Reception New Dashboard" 
+              parent="menu_ekram_medical_root" 
+              action="ekram_medical.action_medical_dashboard" 
+              active="0"
+              sequence="199"/>
 
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!--  DOCTOR                                                        -->
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!-- <menuitem id="menu_doctor"
-                  name="Doctor"
-                  parent="menu_ekram_medical_root"
-                  sequence="20"
-                  active="0"
-                  groups="ekram_medical.group_medical_doctor,ekram_medical.group_medical_administrator"/> -->
+    <menuitem id="menu_medical_appointment" 
+          name="المواعيد / Appointments" 
+          parent="menu_ekram_medical_root" 
+          action="action_medical_appointment" 
+          sequence="3"/>
 
-        <menuitem id="menu_doctor_dashboard"
-                  name="My Consultations"
-                  parent="menu_ekram_medical_root"
-                  action="action_doctor_dashboard"
-                  active="0"
-                  groups="ekram_medical.group_medical_doctor,ekram_medical.group_medical_administrator"
-                  sequence="10"/>
+    <menuitem id="menu_reception_patients"
+              name="المرضى / Patients"
+              parent="menu_ekram_medical_root"
+              action="action_medical_patients"
+              active="1"
+              groups="ekram_medical.group_medical_reception,ekram_medical.group_medical_administrator"
+              sequence="2"/>
 
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!--  LABORATORY                                                    -->
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!-- <menuitem id="menu_laboratory"
-                  name="Laboratory"
-                  parent="menu_ekram_medical_root"
-                  sequence="30"
-                  groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
-                  active="0"/> -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!--  DOCTOR                                                        -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
 
-        <menuitem id="menu_lab_dashboard"
-                  name="Dashboard"
-                  parent="menu_ekram_medical_root"
-                  action="action_lab_dashboard"
-                  active="0"
-                  groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
-                  sequence="7"/>
+    <menuitem id="menu_doctor_dashboard"
+              name="استشاراتي / My Consultations"
+              parent="menu_ekram_medical_root"
+              action="action_doctor_dashboard"
+              active="1"
+              groups="ekram_medical.group_medical_doctor,"
+              sequence="10"/>
 
-        <menuitem id="menu_lab_requests"
-                  name="Lab Requests"
-                  parent="menu_ekram_medical_root"
-                  action="action_medical_lab_requests"
-                  active="0"
-                  groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
-                  sequence="8"/>
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!--  LABORATORY                                                    -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
 
-        <menuitem id="menu_lab_results"
-                  name="Results"
-                  parent="menu_ekram_medical_root"
-                  action="action_medical_lab_results"
-                  active="0"
-                  groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
-                  sequence="9"/>
+    <menuitem id="menu_lab_dashboard"
+              name="لوحة المختبر / Lab Dashboard"
+              parent="menu_ekram_medical_root"
+              action="action_lab_dashboard"
+              active="0"
+              groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
+              sequence="7"/>
 
-        <menuitem id="menu_lab_config"
-                  name="Configuration"
-                  parent="menu_ekram_medical_root"
-                  sequence="10"
-                  groups="ekram_medical.group_medical_administrator"
-                  active="0"/>
+    <menuitem id="menu_lab_requests"
+              name="طلبات المختبر / Lab Requests"
+              parent="menu_ekram_medical_root"
+              action="action_medical_lab_requests"
+              active="1"
+              groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
+              sequence="8"/>
 
-        <menuitem id="menu_lab_templates"
-                  name="Investigation Templates"
-                  parent="menu_ekram_medical_root"
-                  action="action_medical_lab_templates"
-                  active="0"
-                  sequence="10"
-                  groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"/>
+    <menuitem id="menu_lab_results"
+              name="النتائج / Results"
+              parent="menu_ekram_medical_root"
+              action="action_medical_lab_results"
+              active="1"
+              groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
+              sequence="9"/>
 
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!--  ADMINISTRATION                                                -->
-        <!-- ══════════════════════════════════════════════════════════════ -->
-        <!-- <menuitem id="menu_medical_admin"
-                  name="Administration"
-                  parent="menu_ekram_medical_root"
-                  sequence="90"
-                  groups="ekram_medical.group_medical_administrator"/> -->
+    <menuitem id="menu_lab_config"
+              name="الإعدادات / Configuration"
+              parent="menu_ekram_medical_root"
+              sequence="10"
+              groups="ekram_medical.group_medical_administrator"
+              active="1"/>
 
-        <menuitem id="menu_admin_dashboard"
-                  name="Admin Dashboard"
-                  parent="menu_ekram_medical_root"
-                  action="action_admin_dashboard_owl"
-                  sequence="6"
-                  groups="ekram_medical.group_medical_administrator"/>
+    <menuitem id="menu_lab_templates"
+              name="قوالب الفحوصات / Investigation Templates"
+              parent="menu_ekram_medical_root"
+              action="action_medical_lab_templates"
+              active="1"
+              sequence="10"
+              groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"/>
 
-        <menuitem id="menu_admin_consultations"
-                  name="All Consultations"
-                  parent="menu_ekram_medical_root"
-                  action="action_medical_consultations"
-                  sequence="4"
-                  groups="ekram_medical.group_medical_administrator"/>
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!--  ADMINISTRATION                                                -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
 
-        <menuitem id="menu_admin_lab_requests"
-                  name="All Lab Requests"
-                  parent="menu_ekram_medical_root"
-                  action="action_medical_lab_requests"
-                  sequence="5"
-                  groups="ekram_medical.group_medical_administrator"/>
-    <!-- </data> -->
+    <menuitem id="menu_admin_dashboard"
+              name="لوحة الإدارة / Admin Dashboard"
+              parent="menu_ekram_medical_root"
+              action="action_admin_dashboard_owl"
+              sequence="6"
+              groups="ekram_medical.group_medical_administrator"/>
+
+    <menuitem id="menu_admin_consultations"
+              name="كل الاستشارات / All Consultations"
+              parent="menu_ekram_medical_root"
+              action="action_medical_consultations"
+              sequence="4"
+              groups="ekram_medical.group_medical_administrator"/>
+
+    <menuitem id="menu_admin_lab_requests"
+              name="كل طلبات المختبر / All Lab Requests"
+              parent="menu_ekram_medical_root"
+              action="action_medical_lab_requests"
+              sequence="5"
+              active="0"
+              groups="ekram_medical.group_medical_administrator"/>
+
 </odoo>

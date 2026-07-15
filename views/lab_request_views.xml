@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ── Form View ── -->
+    <record id="view_lab_request_form" model="ir.ui.view">
+        <field name="name">medical.lab.request.form</field>
+        <field name="model">medical.lab.request</field>
+        <field name="arch" type="xml">
+            <form string="طلب مختبر / Lab Request">
+                <header>
+                    <button name="action_confirm" string="تأكيد / Confirm" type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="ekram_medical.group_medical_reception,ekram_medical.group_medical_admin"/>
+                    <button name="action_start" string="بدء المعالجة / Start Processing" type="object"
+                            class="btn-primary"
+                            invisible="state != 'pending'"
+                            groups="ekram_medical.group_medical_lab,ekram_medical.group_medical_admin"/>
+                    <button name="action_validate" string="اعتماد النتائج / Validate Results" type="object"
+                            class="btn-success"
+                            invisible="state != 'in_progress'"
+                            groups="ekram_medical.group_medical_lab,ekram_medical.group_medical_admin"/>
+                    <button name="action_cancel" string="إلغاء / Cancel" type="object"
+                            invisible="state in ('completed', 'cancelled')"/>
+                    <button name="action_print_result" string="طباعة التقرير / Print Report" type="object"
+                            class="btn-secondary"
+                            invisible="state != 'completed'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,pending,in_progress,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="معلومات المريض / Patient Information">
+                            <field name="patient_id" readonly="state not in ('draft',)"/>
+                            <field name="appointment_id" domain="[('patient_id','=',patient_id)]"/>
+                            <field name="request_date"/>
+                            <field name="requested_by" options="{'no_create': True,'no_open':True}" domain="[('job_id', '=','doctor')]"/>
+                        </group>
+                        <group string="تفاصيل الطلب / Request Details">
+                            <field name="priority" widget="priority"/>
+                            <field name="has_critical" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="الفحوصات / Investigations">
+                        <field name="template_ids" widget="many2many_tags"
+                               readonly="state != 'draft'"
+                               options="{'no_create': True}"/>
+                    </group>
+                    <group string="ملاحظات سريرية / Clinical Notes">
+                        <field name="clinical_notes" nolabel="1"
+                               placeholder="سبب الفحص، التاريخ الطبي / Reason for investigation, clinical history..."/>
+                    </group>
+
+                    <!-- ── INLINE RESULTS TABLE — direct entry by lab tech ── -->
+                    <notebook>
+                        <page string="النتائج / Results" name="results">
+                            <field name="result_line_ids"
+                                   readonly="state not in ('in_progress',)"
+                                   widget="one2many">
+                                <list editable="bottom" decoration-danger="flag=='critical'"
+                                      decoration-warning="flag in ('high','low')"
+                                      decoration-success="flag=='normal'">
+                                    <field name="template_id" optional="show" readonly="1"/>
+                                    <field name="test_name" readonly="1"/>
+                                    <field name="unit" readonly="1"/>
+                                    <field name="normal_min" readonly="1" optional="show"/>
+                                    <field name="normal_max" readonly="1" optional="show"/>
+                                    <field name="normal_range_text" readonly="1" optional="show"/>
+                                    <field name="result_value" string="النتيجة / Result"/>
+                                    <field name="flag" widget="badge"
+                                           decoration-danger="flag=='critical'"
+                                           decoration-warning="flag in ('high','low')"
+                                           decoration-success="flag=='normal'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+
+                    <group string="الاعتماد / Validation" invisible="state != 'completed'">
+                        <field name="validated_by" readonly="1"/>
+                        <field name="validated_date" readonly="1"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── List View ── -->
+    <record id="view_lab_request_list" model="ir.ui.view">
+        <field name="name">medical.lab.request.list</field>
+        <field name="model">medical.lab.request</field>
+        <field name="arch" type="xml">
+            <list string="طلبات المختبر / Lab Requests" decoration-danger="has_critical==True"
+                  decoration-muted="state=='cancelled'">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="request_date"/>
+                <field name="priority" widget="priority"/>
+                <field name="template_ids" widget="many2many_tags"/>
+                <field name="has_critical" widget="boolean" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state=='draft'"
+                       decoration-warning="state=='pending'"
+                       decoration-primary="state=='in_progress'"
+                       decoration-success="state=='completed'"
+                       decoration-danger="state=='cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── Search View ── -->
+    <record id="view_lab_request_search" model="ir.ui.view">
+        <field name="name">medical.lab.request.search</field>
+        <field name="model">medical.lab.request</field>
+        <field name="arch" type="xml">
+            <search string="بحث طلبات المختبر / Search Lab Requests">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <filter string="قيد الانتظار / Pending" name="pending"
+                        domain="[('state','=','pending')]"/>
+                <filter string="قيد التنفيذ / In Progress" name="in_progress"
+                        domain="[('state','=','in_progress')]"/>
+                <filter string="مكتمل / Completed" name="completed"
+                        domain="[('state','=','completed')]"/>
+                <filter string="حرج / Critical" name="critical"
+                        domain="[('has_critical','=',True)]"/>
+                <filter string="اليوم / Today" name="today"
+                        domain="[('request_date','&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <group expand="0" string="تجميع حسب / Group By">
+                    <filter string="الحالة / Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="المريض / Patient" name="group_patient"
+                            context="{'group_by': 'patient_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ── Action ── -->
+    <record id="action_lab_request" model="ir.actions.act_window">
+        <field name="name">طلبات المختبر / Lab Requests</field>
+        <field name="res_model">medical.lab.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_lab_request_search"/>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+</odoo>

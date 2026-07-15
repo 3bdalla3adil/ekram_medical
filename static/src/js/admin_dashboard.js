@@ -9,7 +9,6 @@ class AdminDashboard extends Component {
     static template = "ekram_medical.AdminDashboard";
 
     setup() {
-        // this.rpc          = useService("rpc");
         this.action       = useService("action");
         this.chartRef     = useRef("revenueChart");
         this.deptChartRef = useRef("deptChart");
@@ -33,7 +32,7 @@ class AdminDashboard extends Component {
     async loadData() {
         this.state.loading = true;
         try {
-            const data = await this.rpc("/ekram_medical/admin_data", {});
+            const data = await rpc("/ekram_medical/admin_data", {});
             this.state.kpis             = data.kpis             || {};
             this.state.revenue_chart    = data.revenue_chart    || [];
             this.state.dept_chart       = data.dept_chart       || [];
@@ -178,7 +177,7 @@ class AdminDashboard extends Component {
         this.action.doAction({ type:"ir.actions.act_window", name:_t("Outstanding Invoices"), res_model:"account.move", view_mode:"list,form", domain:[["move_type","=","out_invoice"],["state","=","posted"],["payment_state","in",["not_paid","partial"]]] });
     }
     openPatients()     { this.action.doAction("ekram_medical.action_medical_patients"); }
-    openAppointments() { this.action.doAction("ekram_medical.action_medical_appointments"); }
+    openAppointments() { this.action.doAction("ekram_medical.action_medical_appointments_today"); }
     openLabRequests()  { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
 
     // ── Helpers ───────────────────────────────────────────────────────────

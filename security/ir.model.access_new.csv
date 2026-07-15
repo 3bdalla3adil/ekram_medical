@@ -1,0 +1,32 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+# ── res.partner (patients) ──
+access_partner_admin,partner.admin,base.model_res_partner,ekram_medical.group_medical_admin,1,1,1,1
+access_partner_reception,partner.reception,base.model_res_partner,ekram_medical.group_medical_reception,1,1,1,0
+access_partner_lab,partner.lab,base.model_res_partner,ekram_medical.group_medical_lab,1,0,0,0
+# ── medical.appointment ──
+access_appointment_admin,appointment.admin,model_medical_appointment,ekram_medical.group_medical_admin,1,1,1,1
+access_appointment_reception,appointment.reception,model_medical_appointment,ekram_medical.group_medical_reception,1,1,1,0
+access_appointment_lab,appointment.lab,model_medical_appointment,ekram_medical.group_medical_lab,1,0,0,0
+# ── medical.lab.template ──
+access_lab_template_admin,lab.template.admin,model_medical_lab_template,ekram_medical.group_medical_admin,1,1,1,1
+access_lab_template_reception,lab.template.reception,model_medical_lab_template,ekram_medical.group_medical_reception,1,0,0,0
+access_lab_template_lab,lab.template.lab,model_medical_lab_template,ekram_medical.group_medical_lab,1,0,0,0
+# ── medical.lab.template.line ──
+access_lab_tmpl_line_admin,lab.tmpl.line.admin,model_medical_lab_template_line,ekram_medical.group_medical_admin,1,1,1,1
+access_lab_tmpl_line_reception,lab.tmpl.line.reception,model_medical_lab_template_line,ekram_medical.group_medical_reception,1,0,0,0
+access_lab_tmpl_line_lab,lab.tmpl.line.lab,model_medical_lab_template_line,ekram_medical.group_medical_lab,1,0,0,0
+# ── medical.lab.request ──
+access_lab_request_admin,lab.request.admin,model_medical_lab_request,ekram_medical.group_medical_admin,1,1,1,1
+access_lab_request_reception,lab.request.reception,model_medical_lab_request,ekram_medical.group_medical_reception,1,1,1,0
+access_lab_request_lab,lab.request.lab,model_medical_lab_request,ekram_medical.group_medical_lab,1,1,0,0
+# ── medical.lab.result.line ──
+access_result_line_admin,result.line.admin,model_medical_lab_result_line,ekram_medical.group_medical_admin,1,1,1,1
+access_result_line_reception,result.line.reception,model_medical_lab_result_line,ekram_medical.group_medical_reception,1,0,0,0
+access_result_line_lab,result.line.lab,model_medical_lab_result_line,ekram_medical.group_medical_lab,1,1,1,1
+# ── account.move (invoices) ──
+access_invoice_admin,invoice.admin,account.model_account_move,ekram_medical.group_medical_admin,1,1,1,1
+access_invoice_reception,invoice.reception,account.model_account_move,ekram_medical.group_medical_reception,1,1,1,0
+access_invoice_lab,invoice.lab,account.model_account_move,ekram_medical.group_medical_lab,1,0,0,0
+# ── account.payment ──
+access_payment_admin,payment.admin,account.model_account_payment,ekram_medical.group_medical_admin,1,1,1,1
+access_payment_reception,payment.reception,account.model_account_payment,ekram_medical.group_medical_reception,1,1,1,0

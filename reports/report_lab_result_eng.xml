@@ -11,18 +11,18 @@
     <div class="ekram_report_header">
         <table width="100%"><tr>
             <td width="60%">
-                <div class="clinic_name">مركز إكرام الطبي / Ekram Medical Center</div>
-                <div class="clinic_tagline">خدمات المختبر والتشخيص / Laboratory &amp; Diagnostic Services</div>
+                <div class="clinic_name">Ekram Medical Center</div>
+                <div class="clinic_tagline">Laboratory &amp; Diagnostic Services</div>
                 <div style="font-size:8pt;color:#6c757d;margin-top:4px;">
                     <t t-esc="doc.company_id.street or ''"/>
-                    <t t-if="doc.company_id.phone"> | هاتف / Tel: <t t-esc="doc.company_id.phone"/></t>
+                    <t t-if="doc.company_id.phone"> | Tel: <t t-esc="doc.company_id.phone"/></t>
                 </div>
             </td>
             <td width="40%" style="text-align:right;vertical-align:top;">
-                <div class="report_title">تقرير المختبر / LABORATORY REPORT</div>
+                <div class="report_title">LABORATORY REPORT</div>
                 <div class="report_subtitle">
-                    المرجع / Ref: <t t-esc="doc.name"/><br/>
-                    التاريخ / Date: <t t-esc="doc.request_date.strftime('%d %B %Y') if doc.request_date else ''"/>
+                    Ref: <t t-esc="doc.name"/><br/>
+                    Date: <t t-esc="doc.request_date.strftime('%d %B %Y') if doc.request_date else ''"/>
                 </div>
             </td>
         </tr></table>
@@ -32,45 +32,45 @@
     <table width="100%" style="margin-bottom:14px;">
         <tr>
             <td width="48%" style="background:#f8f9fa;border-radius:8px;padding:12px 14px;vertical-align:top;">
-                <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">المريض / Patient</div>
+                <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">Patient</div>
                 <div style="font-size:13pt;font-weight:800;color:#1a1a2e;">
                     <t t-esc="doc.patient_id.name"/>
                 </div>
                 <div style="font-size:9pt;color:#6c757d;margin-top:3px;">
                     <t t-if="doc.patient_id.medical_number">
-                        الرقم الطبي / MRN: <strong><t t-esc="doc.patient_id.medical_number"/></strong>
+                        MRN: <strong><t t-esc="doc.patient_id.medical_number"/></strong>
                     </t>
-                    <t t-if="doc.patient_id.age"> | العمر / Age: <t t-esc="doc.patient_id.age"/> سنة / yrs</t>
+                    <t t-if="doc.patient_id.age"> | Age: <t t-esc="doc.patient_id.age"/> yrs</t>
                     <t t-if="doc.patient_id.gender">
-                        | <t t-esc="dict({'male':'ذكر / Male','female':'أنثى / Female','other':'آخر / Other'}).get(doc.patient_id.gender, '')"/>
+                        | <t t-esc="dict({'male':'Male','female':'Female','other':'Other'}).get(doc.patient_id.gender, '')"/>
                     </t>
                 </div>
                 <t t-if="doc.patient_id.blood_group">
                     <div style="font-size:9pt;color:#6c757d;margin-top:2px;">
-                        فصيلة الدم / Blood Group: <strong><t t-esc="doc.patient_id.blood_group.upper()"/></strong>
+                        Blood Group: <strong><t t-esc="doc.patient_id.blood_group.upper()"/></strong>
                     </div>
                 </t>
             </td>
             <td width="4%"/>
             <td width="48%" style="background:#e8f0fe;border-radius:8px;padding:12px 14px;vertical-align:top;">
-                <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">تفاصيل الطلب / Request Details</div>
+                <div style="font-size:8pt;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:#6c757d;margin-bottom:6px;">Request Details</div>
                 <table style="font-size:9pt;width:100%;">
                     <tr>
-                        <td style="color:#6c757d;padding:2px 0;width:45%;">رقم الطلب / Request No</td>
+                        <td style="color:#6c757d;padding:2px 0;width:45%;">Request No</td>
                         <td style="font-weight:700;"><t t-esc="doc.name"/></td>
                     </tr>
                     <tr>
-                        <td style="color:#6c757d;padding:2px 0;">تاريخ الطلب / Request Date</td>
+                        <td style="color:#6c757d;padding:2px 0;">Request Date</td>
                         <td><t t-esc="doc.request_date.strftime('%d/%m/%Y %H:%M') if doc.request_date else 'N/A'"/></td>
                     </tr>
                     <tr>
-                        <td style="color:#6c757d;padding:2px 0;">الطبيب الطالب / Requesting Doctor</td>
+                        <td style="color:#6c757d;padding:2px 0;">Requesting Doctor</td>
                         <td style="font-weight:700;color:#1a73e8;">
                             <t t-esc="doc.doctor_id.name if doc.doctor_id else 'N/A'"/>
                         </td>
                     </tr>
                     <tr>
-                        <td style="color:#6c757d;padding:2px 0;">تاريخ الطباعة / Print Date</td>
+                        <td style="color:#6c757d;padding:2px 0;">Print Date</td>
                         <td><t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/></td>
                     </tr>
                 </table>
@@ -95,8 +95,8 @@
                     </t>
                 </div>
                 <div style="font-size:9pt;opacity:0.85;">
-                    العينة / Sample: <t t-esc="dict(result.template_id._fields['sample_type'].selection).get(result.template_id.sample_type, '')"/>
-                    | الفني / Tech: <t t-esc="result.technician_id.name if result.technician_id else 'N/A'"/>
+                    Sample: <t t-esc="dict(result.template_id._fields['sample_type'].selection).get(result.template_id.sample_type, '')"/>
+                    | Tech: <t t-esc="result.technician_id.name if result.technician_id else 'N/A'"/>
                 </div>
             </div>
 
@@ -104,12 +104,12 @@
             <table class="ekram_report_table" style="border-radius:0 0 6px 6px;overflow:hidden;">
                 <thead>
                     <tr>
-                        <th style="width:30%;background:#1557b0;">المعامل / Test Parameter</th>
-                        <th style="width:15%;background:#1557b0;text-align:center;">النتيجة / Result</th>
-                        <th style="width:12%;background:#1557b0;text-align:center;">الوحدة / Unit</th>
-                        <th style="width:25%;background:#1557b0;">النطاق المرجعي / Reference Range</th>
-                        <th style="width:10%;background:#1557b0;text-align:center;">المؤشر / Flag</th>
-                        <th style="width:8%;background:#1557b0;">ملاحظات / Remarks</th>
+                        <th style="width:30%;background:#1557b0;">Test Parameter</th>
+                        <th style="width:15%;background:#1557b0;text-align:center;">Result</th>
+                        <th style="width:12%;background:#1557b0;text-align:center;">Unit</th>
+                        <th style="width:25%;background:#1557b0;">Reference Range</th>
+                        <th style="width:10%;background:#1557b0;text-align:center;">Flag</th>
+                        <th style="width:8%;background:#1557b0;">Remarks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -150,8 +150,8 @@
                 </span>
                 <span>
                     <t t-if="result.validated_by">
-                        تم التصديق بواسطة:/Validated by: <strong><t t-esc="result.validated_by.name"/></strong>
-                        عند /on <t t-esc="result.validated_date.strftime('%d/%m/%Y %H:%M') if result.validated_date else ''"/>
+                        Validated by: <strong><t t-esc="result.validated_by.name"/></strong>
+                        on <t t-esc="result.validated_date.strftime('%d/%m/%Y %H:%M') if result.validated_date else ''"/>
                     </t>
                 </span>
             </div>
@@ -159,7 +159,7 @@
             <!-- Remarks -->
             <t t-if="result.remarks">
                 <div style="margin-top:6px;background:#fff8e1;border-left:3px solid #f39c12;padding:6px 10px;font-size:9pt;border-radius:0 4px 4px 0;">
-                    <strong> ملاحظات/Remarks:</strong> <t t-esc="result.remarks"/>
+                    <strong>Remarks:</strong> <t t-esc="result.remarks"/>
                 </div>
             </t>
 
@@ -168,40 +168,36 @@
 
     <!-- ── Flag Legend ──────────────────────────────────────────────── -->
     <div style="margin-top:10px;padding:8px 12px;background:#f8f9fa;border-radius:6px;font-size:8pt;">
-        <strong style="color:#495057;">مفتاح الرموز / Flag Legend: </strong>
-        <span class="flag-badge normal" style="margin:0 4px;">طبيعي / NORMAL</span> ضمن النطاق المرجعي / Within reference range &nbsp;|&nbsp;
-        <span class="flag-badge high"   style="margin:0 4px;">مرتفع / HIGH</span> أعلى من النطاق المرجعي / Above reference range &nbsp;|&nbsp;
-        <span class="flag-badge low"    style="margin:0 4px;">منخفض / LOW</span> أقل من النطاق المرجعي / Below reference range &nbsp;|&nbsp;
-        <span class="flag-badge critical" style="margin:0 4px;">حرج / CRITICAL</span> خارج النطاق بشكل خطير / Critically outside range
+        <strong style="color:#495057;">Flag Legend: </strong>
+        <span class="flag-badge normal" style="margin:0 4px;">NORMAL</span> Within reference range &nbsp;|&nbsp;
+        <span class="flag-badge high"   style="margin:0 4px;">HIGH</span> Above reference range &nbsp;|&nbsp;
+        <span class="flag-badge low"    style="margin:0 4px;">LOW</span> Below reference range &nbsp;|&nbsp;
+        <span class="flag-badge critical" style="margin:0 4px;">CRITICAL</span> Critically outside range
     </div>
 
     <!-- ── Signature Block ─────────────────────────────────────────── -->
     <div class="ekram_signature_row">
         <div class="ekram_signature_block">
             <div class="sig_line"/>
-            <div class="sig_label">توقيع فني المختبر / Lab Technician</div>
+            <div class="sig_label">Lab Technician</div>
         </div>
         <div class="ekram_signature_block" style="text-align:center;">
-            <div style="font-size:8pt;color:#adb5bd;margin-top:36px;">رمز الاستجابة السريعة / [ QR Code ]</div>
+            <div style="font-size:8pt;color:#adb5bd;margin-top:36px;">[ QR Code ]</div>
         </div>
         <div class="ekram_signature_block">
             <div class="sig_line"/>
             <div class="sig_label">
-                د. / Dr. <t t-esc="doc.doctor_id.name if doc.doctor_id else '_______________'"/>
+                Dr. <t t-esc="doc.doctor_id.name if doc.doctor_id else '_______________'"/>
             </div>
         </div>
     </div>
 
     <!-- ── Footer ──────────────────────────────────────────────────── -->
     <div class="ekram_report_footer">
-        تم إنشاء هذا التقرير بواسطة مختبر مركز إكرام الطبي /
-        This report is generated by Ekram Medical Center Laboratory.
-        يجب تفسير النتائج بواسطة طبيب مختص /
-        Results should be interpreted by a qualified physician. |
-        المرجع / Ref: <t t-esc="doc.name"/> |
-        الطباعة / Printed: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
+        This report is generated by Ekram Medical Center Laboratory. Results should be interpreted by a qualified physician. |
+        Ref: <t t-esc="doc.name"/> |
+        Printed: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %H:%M')"/>
     </div>
-
 
 </div>
 </t>
