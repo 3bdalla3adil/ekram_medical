@@ -21,10 +21,11 @@
               sequence="1"/>
 
     <menuitem id="menu_medical_new_dashboard" 
-              name="لوحة استقبال جديدة / Reception New Dashboard" 
+              name="لوحة استقبال جديدة / Medical Dashboard" 
               parent="menu_ekram_medical_root" 
               action="ekram_medical.action_medical_dashboard" 
-              active="0"
+              active="1"
+              groups="ekram_medical.group_medical_reception,ekram_medical.group_medical_administrator"
               sequence="199"/>
 
     <menuitem id="menu_medical_appointment" 
@@ -60,8 +61,8 @@
     <menuitem id="menu_lab_dashboard"
               name="لوحة المختبر / Lab Dashboard"
               parent="menu_ekram_medical_root"
-              action="action_lab_dashboard"
-              active="0"
+              action="action_lab_dashboard_owl"
+              active="1"
               groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
               sequence="7"/>
 

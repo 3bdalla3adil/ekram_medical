@@ -133,36 +133,6 @@ class MedicalAppointment(models.Model):
             'res_id': consultation.id,
             'view_mode': 'form',
         }
-
-    # def notify_the_world(self, vals):
-    #     if 'state' in vals:
-    #         state = vals['state']
-    #         for appointment in self:
-                # Check if a specific user is assigned to this appointment
-                # Replace 'user_id' with your actual field name (e.g., 'doctor_id.user_id')
-                # target_user = appointment.doctor_id.user_id 
-                
-                # if target_user:
-                #     target_user.notify_warning(
-                #         f"Appointment For Patient [{appointment.patient_id.name}] "
-                #         f"state has been changed to {state}."
-                #     )
-    
-    def notify_the_world(self, vals):
-        users = self.env['res.users'].search(
-            [('user_id', '!=', self.env.user.id), ('company_id', '=', self.env.user.company_id.id)])
-        if 'state' in vals:
-            state = vals['state']
-            for appointment in self:
-                for user in users:
-                    pass
-                    # user.notify_warning(
-                    #     f"Appointment For Patient [{appointment.patient_id}] state has been changed to {state}.")
-
-    @api.model
-    def write(self, vals):
-        self.notify_the_world(vals)
-        return super(MedicalAppointment, self).write(vals)
     
     def action_create_lab_request(self):
         return {

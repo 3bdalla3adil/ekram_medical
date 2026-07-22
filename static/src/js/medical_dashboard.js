@@ -26,18 +26,12 @@ export class MedicalDashboard extends Component {
 
     // Dynamic counts straight from your medical.appointment schema
     async loadDashboardStatistics() {
-    // async loadDashboardStatistics() {
-    //     // const counts = await this.orm.readGroup(
-        // this.state.confirmed = 0;
-        // this.state.inProgress = 0;
-        // this.state.done = 0;
-        // this.state.cancelled = 0;
-        // this.state.total = 0;
+    
         const counts = await this.orm.formattedReadGroup(
             "medical.appointment",
             [],
             ["state"],
-            ["state"]
+            ["__count"]
         );
         
         let totalCount = 0;

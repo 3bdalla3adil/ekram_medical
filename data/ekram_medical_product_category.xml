@@ -10,5 +10,10 @@
             <field name="name">Medical Consultations</field>
             <!-- <field name="parent_id" ref="product.product_category_all"/> -->
         </record>
+
+        <record id="product_category_procedure" model="product.category">
+            <field name="name">Medical Procedures</field>
+            <!-- <field name="parent_id" ref="product.product_category_all"/> -->
+        </record>
     </data>
 </odoo>

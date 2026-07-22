@@ -103,21 +103,6 @@ class MedicalConsultation(models.Model):
         for rec in self:
             rec.state = 'cancelled'
 
-    def notify_the_world(self, vals):
-        users = self.env['res.users'].search(
-            [('user_id', '!=', self.env.user.id), ('company_id', '=', self.env.user.company_id.id)])
-        if 'state' in vals:
-            state = vals['state']
-            for appointment in self:
-                for user in users:
-                    user.notify_warning(
-                        f"Appointment For Patient [{appointment.patient_id}] state has been changed to {state}.")
-    
-    @api.model
-    def write(self, vals):
-        self.notify_the_world(vals)
-        return super(MedicalAppointment, self).write(vals)
-
     def action_create_lab_request(self):
         self.ensure_one()
         return {
@@ -134,6 +119,15 @@ class MedicalConsultation(models.Model):
 
     def action_create_invoice(self):
         self.ensure_one()
+        product = self.env['product.product'].search([('default_code','=','CONSULT1')])
+        if product:
+            for rec in self:
+                rec.invoice_id.line_ids:[0,0,{
+                'product_id':product.id,
+                'quantity':1.0,
+                'price_unit':product.list_price,
+                }]
+
         return {
             'type': 'ir.actions.act_window',
             'name': 'Create Invoice',
@@ -142,5 +136,7 @@ class MedicalConsultation(models.Model):
             'context': {
                 'default_partner_id': self.patient_id.id,
                 'default_move_type': 'out_invoice',
+                'default_default_code': "CONSULT1",
+                'default_invoice_id': self.invoice_id.id,
             },
         }

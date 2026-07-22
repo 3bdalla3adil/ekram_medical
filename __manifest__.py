@@ -2,13 +2,13 @@
 {
     'name': 'Ekram Medical Center',
     # 'version': '18.0.1.1.0',
-    'version': '19.0.1.1.0',
+    'version': '19.0.1.1.1',
     'category': 'Healthcare',
     'summary': 'Ekram Medical Center Management System - Laboratory, Appointments, Consultations',
     'description': """
     Ekram Medical Center Management System
     =======================================
-    Version 1.1 MVP
+    Version 2.0 MVP
 
     Features:
     - Patient Registration (extends res.partner)
@@ -50,6 +50,7 @@
         'views/medical_lab_result_views.xml',
         'views/medical_dashboard_views.xml',
         'views/medical_dashboard_actions.xml',
+        # REPORTS
         'reports/report_prescription.xml',
         'reports/medical_lab_report.xml',
         'reports/medical_lab_report_template.xml',

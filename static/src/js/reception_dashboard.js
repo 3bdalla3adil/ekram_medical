@@ -1,5 +1,4 @@
 /** @odoo-module **/
-// import { Component, useState, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 import { rpc } from "@web/core/network/rpc";
@@ -12,8 +11,9 @@ class ReceptionDashboard extends Component {
     setup() {
         this.orm    = useService("orm");
         this.action = useService("action");
-        this.state  = useState({ loading: true, kpis: {}, appointments: [] });
-        onWillStart(async () => { await this.loadData(); });
+        this.state  = useState({ 
+            loading: true, kpis: {}, appointments: [] });
+            onWillStart(async () => {await this.loadData();}); 
         }
 
     async loadData() {
@@ -34,7 +34,7 @@ class ReceptionDashboard extends Component {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("New Patient"),
             res_model: "res.partner", view_mode: "form",
-            // views: [[false, "form"]], target: "new",
+            target: "new",
             views: [[false, "form"]],
             context: { default_is_patient: true },
         });
@@ -54,77 +54,78 @@ class ReceptionDashboard extends Component {
     openNewAppointment() {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("New Appointment"),
-            res_model: "medical.appointment", view_mode: "form",
-            // views: [[false, "form"]], target: "new",
+            res_model: "medical.appointment", view_mode: "form",target: "new",
             views: [[false, "form"]],
         });
     }
-    openNewInvoice() {
-        this.action.doAction({
-            type: "ir.actions.act_window", name: _t("New Invoice"),
-            res_model: "account.move", view_mode: "form",
-            // views: [[false, "form"]], target: "new",
-            views: [[false, "form"]],
-            context: { default_move_type: "out_invoice" },
-        });
+
+    async saveAppointment(){
+        var data = await this.fetch_appointment_data()
+        if( data['name']=="" || data['phone']==""){
+            alert("Please fill the name and phone")
+            return;
+        }
+        await this.orm.call('res.partner','create',[[data]]).then(function (){
+           alert("the patient record has been created")
+           window.location.reload()
+        })
     }
+
     openPatientList()      { this.action.doAction("ekram_medical.action_medical_patients"); }
     openAppointmentTodayList()  { this.action.doAction("ekram_medical.action_medical_appointments_today"); }
     openAppointmentList()  { this.action.doAction("ekram_medical.action_medical_appointments"); }
     
+    openNewInvoice() {
+        this.action.doAction({
+            type: "ir.actions.act_window", name: _t("New Invoice"),
+            res_model: "account.move", view_mode: "form",
+            views: [[false, "form"]],
+            context: { default_move_type: "out_invoice" },
+            target: "current"
+        });
+    }
     openOutstanding() {
         this.action.doAction({
             type: "ir.actions.act_window", name: _t("Outstanding Invoices"),
             res_model: "account.move", view_mode: "list,form",
-            domain: [["move_type","=","out_invoice"],["payment_state","in",["not_paid","partial"]],["state","=","posted"]],
+            domain: [["move_type", "=", "out_invoice"], ["payment_state", "in", ["not_paid", "partial"]], ["state", "=", "posted"]],
+            target: "current"
         });
     }
 
-    viewAppointmentsById(id = null) {
-        const domain = id ? [["id", "=", id]] : [];
-        this.actionService.doAction({
+    viewAppointmentsById(id) {
+        const recordId = id;
+        this.action.doAction({
             type: "ir.actions.act_window",
-            name: id ? `${id} Appointments` : "All Appointments",
             res_model: "medical.appointment",
-            domain: domain,
-            views: [[false, "list"], [false, "form"], [false, "kanban"]],
-            target: "new",
+            res_id: recordId,
+            views: [[false, "form"],],
+            target: "current",
         });
     }
-    // openAppointment(id) {
-    //     const recordId = id;
-    //     this.action.doAction({
-    //         type: "ir.actions.act_window",
-    //         name: name ? `${name.toUpperCase()} Appointments` : "All Appointments",
-    //         res_model: "medical.appointment",
-    //         domain: [["id","=",recordId],],
-    //         // res_id: recordId,
-    //         views: [[false, "list"], [false, "form"], [false, "kanban"]],
-    //         target: "current",
-    //     });
-    // }
+    
     openLabRequest(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.request", res_id:id, view_mode:"form", views:[[false,"form"]] });
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.request", res_id:id, view_mode:"form", views:[[false,"form"]],target:'current' });
     }
     
     openLabResult(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.result", res_id:id, view_mode:"form", views:[[false,"form"]] });
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.result", res_id:id, view_mode:"form", views:[[false,"form"]],target:'current' });
     }
     
     openAllRequests() { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
     
     openAllResults()  { this.action.doAction("ekram_medical.action_medical_lab_results"); }
     
+    openPendingResults()  { this.action.doAction("ekram_medical.action_medical_lab_results"); }
+    
     openNewRequest() {
         // this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]], target:"new" });
         this.action.doAction({ type:"ir.actions.act_window", name:_t("New Lab Request"), res_model:"medical.lab.request", view_mode:"form", views:[[false,"form"]],});
     }
-    // getStateBadgeClass(state) {
-    //     return "badge " + ({ draft:"badge-info", processing:"badge-warning", completed:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
-    // }
     getStateBadgeClass(state) {
-        return "badge " + ({ draft:"badge-secondary", confirmed:"badge-info", in_progress:"badge-warning", done:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
+        return "badge " + ({ draft:"badge-info", processing:"badge-warning", completed:"badge-success", cancelled:"badge-danger" }[state] || "badge-secondary");
     }
+    
 }
 
 registry.category("actions").add("ekram_medical_reception_dashboard", ReceptionDashboard);

@@ -29,7 +29,7 @@ class MedicalAdminDashboardController(http.Controller):
         LabRequest  = request.env['medical.lab.request']
 
         # ── Revenue KPIs ──────────────────────────────────────────────────
-        month_invoices = Invoice.search([
+        month_invoices = Invoice.search_read([
             ('move_type', '=', 'out_invoice'),
             ('state', '=', 'posted'),
             ('invoice_date', '>=', month_start),

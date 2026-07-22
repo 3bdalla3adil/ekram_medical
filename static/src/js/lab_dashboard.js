@@ -29,12 +29,23 @@ class LabDashboard extends Component {
         }
     }
 
-    openLabRequest(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.request", res_id:id, view_mode:"form", views:[[false,"form"]] });
+    openLabRequest(stateValue = null) {
+        const domain = stateValue ? [["state", "=", stateValue]] : [];
+        this.action.doAction({ 
+        type:"ir.actions.act_window",
+        name:stateValue ? `${stateValue.toUpperCase()} LabRequestss` : "All LabRequests",
+        res_model:"medical.lab.request",
+        domain:domain, views:[[false,"list"]],
+        target: "current", });
     }
     
-    openLabResult(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.lab.result", res_id:id, view_mode:"form", views:[[false,"form"]] });
+    openLabResult(stateValue = null) {
+        const domain = stateValue ? [["state", "=", stateValue]] : [];
+        this.action.doAction({ 
+        type:"ir.actions.act_window",
+        res_model:"medical.lab.result",
+        domain:domain, views:[[false,"list"]],
+        target: "current", });
     }
     
     openAllRequests() { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
@@ -49,4 +60,4 @@ class LabDashboard extends Component {
     }
 }
 
-registry.category("actions").add("ekram_medical.lab_dashboard", LabDashboard);
+registry.category("actions").add("ekram_medical_lab_dashboard", LabDashboard);

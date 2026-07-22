@@ -21,7 +21,7 @@
                     </h3>
                     <small class="text-muted">مركز إكرام الطبي — نظرة عامة مالية وتشغيلية / Ekram Medical Center — Financial &amp; Operations Overview</small><br/>
                     <span class="badge badge-info mt-2">
-                        مرحباً / Welcome, <t t-esc="this.userName"/>
+                        مرحباً / Welcome, <t t-esc="this.env.user.name"/>
                     </span>
                 </div>
                 <div class="d-flex gap-2">
@@ -42,18 +42,18 @@
                     <div class="kpi_icon"><i class="fa fa-money"/></div>
                     <div class="kpi_body">
                         <div class="kpi_number admin_kpi_number">
-                            <t t-esc="this.formatCurrency(this.state.kpis.revenue_this_month)"/>
+                            <t t-esc="formatCurrency(this.state.kpis.revenue_this_month)"/>
                         </div>
                         <div class="kpi_label">الإيرادات هذا الشهر / Revenue This Month</div>
                     </div>
-                    <div class="kpi_total">اليوم / Today: <t t-esc="this.formatCurrency(state.kpis.revenue_today)"/></div>
+                    <div class="kpi_total">اليوم / Today: <t t-esc="formatCurrency(state.kpis.revenue_today)"/></div>
                 </div>
 
                 <div class="ekram_kpi_card success admin_kpi" t-on-click="this.openAllInvoices">
                     <div class="kpi_icon"><i class="fa fa-check-circle"/></div>
                     <div class="kpi_body">
                         <div class="kpi_number admin_kpi_number">
-                            <t t-esc="this.formatCurrency(this.state.kpis.revenue_paid_month)"/>
+                            <t t-esc="formatCurrency(this.state.kpis.revenue_paid_month)"/>
                         </div>
                         <div class="kpi_label">المحصّل هذا الشهر / Collected This Month</div>
                     </div>
@@ -68,7 +68,7 @@
                     <div class="kpi_icon"><i class="fa fa-exclamation-triangle"/></div>
                     <div class="kpi_body">
                         <div class="kpi_number admin_kpi_number">
-                            <t t-esc="this.formatCurrency(this.state.kpis.outstanding_amount)"/>
+                            <t t-esc="formatCurrency(this.state.kpis.outstanding_amount)"/>
                         </div>
                         <div class="kpi_label">الرصيد المستحق / Outstanding Balance</div>
                     </div>
@@ -79,12 +79,12 @@
                     <div class="kpi_icon"><i class="fa fa-university"/></div>
                     <div class="kpi_body">
                         <div class="kpi_number admin_kpi_number">
-                            <t t-esc="this.formatCurrency(cashTotal + bankTotal)"/>
+                            <t t-esc="formatCurrency(cashTotal + bankTotal)"/>
                         </div>
                         <div class="kpi_label">النقد + البنك (شهر) / Cash + Bank (Month)</div>
                     </div>
                     <div class="kpi_total">
-                        نقد / Cash: <t t-esc="this.formatCurrency(cashTotal)"/> | بنك / Bank: <t t-esc="this.formatCurrency(bankTotal)"/>
+                        نقد / Cash: <t t-esc="formatCurrency(cashTotal)"/> | بنك / Bank: <t t-esc="formatCurrency(bankTotal)"/>
                     </div>
                 </div>
 
@@ -132,8 +132,8 @@
                         <div class="admin_gauge_label"><t t-esc="this.collectionRate"/>%</div>
                     </div>
                     <div class="kpi_total mt-2">
-                        <t t-esc="this.formatCurrency(this.state.kpis.revenue_paid_month)"/> /
-                        <t t-esc="this.formatCurrency(this.state.kpis.revenue_this_month)"/>
+                        <t t-esc="formatCurrency(this.state.kpis.revenue_paid_month)"/> /
+                        <t t-esc="formatCurrency(this.state.kpis.revenue_this_month)"/>
                     </div>
                 </div>
 
@@ -176,7 +176,7 @@
                 <div class="ekram_section_card">
                     <div class="section_header">
                         <h5><i class="fa fa-money mr-2 text-success"/> سجلات النقدية / Cash Journals</h5>
-                        <span class="admin_journal_total text-success"><t t-esc="this.formatCurrency(cashTotal)"/></span>
+                        <span class="admin_journal_total text-success"><t t-esc="formatCurrency(cashTotal)"/></span>
                     </div>
                     <t t-if="state.cash_data.length === 0">
                         <div class="ekram_empty_state py-3">
@@ -190,11 +190,11 @@
                                 <t t-foreach="this.state.cash_data" t-as="j" t-key="j.id">
                                     <tr>
                                         <td><strong><t t-esc="j.name"/></strong></td>
-                                        <td class="text-right text-success"><t t-esc="this.formatCurrency(j.inbound)"/></td>
-                                        <td class="text-right text-danger"><t t-esc="this.formatCurrency(j.outbound)"/></td>
+                                        <td class="text-right text-success"><t t-esc="formatCurrency(j.inbound)"/></td>
+                                        <td class="text-right text-danger"><t t-esc="formatCurrency(j.outbound)"/></td>
                                         <td class="text-right">
                                             <strong t-attf-class="#{j.net >= 0 ? 'text-success' : 'text-danger'}">
-                                                <t t-esc="this.formatCurrency(j.net)"/>
+                                                <t t-esc="formatCurrency(j.net)"/>
                                             </strong>
                                         </td>
                                     </tr>
@@ -207,7 +207,7 @@
                 <div class="ekram_section_card">
                     <div class="section_header">
                         <h5><i class="fa fa-university mr-2 text-primary"/> سجلات البنك / Bank Journals</h5>
-                        <span class="admin_journal_total text-primary"><t t-esc="this.formatCurrency(bankTotal)"/></span>
+                        <span class="admin_journal_total text-primary"><t t-esc="formatCurrency(bankTotal)"/></span>
                     </div>
                     <t t-if="state.bank_data.length === 0">
                         <div class="ekram_empty_state py-3">
@@ -221,11 +221,11 @@
                                 <t t-foreach="this.state.bank_data" t-as="j" t-key="j.id">
                                     <tr>
                                         <td><strong><t t-esc="j.name"/></strong></td>
-                                        <td class="text-right text-success"><t t-esc="this.formatCurrency(j.inbound)"/></td>
-                                        <td class="text-right text-danger"><t t-esc="this.formatCurrency(j.outbound)"/></td>
+                                        <td class="text-right text-success"><t t-esc="formatCurrency(j.inbound)"/></td>
+                                        <td class="text-right text-danger"><t t-esc="formatCurrency(j.outbound)"/></td>
                                         <td class="text-right">
                                             <strong t-attf-class="#{j.net >= 0 ? 'text-success' : 'text-danger'}">
-                                                <t t-esc="this.formatCurrency(j.net)"/>
+                                                <t t-esc="formatCurrency(j.net)"/>
                                             </strong>
                                         </td>
                                     </tr>
@@ -248,12 +248,12 @@
                         <button t-attf-class="admin_tab #{state.active_tab === 'outstanding' ? 'active' : ''}"
                                 t-on-click="() => this.setTab('outstanding')">
                             <i class="fa fa-exclamation-circle mr-1"/> الفواتير المستحقة / Outstanding
-                            <t t-if="this.state.kpis.outstanding_count">
+                            <t t-if="state.kpis.outstanding_count">
                                 <span class="badge badge-danger ml-1"><t t-esc="this.state.kpis.outstanding_count"/></span>
                             </t>
                         </button>
                     </div>
-                    <button class="btn btn-sm btn-outline-primary" t-on-click="this.openAllInvoices">عرض الكل / View All</button>
+                    <button class="btn btn-sm btn-outline-primary" t-on-click="openAllInvoices">عرض الكل / View All</button>
                 </div>
 
                 <!-- Recent Invoices -->
@@ -278,10 +278,10 @@
                                                 </div>
                                             </td>
                                             <td><t t-esc="inv.date"/></td>
-                                            <td class="text-right"><strong><t t-esc="this.formatCurrency(inv.amount_total)"/></strong></td>
+                                            <td class="text-right"><strong><t t-esc="formatCurrency(inv.amount_total)"/></strong></td>
                                             <td class="text-right">
                                                 <t t-if="inv.amount_due > 0">
-                                                    <span class="text-danger"><t t-esc="this.formatCurrency(inv.amount_due)"/></span>
+                                                    <span class="text-danger"><t t-esc="formatCurrency(inv.amount_due)"/></span>
                                                 </t>
                                                 <t t-else=""><span class="text-success">—</span></t>
                                             </td>
@@ -328,8 +328,8 @@
                                                             </div>
                                                         </td>
                                                         <td><t t-esc="inv.date"/></td>
-                                                        <td class="text-right"><t t-esc="this.formatCurrency(inv.amount_total)"/></td>
-                                                        <td class="text-right"><strong class="text-danger"><t t-esc="this.formatCurrency(inv.amount_due)"/></strong></td>
+                                                        <td class="text-right"><t t-esc="formatCurrency(inv.amount_total)"/></td>
+                                                        <td class="text-right"><strong class="text-danger"><t t-esc="formatCurrency(inv.amount_due)"/></strong></td>
                                                         <td>
                                                             <span t-attf-class="#{getOverdueBadgeClass(inv.days_overdue)}">
                                                                 <t t-esc="inv.days_overdue"/> ايام/days

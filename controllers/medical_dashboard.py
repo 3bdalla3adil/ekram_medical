@@ -57,6 +57,13 @@ class MedicalDashboardController(http.Controller):
                 'state': a.state,
                 'state_label': dict(a._fields['state'].selection).get(a.state, ''),
             })
+        outstanding_invoices = Invoice.search([
+            ('move_type', '=', 'out_invoice'),
+            ('state', '=', 'posted'),
+            ('payment_state', 'in', ['not_paid', 'partial']),
+        ])
+        outstanding_amount = sum(outstanding_invoices.mapped('amount_residual'))
+        outstanding_count  = len(outstanding_invoices)
 
         return {
             'kpis': {

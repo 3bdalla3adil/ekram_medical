@@ -47,6 +47,7 @@ class AdminDashboard extends Component {
             setTimeout(() => this._drawCharts(), 120);
         }
     }
+    
 
     // ── Canvas Charts ─────────────────────────────────────────────────────
 
@@ -168,7 +169,7 @@ class AdminDashboard extends Component {
     setTab(tab) { this.state.active_tab = tab; }
 
     openInvoice(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"account.move", res_id:id, view_mode:"form", views:[[false,"form"]] });
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"account.move", res_id:id, views:[[false,"form"]],target:"current", });
     }
     openAllInvoices() {
         this.action.doAction({ type:"ir.actions.act_window", name:_t("All Invoices"), res_model:"account.move", view_mode:"list,form", domain:[["move_type","=","out_invoice"],["state","=","posted"]] });

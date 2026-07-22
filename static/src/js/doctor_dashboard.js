@@ -30,12 +30,22 @@ class DoctorDashboard extends Component {
             this.state.loading = false;
         }
     }
+    // viewAppointmentsById(id) {
+    //     const recordId = id;
+    //     this.action.doAction({
+    //         type: "ir.actions.act_window",
+    //         res_model: "medical.appointment",
+    //         res_id: recordId,
+    //         views: [[false, "form"],],
+    //         target: "current",
+    //     });
+    // }
 
     openConsultation(id) {
         this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.consultation", res_id:id, view_mode:"form", views:[[false,"form"]] });
     }
-    openAppointment(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.appointment", res_id:id, view_mode:"form", views:[[false,"form"]] });
+    viewAppointmentById(id) {
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"medical.appointment", res_id:id, view_mode:"form", views:[[false,"form"]],target:"current", });
     }
     openAllConsultations() { this.action.doAction("ekram_medical.action_medical_consultations"); }
     openAllLabRequests()   { this.action.doAction("ekram_medical.action_medical_lab_requests"); }
