@@ -52,7 +52,15 @@
               action="action_doctor_dashboard"
               active="1"
               groups="ekram_medical.group_medical_doctor,"
-              sequence="10"/>
+              sequence="11"/>
+
+    <menuitem id="menu_medical_doctor_dashboard"
+              name="لوحة الدكتور/ Doctor Dashboard"
+              parent="menu_ekram_medical_root"
+              action="action_doctor_dashboard_owl"
+              active="1"
+              groups="ekram_medical.group_medical_doctor,ekram_medical.group_medical_administrator"
+              sequence="12"/>
 
     <!-- ══════════════════════════════════════════════════════════════ -->
     <!--  LABORATORY                                                    -->
@@ -70,7 +78,7 @@
               name="طلبات المختبر / Lab Requests"
               parent="menu_ekram_medical_root"
               action="action_medical_lab_requests"
-              active="1"
+              active="0"
               groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"
               sequence="8"/>
 
@@ -94,7 +102,7 @@
               parent="menu_ekram_medical_root"
               action="action_medical_lab_templates"
               active="1"
-              sequence="10"
+              sequence="13"
               groups="ekram_medical.group_medical_lab_technician,ekram_medical.group_medical_administrator"/>
 
     <!-- ══════════════════════════════════════════════════════════════ -->
@@ -105,21 +113,21 @@
               name="لوحة الإدارة / Admin Dashboard"
               parent="menu_ekram_medical_root"
               action="action_admin_dashboard_owl"
-              sequence="6"
+              sequence="14"
               groups="ekram_medical.group_medical_administrator"/>
 
     <menuitem id="menu_admin_consultations"
               name="كل الاستشارات / All Consultations"
               parent="menu_ekram_medical_root"
               action="action_medical_consultations"
-              sequence="4"
+              sequence="15"
               groups="ekram_medical.group_medical_administrator"/>
 
     <menuitem id="menu_admin_lab_requests"
               name="كل طلبات المختبر / All Lab Requests"
               parent="menu_ekram_medical_root"
               action="action_medical_lab_requests"
-              sequence="5"
+              sequence="16"
               active="0"
               groups="ekram_medical.group_medical_administrator"/>
 

@@ -14,6 +14,9 @@ class MedicalDashboardController(http.Controller):
         Appointment = request.env['medical.appointment']
         Partner     = request.env['res.partner']
         Invoice     = request.env['account.move']
+        employee = request.env['hr.employee'].search(
+            [('user_id', '=', request.env.uid)], limit=1
+        )
 
         patients_today = Appointment.search_count([
             ('appointment_date', '>=', today_start),
@@ -66,6 +69,7 @@ class MedicalDashboardController(http.Controller):
         outstanding_count  = len(outstanding_invoices)
 
         return {
+            'user_name': employee.name if employee else request.env.user.name,
             'kpis': {
                 'patients_today': patients_today,
                 'total_patients': total_patients,
@@ -109,6 +113,10 @@ class MedicalDashboardController(http.Controller):
         )
         pending_labs = LabRequest.search_count(
             domain_doctor + [('state', 'in', ['draft', 'processing'])]
+        )
+
+        completed_labs = LabRequest.search_count(
+            domain_doctor + [('state', 'in', 'completed')]
         )
 
         today_apts = Appointment.search(
@@ -157,6 +165,7 @@ class MedicalDashboardController(http.Controller):
                 'pending_consultations': pending_consultations,
                 'completed_today': completed_today,
                 'pending_labs': pending_labs,
+                'completed_labs': completed_labs,
             },
             'today_patients': patient_list,
             'pending_consultations_list': pending_cons,
@@ -169,6 +178,9 @@ class MedicalDashboardController(http.Controller):
 
         LabRequest = request.env['medical.lab.request']
         LabResult  = request.env['medical.lab.result']
+        employee = request.env['hr.employee'].search(
+            [('user_id', '=', request.env.uid)], limit=1
+        )
 
         pending_requests = LabRequest.search_count([
             ('state', 'in', ['draft', 'processing'])
@@ -217,6 +229,7 @@ class MedicalDashboardController(http.Controller):
             })
 
         return {
+            'user_name': employee.name if employee else request.env.user.name,
             'kpis': {
                 'pending_requests': pending_requests,
                 'completed_today': completed_today,

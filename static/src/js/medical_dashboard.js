@@ -68,6 +68,18 @@ export class MedicalDashboard extends Component {
         });
     }
 
+    // Quick Action 3: Register New Inoice Form Popup
+    openNewPatientWizard() {
+        // Replace 'res.partner' with your specific patient model name if you have a custom one
+        this.actionService.doAction({
+            type: "ir.actions.act_window",
+            name: "Register New Patient",
+            res_model: "res.partner", 
+            views: [[false, "form"]],
+            target: "new",
+        });
+    }
+
     // Metrics Navigation Filters
     viewAppointmentsByState(stateValue = null) {
         const domain = stateValue ? [["state", "=", stateValue]] : [];

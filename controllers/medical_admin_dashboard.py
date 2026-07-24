@@ -27,6 +27,9 @@ class MedicalAdminDashboardController(http.Controller):
         Appointment = request.env['medical.appointment']
         Partner     = request.env['res.partner']
         LabRequest  = request.env['medical.lab.request']
+        employee    = request.env['hr.employee'].search(
+            [('user_id', '=', request.env.uid)], limit=1
+        )
 
         # ── Revenue KPIs ──────────────────────────────────────────────────
         month_invoices = Invoice.search_read([

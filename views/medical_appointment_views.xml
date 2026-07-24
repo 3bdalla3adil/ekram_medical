@@ -9,32 +9,31 @@
                 <header>
                     <button class="btn-primary" invisible="state != 'draft'" name="action_confirm" string="تأكيد / Confirm" type="object"/>
                     <button class="btn-primary" invisible="state != 'confirmed'" name="action_start" string="بدء / Start" type="object"/>
-                    <button class="btn-success" invisible="state not in ['confirmed', 'in_progress']" name="action_create_consultation" string="إنشاء استشارة / Create Consultation" type="object"/>
-                    <button invisible="state != 'in_progress'" name="action_done" string="إنهاء / Mark Done" type="object"/>
-                    <button invisible="state in ['done', 'cancelled']" name="action_cancel" string="إلغاء / Cancel" type="object"/>
-                    <!-- <button invisible="state in ['done']" name="action_create_invoice" string="إنشاء فاتورة/ Create Invoice" type="object"/> -->
-                    <button class="btn-info" invisible="state not in ['in_progress', 'done']" name="action_create_lab_request" string="طلب فحوصات مختبر / Request Lab Tests" type="object"/>
-                    <button invisible="state != 'cancelled'" name="action_reset_draft" string="إرجاع لمسودة / Reset to Draft" type="object"/>
+                    <button class="btn-success" name="action_create_consultation" string="إنشاء استشارة / Create Consultation" type="object"/>
+                    <button class="btn-black" invisible="state != 'in_progress'" name="action_done" string="إنهاء / Mark Done" type="object"/>
+                    <button class="btn-mute" invisible="state in ['done', 'cancelled']" name="action_cancel" string="إلغاء / Cancel" type="object"/>
+                    <button class="btn-info" invisible="appointment_type != 'lab_only' or state not in ['in_progress', 'done']" name="action_create_lab_request" string="طلب فحوصات مختبر / Request Lab Tests" type="object"/>
+                    <button invisible="state not in ['cancelled','done']" name="action_reset_draft" string="إرجاع لمسودة / Reset to Draft" type="object"/>
                     <field name="state" statusbar_visible="draft,confirmed,in_progress,done" widget="statusbar"/>
                 </header>
-                <sheet>
+                <sheet >
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
                         </h1>
                     </div>
-                    <group>
-                        <group string="المريض / Patient">
+                    <group >
+                        <group readonly="state == 'done'" string="المريض / Patient">
                             <field name="patient_id" options="{'no_create': True,'no_open':True}"/>
                             <field name="doctor_id" options="{'no_create': True,'no_open':True}" domain="[('job_id', '=','doctor')]"/>
                             <field name="appointment_type"/>
                         </group>
-                        <group string="الجدول / Schedule">
+                        <group readonly="state == 'done'" string="الجدول / Schedule">
                             <field name="appointment_date"/>
                             <field groups="base.group_multi_company" name="company_id" readonly="1"/>
                         </group>
                     </group>
-                    <group string="التفاصيل / Details" invisible="1">
+                    <group readonly="state == 'done'" string="التفاصيل / Details" invisible="1">
                         <field name="chief_complaint" placeholder="الشكوى الرئيسية / Chief complaint..."/>
                         <field name="notes" placeholder="ملاحظات إضافية / Additional notes..."/>
                     </group>

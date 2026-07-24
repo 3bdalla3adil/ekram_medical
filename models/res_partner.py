@@ -8,16 +8,16 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
 
-    @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
-        args = args or []
-        recs = self.browse()
-        if name:
-            recs = self.search(['|','|','|',('is_patient', '=', True), ('phone', operator, name), ('medical_number', operator, name),
-                                 ('name', operator, name)
-                                ])
-        if not recs:
-            recs = self.search([('name', operator, name),('is_patient', '=', True)])
+    # @api.model
+    # def name_search(self, name, args=None, operator='ilike', limit=100):
+    #     args = args or []
+    #     recs = self.browse()
+    #     if name:
+    #         recs = self.search(['|','|','|',('is_patient', '=', True), ('phone', operator, name), ('medical_number', operator, name),
+    #                              ('name', operator, name)
+    #                             ])
+    #     if not recs:
+    #         recs = self.search([('name', operator, name),('is_patient', '=', True)])
 
     # ── Medical Identity ──────────────────────────────────────────────────────
     # is_person = fields.Boolean('Person', help="Check if the partner is a person.")

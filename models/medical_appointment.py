@@ -112,21 +112,15 @@ class MedicalAppointment(models.Model):
 
     def action_create_consultation(self):
         self.ensure_one()
-        if self.consultation_id:
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'medical.consultation',
-                'res_id': self.consultation_id.id,
-                'view_mode': 'form',
-            }
-        consultation = self.env['medical.consultation'].create({
-            'patient_id': self.patient_id.id,
-            'doctor_id': self.doctor_id.id,
-            'appointment_id': self.id,
-            'consultation_date': self.appointment_date,
-        })
-        self.consultation_id = consultation.id
-        self.state = 'in_progress'
+        if not self.consultation_id:
+            consultation = self.env['medical.consultation'].create({
+                'patient_id': self.patient_id.id,
+                'doctor_id': self.doctor_id.id,
+                'appointment_id': self.id,
+                'consultation_date': self.appointment_date,
+            })
+            self.consultation_id = consultation.id
+            self.state = 'in_progress'
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'medical.consultation',
@@ -159,6 +153,7 @@ class MedicalAppointment(models.Model):
         self.ensure_one()
         lines = []
         # Add lab request products
+
         for req in self.lab_request_ids:
             for tmpl in req.template_ids:
                 if tmpl.product_id:
@@ -171,7 +166,7 @@ class MedicalAppointment(models.Model):
         invoice = self.env['account.move'].create({
             'move_type': 'out_invoice',
             'partner_id': self.patient_id.id,
-            'invoice_line_ids': lines,
+            'line_ids': lines,
         })
         self.invoice_id = invoice.id
         return {
@@ -195,15 +190,15 @@ class MedicalAppointment(models.Model):
             },
         }
 
-    def action_view_invoices(self):
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Lab Requests',
-            'res_model': 'account_move',
-            'view_mode': 'list,form',
-            'domain': [('move_id', '=', self.invoice_id.id)],
-            'context': {
-                'default_patient_id': self.patient_id.id,
-                'default_appointment_id': self.id,
-            },
-        }
+    # def action_view_invoices(self):
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Lab Requests',
+    #         'res_model': 'account_move',
+    #         'view_mode': 'list,form',
+    #         'domain': [('move_id', '=', self.invoice_id.id)],
+    #         'context': {
+    #             'default_patient_id': self.patient_id.id,
+    #             'default_appointment_id': self.id,
+    #         },
+    #     }

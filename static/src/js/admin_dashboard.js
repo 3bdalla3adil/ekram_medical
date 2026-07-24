@@ -168,8 +168,13 @@ class AdminDashboard extends Component {
 
     setTab(tab) { this.state.active_tab = tab; }
 
-    openInvoice(id) {
-        this.action.doAction({ type:"ir.actions.act_window", res_model:"account.move", res_id:id, views:[[false,"form"]],target:"current", });
+    openInvoice(stateValue = null) {
+        const domain = stateValue ? [["state", "=", stateValue]] : [];
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"account.move", domain:domain, views:[[false,"list"]],target:"current", });
+    }
+    openOutstanding(stateValue = null) {
+        const domain = stateValue ? [["state", "=", stateValue]] : [];
+        this.action.doAction({ type:"ir.actions.act_window", res_model:"account.move", domain:domain, views:[[false,"list"]],target:"current", });
     }
     openAllInvoices() {
         this.action.doAction({ type:"ir.actions.act_window", name:_t("All Invoices"), res_model:"account.move", view_mode:"list,form", domain:[["move_type","=","out_invoice"],["state","=","posted"]] });

@@ -117,26 +117,75 @@ class MedicalConsultation(models.Model):
             },
         }
 
+    # def action_create_invoice(self):
+    #     self.ensure_one()
+    #     product = self.env['product.product'].search([('default_code','=','CONSULT1')])
+    #     if product:
+    #         lines = []
+    #         Invoice = self.env['account.move']
+    #         for rec in self:
+            
+    #             rec.invoice_id = Invoice.create({
+    #                 'move_type' :'out_invoice',
+    #                 'partner_id':rec.patient_id.id,
+    #                 'line_ids'  :
+    #                 (0, 0, {
+    #                     'product_id':  product.id,
+    #                     'quantity':    1,
+    #                     'price_unit':  product.lst_price,
+    #                     'name':        product.name,
+    #             }),
+    #         })
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'name': 'Create Invoice',
+    #         'res_model': 'account.move',
+    #         'view_mode': 'form',
+    #         'context': {
+    #             'default_partner_id'  : rec.patient_id.id,
+    #             'default_move_type'   : 'out_invoice',
+    #             'default_default_code': 'CONSULT1',
+    #             'default_invoice_id'  : rec.invoice_id,
+    #         },
+    #     }
+    from odoo import Command
+
     def action_create_invoice(self):
         self.ensure_one()
-        product = self.env['product.product'].search([('default_code','=','CONSULT1')])
-        if product:
-            for rec in self:
-                rec.invoice_id.line_ids:[0,0,{
-                'product_id':product.id,
-                'quantity':1.0,
-                'price_unit':product.list_price,
-                }]
+        
+        # Locate the consultation product
+        product = self.env['product.product'].search([('default_code', '=', 'CONSULT1')], limit=1)
+        if not product:
+            return  # Or raise an UserError warning that the product is missing
+            
+        Invoice = self.env['account.move']
+        
+        # Build the invoice record
+        invoice = Invoice.create({
+            'move_type': 'out_invoice',
+            'partner_id': self.patient_id.id,
+            # invoice_line_ids is safer for customer invoices than raw line_ids
+            'invoice_line_ids': [
+                self.Command.create({
+                    'product_id': product.id,
+                    'quantity': 1,
+                    'price_unit': product.lst_price,
+                    'name': product.name,
+                })
+            ],
+        })
+        
+        # Link the newly created invoice back to this consultation record
+        self.invoice_id = invoice.id
 
+        # Return a window action to open the freshly made draft invoice view
         return {
             'type': 'ir.actions.act_window',
             'name': 'Create Invoice',
             'res_model': 'account.move',
             'view_mode': 'form',
+            'res_id': invoice.id, # Opens the exact record instead of a blank form
             'context': {
-                'default_partner_id': self.patient_id.id,
                 'default_move_type': 'out_invoice',
-                'default_default_code': "CONSULT1",
-                'default_invoice_id': self.invoice_id.id,
             },
         }

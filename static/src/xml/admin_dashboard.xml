@@ -20,9 +20,11 @@
                         <i class="fa fa-tachometer mr-2"/> لوحة الإدارة / Admin Dashboard
                     </h3>
                     <small class="text-muted">مركز إكرام الطبي — نظرة عامة مالية وتشغيلية / Ekram Medical Center — Financial &amp; Operations Overview</small><br/>
-                    <span class="badge badge-info mt-2">
-                        مرحباً / Welcome, <t t-esc="this.userName"/>
-                    </span>
+                    <div>
+                        <small class="text-muted">Welcome, <strong>
+                            <t t-esc="this.state.user_name"/></strong>
+                        </small>
+                    </div>
                 </div>
                 <div class="d-flex gap-2">
                     <button class="btn btn-outline-secondary btn-sm" t-on-click="this.loadData">
