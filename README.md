@@ -84,7 +84,7 @@ and left Only Reception menus and xml file and js file
 
 update :
 
-Reception menu stopped showing up
+doctor menu stopped showing up doctor dashboard
 update :
 
 active="1"
