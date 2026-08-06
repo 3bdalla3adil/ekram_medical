@@ -8,43 +8,43 @@ class MedicalLabTemplate(models.Model):
     _order = 'name'
     _rec_name = 'name'
 
-    name = fields.Char(string='Investigation Name', required=True, index=True)
-    code = fields.Char(string='Code', index=True)
+    name = fields.Char(string='اسم الفحص/Investigation Name', required=True, index=True)
+    code = fields.Char(string='الرمز/Code', index=True)
     product_id = fields.Many2one(
         'product.template',
-        string='Investigation Product',
+        string='المنتج المقابل/Investigation Product',
         domain=[('type', '=', 'service')],
         help='Link to product for invoicing. Price is taken from the product.',
     )
     department = fields.Selection([
-        ('hematology', 'Hematology'),
-        ('biochemistry', 'Biochemistry'),
-        ('microbiology', 'Microbiology'),
-        ('immunology', 'Immunology'),
-        ('urine', 'Urine Analysis'),
-        ('hormones', 'Hormones'),
-        ('other', 'Other'),
-    ], string='Department', default='other')
+        ('hematology', 'Hematology / أمراض الدم'),
+        ('biochemistry', 'Biochemistry / الكيمياء الحيوية'),
+        ('microbiology', 'Microbiology / الأحياء الدقيقة'),
+        ('immunology', 'Immunology / المناعة'),
+        ('urine', 'Urine Analysis / تحليل البول'),
+        ('hormones', 'Hormones / الهرمونات'),
+        ('other', 'Other / أخرى'),
+    ], string='Department / القسم', default='other')
+    
     sample_type = fields.Selection([
-        ('blood', 'Blood'),
-        ('urine', 'Urine'),
-        ('stool', 'Stool'),
-        ('swab', 'Swab'),
-        ('other', 'Other'),
-    ], string='Sample Type', default='blood')
-    turnaround_hours = fields.Integer(string='Turnaround (Hours)', default=24)
-    active = fields.Boolean(default=True)
-    notes = fields.Text(string='Notes')
+        ('blood', 'Blood / دم'),
+        ('urine', 'Urine / بول'),
+        ('stool', 'Stool / براز'),
+        ('swab', 'Swab / مسحة'),
+        ('other', 'Other / أخرى'),
+    ], string='Sample Type / نوع العينة', default='blood')
+    
+    turnaround_hours = fields.Integer(string='Turnaround (Hours) / وقت التسليم بالساعات', default=24)
+
+    active = fields.Boolean(default=True, string='Active / نشط')
+
+    notes = fields.Text(string='Notes / ملاحظات')
+
     line_ids = fields.One2many(
         'medical.lab.template.line',
         'template_id',
-        string='Parameters',
-        copy=True,
-    )
-    line_count = fields.Integer(
-        string='Parameters',
-        compute='_compute_line_count',
-    )
+        string='Parameters / البنود',
+        copy=True
 
     def _compute_line_count(self):
         for rec in self:
