@@ -56,27 +56,37 @@ class MedicalLabTemplate(models.Model):
 
 class MedicalLabTemplateLine(models.Model):
     _name = 'medical.lab.template.line'
-    _description = 'Laboratory Template Parameter'
+    _description = 'Laboratory Template Parameter / معامل قالب المختبر'
     _order = 'sequence, id'
 
     template_id = fields.Many2one(
         'medical.lab.template',
-        string='Template',
+        string='Template / القالب',
         required=True,
         ondelete='cascade',
         index=True,
     )
-    sequence = fields.Integer(string='Sequence', default=10)
-    test_name = fields.Char(string='Test Name', required=True)
-    unit = fields.Char(string='Unit')
-    normal_range_text = fields.Char(string='Normal Range')
-    normal_min = fields.Float(string='Normal Min', digits=(10, 3))
-    normal_max = fields.Float(string='Normal Max', digits=(10, 3))
-    normal_min_female = fields.Float(string='Normal Min (Female)', digits=(10, 3))
-    normal_max_female = fields.Float(string='Normal Max (Female)', digits=(10, 3))
+    
+    sequence = fields.Integer(string='Sequence / التسلسل', default=10)
+
+    test_name = fields.Char(string='Test Name / اسم التحليل', required=True)
+
+    unit = fields.Char(string='Unit / الوحدة')
+
+    normal_range_text = fields.Char(string='Normal Range / المدى الطبيعي نص')
+
+    normal_min = fields.Float(string='Normal Min / الحد الأدنى', digits=(10, 3))
+
+    normal_max = fields.Float(string='Normal Max / الحد الأقصى', digits=(10, 3))
+
+    normal_min_female = fields.Float(string='Normal Min (Female) / الحد الأدنى (أنثى)', digits=(10, 3))
+
+    normal_max_female = fields.Float(string='Normal Max (Female) / الحد الأقصى (أنثى)', digits=(10, 3))
+
     result_type = fields.Selection([
-        ('numeric', 'Numeric'),
-        ('text', 'Text'),
-        ('positive_negative', 'Positive/Negative'),
-    ], string='Result Type', default='numeric')
-    notes = fields.Char(string='Notes')
+        ('numeric', 'Numeric / رقمي'),
+        ('text', 'Text / نصي'),
+        ('positive_negative', 'Positive/Negative / موجب/سالب'),
+    ], string='Result Type / نوع النتيجة', default='numeric')
+    
+    notes = fields.Char(string='Notes / ملاحظات')
