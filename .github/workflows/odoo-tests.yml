@@ -48,8 +48,23 @@ jobs:
         run: |
           mkdir -p .odoo/custom-addons
           cp -R addons/medibook_api .odoo/custom-addons/
-          rsync -a --exclude='.odoo' --exclude='.venv' --exclude='.git' ./ .odoo/custom-addons/ekram_medical/
-
+      
+          # Stage the repo in a temp dir, then move it in — avoids rsync's
+          # "cannot copy directory into itself" check.
+          STAGE="$(mktemp -d)"
+          rsync -a \
+            --exclude='.odoo' \
+            --exclude='.venv' \
+            --exclude='.git' \
+            --exclude='build' \
+            --exclude='.dart_tool' \
+            ./ "$STAGE/ekram_medical/"
+          mv "$STAGE/ekram_medical" .odoo/custom-addons/
+          rm -rf "$STAGE"
+      
+          ls -la .odoo/custom-addons/
+          ls -la .odoo/custom-addons/ekram_medical/ | head -20
+          
       - name: Run Odoo tests
         run: |
           . .venv/bin/activate
