@@ -1,0 +1,13 @@
+<odoo>
+  <record id="view_medibook_organization_list" model="ir.ui.view">
+    <field name="name">medibook.organization.list</field><field name="model">medibook.organization</field>
+    <field name="arch" type="xml"><list><field name="name"/><field name="code"/><field name="timezone"/><field name="active"/></list></field>
+  </record>
+  <record id="view_medibook_organization_form" model="ir.ui.view">
+    <field name="name">medibook.organization.form</field><field name="model">medibook.organization</field>
+    <field name="arch" type="xml"><form><sheet><group><field name="name"/><field name="code"/><field name="timezone"/><field name="default_language"/><field name="active"/></group><notebook><page string="Clinics"><field name="clinic_ids"/></page></notebook></sheet></form></field>
+  </record>
+  <record id="action_medibook_organizations" model="ir.actions.act_window"><field name="name">Organizations</field><field name="res_model">medibook.organization</field><field name="view_mode">list,form</field></record>
+  <menuitem id="menu_medibook_root" name="MediBook API" sequence="50" groups="medibook_api.group_medibook_admin"/>
+  <menuitem id="menu_medibook_organizations" name="Organizations" parent="menu_medibook_root" action="action_medibook_organizations" sequence="10" groups="medibook_api.group_medibook_admin"/>
+</odoo>

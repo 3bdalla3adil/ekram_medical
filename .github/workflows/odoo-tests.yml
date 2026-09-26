@@ -1,0 +1,56 @@
+name: Odoo 19 Tests
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["main", "develop"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U odoo -d postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-dev python3-venv gcc g++ libldap2-dev libsasl2-dev libpq-dev libxml2-dev libxslt1-dev libevent-dev libffi-dev libjpeg-dev zlib1g-dev libtiff5-dev libopenjp2-7-dev liblcms2-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev
+
+      - name: Checkout Odoo 19
+        run: git clone --depth 1 --branch 19.0 https://github.com/odoo/odoo.git .odoo
+
+      - name: Install Python dependencies
+        run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip wheel
+          pip install -r .odoo/requirements.txt
+          pip install PyJWT requests
+
+      - name: Prepare addons
+        run: |
+          mkdir -p .odoo/custom-addons
+          cp -R addons/medibook_api .odoo/custom-addons/
+          cp -R . .odoo/custom-addons/ekram_medical
+
+      - name: Run Odoo tests
+        run: |
+          . .venv/bin/activate
+          python .odoo/odoo-bin             --db_host=127.0.0.1 --db_port=5432             --db_user=odoo --db_password=odoo             --addons-path=.odoo/addons,.odoo/custom-addons             --database=ekram_ci --without-demo=False             --test-enable -i ekram_medical,medibook_api             --stop-after-init --log-level=test

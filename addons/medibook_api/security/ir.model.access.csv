@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_medibook_org_admin,medibook.organization.admin,model_medibook_organization,medibook_api.group_medibook_admin,1,1,1,0
+access_medibook_clinic_admin,medibook.clinic.admin,model_medibook_clinic,medibook_api.group_medibook_admin,1,1,1,0
+access_medibook_practitioner_user,medibook.practitioner.user,model_medibook_practitioner,base.group_user,1,0,0,0
+access_medibook_service_user,medibook.service.user,model_medibook_service,base.group_user,1,0,0,0
+access_medibook_patient_admin,medibook.patient.admin,model_medibook_patient,medibook_api.group_medibook_admin,1,1,1,0
+access_medibook_appointment_user,medibook.appointment.user,model_medibook_appointment,base.group_user,1,1,1,0
+access_medibook_consultation_doctor,medibook.consultation.doctor,model_medibook_consultation,medibook_api.group_medibook_doctor,1,1,1,0
+access_medibook_record_doctor,medibook.record.doctor,model_medibook_medical_record,medibook_api.group_medibook_doctor,1,0,1,0
+access_medibook_prescription_doctor,medibook.prescription.doctor,model_medibook_prescription,medibook_api.group_medibook_doctor,1,1,1,0
+access_medibook_prescription_item_doctor,medibook.prescription.item.doctor,model_medibook_prescription_item,medibook_api.group_medibook_doctor,1,1,1,0
+access_medibook_audit_admin,medibook.audit.admin,model_medibook_audit_event,medibook_api.group_medibook_admin,1,0,0,0
+access_medibook_session_admin,medibook.session.admin,model_medibook_auth_session,base.group_system,1,1,1,1

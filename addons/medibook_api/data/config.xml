@@ -1,0 +1,6 @@
+<odoo noupdate="1">
+  <record id="param_jwt_ttl" model="ir.config_parameter">
+    <field name="key">medibook.jwt_ttl_seconds</field>
+    <field name="value">900</field>
+  </record>
+</odoo>
